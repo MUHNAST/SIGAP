@@ -9,7 +9,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            WilayahSeeder::class,
+            // WilayahSeeder::class,
             PppkSeeder::class,
             RankSeeder::class,
             PositionSeeder::class,
