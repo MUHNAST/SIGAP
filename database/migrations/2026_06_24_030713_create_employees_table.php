@@ -20,7 +20,7 @@ return new class extends Migration
             // $table->foreign('id_pangkat')->references('kode')->on('ranks')->nullOnDelete();
             // $table->string('id_pangkat')->nullable();
             $table->string('kode_pppk')->nullable();
-            $table->foreign('kode_pppk')->references('kode')->on('Pppk')->nullOnDelete()->cascadeOnUpdate();;
+            $table->foreign('kode_pppk')->references('kode')->on('pppk')->nullOnDelete()->cascadeOnUpdate();;
             $table->string('kode_unit_kerja')->nullable();
             $table->foreign('kode_unit_kerja')->references('kode')->on('departments')->nullOnDelete()->cascadeOnUpdate();;
             $table->string('kode_jabatan')->nullable();
