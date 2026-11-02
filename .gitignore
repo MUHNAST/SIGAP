@@ -1,0 +1,38 @@
+# Log dan file sistem
+*.log
+.DS_Store
+Thumbs.db
+
+# Environment dan kredensial
+.env
+.env.*
+!.env.example
+/auth.json
+
+# Cache dan file pengujian
+.phpactor.json
+.phpunit.result.cache
+/.phpunit.cache
+
+# IDE dan editor
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+# Dependensi dan hasil build
+/node_modules
+/vendor
+/public/build
+/public/hot
+/public/storage
+
+# File khusus lingkungan pengembangan
+Homestead.json
+Homestead.yaml
+
+# File keamanan dan log Laravel
+/storage/*.key
+/storage/pail
+/storage/logs/*

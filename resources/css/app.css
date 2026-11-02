@@ -1,0 +1,365 @@
+@import 'tailwindcss';
+@import 'flowbite';
+/* ===================== TAILWIND SOURCE ===================== */
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* ===================== THEME ===================== */
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* ===================== SEARCH ===================== */
+.datatable-search {
+    @apply w-full sm:w-auto;
+}
+
+.datatable-input {
+    display: block;
+    width: 100%;
+    max-width: 18rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    color: #111827;
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.datatable-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgb(59 130 246 / 15%);
+}
+
+/* ===================== SELECT PER PAGE ===================== */
+.datatable-dropdown {
+    @apply flex items-center gap-2;
+}
+
+.datatable-selector {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+/* ===================== TOP BAR ===================== */
+.datatable-top {
+    @apply flex flex-col gap-3 mb-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+/* ===================== DATAtABLE FLOWBITE STYLE ===================== */
+.datatable-bottom {
+    @apply flex flex-wrap items-center justify-between gap-3 mt-4;
+}
+
+.datatable-info {
+    @apply text-sm text-gray-500;
+}
+
+/* Container */
+.datatable-pagination {
+    @apply flex items-center gap-2;
+}
+
+.datatable-pagination ul,
+.datatable-pagination-list {
+    @apply flex items-center gap-2;
+}
+
+.datatable-pagination li,
+.datatable-pagination-list-item {
+    @apply list-none;
+}
+
+/* Tombol pagination */
+.datatable-pagination a,
+.datatable-pagination button,
+.datatable-pagination-list-item-link {
+    @apply flex items-center justify-center min-w-10 h-10 px-3 rounded-lg border border-gray-300 bg-white text-sm text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:border-gray-400;
+}
+
+/* Halaman aktif */
+.datatable-pagination-list-item-active .datatable-pagination-list-item-link,
+.datatable-pagination .active a,
+.datatable-active .datatable-pagination-list-item-link {
+    @apply bg-blue-600 border-blue-600 text-white;
+}
+
+/* Hover halaman aktif tetap biru */
+.datatable-pagination-list-item-active .datatable-pagination-list-item-link:hover,
+.datatable-pagination .active a:hover,
+.datatable-pagination .active button:hover {
+    @apply bg-blue-700 border-blue-700 text-white;
+}
+
+/* Disabled */
+.datatable-pagination-list-item-disabled .datatable-pagination-list-item-link,
+.datatable-pagination .disabled a,
+.datatable-pagination .disabled button {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+@media (max-width: 640px) {
+    .datatable-bottom {
+        @apply flex-col items-start;
+    }
+
+    .datatable-pagination {
+        @apply flex-wrap;
+    }
+}
+
+.datatable-sorter {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: pointer;
+}
+
+.datatable-sorter::after {
+    content: "↕";
+    font-size: 12px;
+    opacity: .5;
+}
+
+.datatable-ascending .datatable-sorter::after {
+    content: "↑";
+    opacity: 1;
+}
+
+.datatable-descending .datatable-sorter::after {
+    content: "↓";
+    opacity: 1;
+}
+
+/* =========================
+   TOM SELECT
+========================= */
+/* Wrapper */
+.ts-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Saat dropdown terbuka */
+.ts-wrapper.dropdown-active {
+    z-index: 9999 !important;
+}
+
+/* Select utama */
+.ts-wrapper .ts-control {
+    position: relative;
+    min-height: 48px !important;
+    height: 48px !important;
+    background: #f8fafc !important;
+    /* bg-slate-50 */
+    border: 1px solid #e2e8f0 !important;
+    /* border-slate-200 */
+    border-radius: 16px !important;
+    /* rounded-2xl */
+    box-shadow: 0 1px 2px rgb(0 0 0 / .05) !important;
+    display: flex !important;
+    align-items: center !important;
+    padding-left: 44px !important;
+    /* pl-11 */
+    padding-right: 48px !important;
+    /* pr-12 */
+    overflow: hidden !important;
+    transition: all .2s ease !important;
+    background-image: none !important;
+}
+
+/* Hover */
+.ts-wrapper .ts-control:hover {
+    border-color: #cbd5e1 !important;
+}
+
+/* Focus/Open */
+.ts-wrapper.focus .ts-control,
+.ts-wrapper.dropdown-active .ts-control {
+    background: #ffffff !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 4px rgb(219 234 254) !important;
+}
+
+/* Item terpilih */
+.ts-wrapper.single .ts-control>.item {
+    color: #334155 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: normal !important;
+}
+
+/* Input pencarian */
+.ts-wrapper .ts-control input {
+    color: #334155 !important;
+    font-size: 14px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Placeholder */
+.ts-wrapper .ts-control input::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* Dropdown */
+.ts-dropdown {
+    position: absolute !important;
+    z-index: 10000 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 25px rgb(0 0 0 / .08) !important;
+    overflow: hidden !important;
+    margin-top: 6px !important;
+    background: #ffffff !important;
+}
+
+/* Opsi */
+.ts-dropdown .option {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    color: #334155 !important;
+}
+
+/* Hover option */
+.ts-dropdown .option.active,
+.ts-dropdown .option:hover {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+}
+
+@page {
+    size: F4;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    background: #fff;
+}
+
+@media print {
+    body {
+        margin: 0;
+    }
+
+    .shadow-2xl {
+        box-shadow: none !important;
+    }
+}
+
+/* =========================================================
+   SIDEBAR MENU
+========================================================= */
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+/* =========================================================
+   SIDEBAR MENU GROUP
+========================================================= */
+.sidebar-menu-group {
+    display: flex !important;
+    flex-direction: column !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* =========================================================
+   TOMBOL DROPDOWN
+========================================================= */
+.sidebar-menu-group>button {
+    position: static !important;
+    display: flex !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   SIDEBAR SUBMENU
+========================================================= */
+.sidebar-submenu {
+    display: flex !important;
+    flex-direction: column !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    margin-top: 0.25rem !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+    margin-left: 0.75rem !important;
+    padding-left: 0.75rem !important;
+    border-left: 1px solid rgb(226 232 240);
+    overflow: visible !important;
+    transform: none !important;
+}
+
+/* =========================================================
+   HIDDEN
+========================================================= */
+.sidebar-submenu.hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   SUBMENU ITEM
+========================================================= */
+.sidebar-submenu>a {
+    position: static !important;
+    display: flex !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   MENU SETELAH SUBMENU
+========================================================= */
+.sidebar-menu-group+a {
+    position: static !important;
+    display: flex !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex: none !important;
+    margin: 0 !important;
+    clear: both;
+}
+
+/* =========================================================
+   SEMUA ITEM DALAM SIDEBAR
+========================================================= */
+.sidebar-menu>a,
+.sidebar-menu>button {
+    position: static !important;
+    flex: none !important;
+}
+
+/* =========================================================
+   SIDEBAR SCROLL
+========================================================= */
+.sidebar-scroll {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
