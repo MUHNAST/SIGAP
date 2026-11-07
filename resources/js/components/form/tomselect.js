@@ -1,10 +1,30 @@
-import TomSelect from 'tom-select';
-import 'tom-select/dist/css/tom-select.css';
 import $ from 'jquery';
+let tomSelectPromise = null;
+const pendingInstances = new WeakMap();
+
+function loadTomSelect() {
+    if (!tomSelectPromise) {
+        tomSelectPromise = Promise.all([
+            import('tom-select'),
+            import('tom-select/dist/css/tom-select.css')
+        ])
+            .then(([module]) => module.default)
+            .catch(error => {
+                tomSelectPromise = null;
+                console.error(
+                    'Gagal memuat TomSelect:',
+                    error
+                );
+                return null;
+            });
+    }
+    return tomSelectPromise;
+}
+
 // ===============================
 // TOMSELECT SEARCHABLE DROPDOWN
 // ===============================
-function searchableSelect(
+async function searchableSelect(
     el,
     placeholder = 'Ketik untuk mencari...'
 ) {
@@ -15,40 +35,55 @@ function searchableSelect(
     if (el.tomselect) {
         return el.tomselect;
     }
-    const ts = new TomSelect(el, {
-        create: false,
-        persist: false,
-        allowEmptyOption: true,
-        maxOptions: null,
-        searchField: ['text'],
-        placeholder,
-        hidePlaceholder: true,
-        openOnFocus: true,
-        render: {
-            option(data, escape) {
-                return `
+    if (pendingInstances.has(el)) {
+        return pendingInstances.get(el);
+    }
+    const pending = (async () => {
+        const TomSelect = await loadTomSelect();
+        if (!TomSelect || el.tomselect) {
+            return el.tomselect || null;
+        }
+        const ts = new TomSelect(el, {
+            create: false,
+            persist: false,
+            allowEmptyOption: true,
+            maxOptions: null,
+            searchField: ['text'],
+            placeholder,
+            hidePlaceholder: true,
+            openOnFocus: true,
+            render: {
+                option(data, escape) {
+                    return `
                     <div>
                         ${escape(data.text)}
                     </div>
                 `;
+                }
+            },
+            onInitialize() {
+                const selected =
+                    this.input.dataset.selected;
+                if (
+                    selected !== undefined &&
+                    selected !== null &&
+                    selected !== ''
+                ) {
+                    this.setValue(
+                        String(selected),
+                        true
+                    );
+                }
             }
-        },
-        onInitialize() {
-            const selected =
-                this.input.dataset.selected;
-            if (
-                selected !== undefined &&
-                selected !== null &&
-                selected !== ''
-            ) {
-                this.setValue(
-                    String(selected),
-                    true
-                );
-            }
-        }
-    });
-    return ts;
+        });
+        return ts;
+    })();
+    pendingInstances.set(el, pending);
+    try {
+        return await pending;
+    } finally {
+        pendingInstances.delete(el);
+    }
 }
 // ===============================
 // RESET SELECT

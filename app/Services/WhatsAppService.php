@@ -1,10 +1,23 @@
 <?php
 namespace App\Services;
+
+use App\Exceptions\WhatsAppDeliveryException;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 class WhatsAppService
 {
     public function send(string $no_hp, string $message): bool
+    {
+        try {
+            $this->sendOrFail($no_hp, $message);
+            return true;
+        } catch (WhatsAppDeliveryException) {
+            return false;
+        }
+    }
+
+    public function sendOrFail(string $no_hp, string $message): void
     {
         $no_hp = $this->normalizePhone($no_hp);
         $tokens = array_filter([
@@ -12,13 +25,16 @@ class WhatsAppService
             config('services.fonnte.token_2'),
         ]);
         if (empty($tokens)) {
-            // Log::warning('Token Fonnte belum dikonfigurasi.');
-            return false;
+            throw new WhatsAppDeliveryException(
+                'configuration_missing',
+                'Fonnte token is not configured.'
+            );
         }
-        foreach ($tokens as $index => $token) {
+
+        $lastFailure = null;
+        foreach ($tokens as $token) {
             try {
-                $response = Http::withoutVerifying()
-                    ->retry(3, 5000)
+                $response = Http::retry(3, 5000)
                     ->timeout(30)
                     ->acceptJson()
                     ->withHeaders([
@@ -29,39 +45,52 @@ class WhatsAppService
                         'message' => $message,
                     ]);
                 if (!$response->successful()) {
-                    // Log::warning('HTTP Error Fonnte.', [
-                    //     'token'  => $index + 1,
-                    //     'status' => $response->status(),
-                    //     'body'   => $response->body(),
-                    // ]);
+                    $lastFailure = new WhatsAppDeliveryException(
+                        'http_error',
+                        'Fonnte returned an unsuccessful HTTP response.',
+                        $response->status()
+                    );
                     continue;
                 }
                 $result = $response->json();
                 if (($result['status'] ?? false) !== true) {
-                    // Log::warning('Fonnte menolak pengiriman.', [
-                    //     'token'    => $index + 1,
-                    //     'response' => $result,
-                    // ]);
+                    $lastFailure = new WhatsAppDeliveryException(
+                        'provider_rejected',
+                        'Fonnte rejected the WhatsApp delivery.',
+                        $response->status()
+                    );
                     continue;
                 }
-                // Log::info('WhatsApp berhasil dikirim.', [
-                //     'token'     => $index + 1,
-                //     'phone'     => $no_hp,
-                //     'requestid' => $result['requestid'] ?? null,
-                //     'detail'    => $result['detail'] ?? null,
-                // ]);
-                return true;
-            } catch (\Throwable $e) {
-                // Log::error('Exception WhatsApp.', [
-                //     'token'   => $index + 1,
-                //     'message' => $e->getMessage(),
-                // ]);
+                return;
+            } catch (RequestException $e) {
+                $lastFailure = new WhatsAppDeliveryException(
+                    'http_error',
+                    'Fonnte returned an unsuccessful HTTP response.',
+                    $e->response->status()
+                );
+            } catch (ConnectionException $e) {
+                $isTimeout = str_contains(
+                    strtolower($e->getMessage()),
+                    'timed out'
+                );
+                $lastFailure = new WhatsAppDeliveryException(
+                    $isTimeout ? 'timeout' : 'connection_error',
+                    $isTimeout
+                        ? 'Fonnte request timed out.'
+                        : 'Could not connect to Fonnte.'
+                );
+            } catch (\Throwable) {
+                $lastFailure = new WhatsAppDeliveryException(
+                    'exception',
+                    'An unexpected error occurred during WhatsApp delivery.'
+                );
             }
         }
-        // Log::error('Semua token Fonnte gagal mengirim pesan.', [
-        //     'phone' => $no_hp,
-        // ]);
-        return false;
+
+        throw $lastFailure ?? new WhatsAppDeliveryException(
+            'provider_rejected',
+            'Fonnte rejected the WhatsApp delivery.'
+        );
     }
     /**
      * Ubah nomor menjadi format internasional.

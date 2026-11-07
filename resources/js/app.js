@@ -116,7 +116,7 @@ import {
 */
 document.addEventListener(
     'DOMContentLoaded',
-    () => {
+    async () => {
         /*
         |--------------------------------------------------------------------------
         | FORM PEGAWAI
@@ -141,8 +141,8 @@ document.addEventListener(
         | FORM LAINNYA
         |--------------------------------------------------------------------------
         */
-        initLocationForm();
-        initEmployeeSelect();
+        await initLocationForm();
+        await initEmployeeSelect();
         /*
         |--------------------------------------------------------------------------
         | CORE

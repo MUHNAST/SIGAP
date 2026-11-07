@@ -101,7 +101,11 @@ class DashboardService
 
             // Samakan nama variabel dengan Blade.
             'kgb' => $this->formatSchedule($employee?->tmt_kgb_baru),
-            'promotion' => $this->formatSchedule($employee?->tmt_pangkat_baru),
+            'promotion' => $this->formatSchedule(
+                $employee?->status_pegawai === 'PNS'
+                    ? $employee->tmt_pangkat_baru
+                    : null
+            ),
             'retirement' => $this->formatSchedule($employee?->tmt_pensiun),
 
             // Data khusus pengguna yang sedang login.

@@ -59,19 +59,33 @@ class UserRepository
     }
     public function create(array $data): User
     {
+        $storedPhoto = null;
         if (
             isset($data['foto']) &&
             $data['foto'] instanceof UploadedFile
         ) {
             $filename = Str::uuid() . '.' .
                 $data['foto']->getClientOriginalExtension();
-            $data['foto'] = $data['foto']->storeAs(
+            $storedPhoto = $data['foto']->storeAs(
                 'pengguna',
                 $filename,
                 'public'
             );
+            if (! $storedPhoto) {
+                throw new \RuntimeException(
+                    'Foto profil gagal disimpan.'
+                );
+            }
+            $data['foto'] = $storedPhoto;
         }
-        return User::create($data);
+        try {
+            return User::create($data);
+        } catch (\Throwable $exception) {
+            if ($storedPhoto !== null) {
+                Storage::disk('public')->delete($storedPhoto);
+            }
+            throw $exception;
+        }
     }
     public function update(User $user, array $data): User
     {
@@ -86,9 +100,23 @@ class UserRepository
                 $filename,
                 'public'
             );
+            if (! $newPhoto) {
+                throw new \RuntimeException(
+                    'Foto profil gagal disimpan.'
+                );
+            }
             $oldPhoto = $user->foto;
             $data['foto'] = $newPhoto;
-            $user->update($data);
+            try {
+                if (! $user->update($data)) {
+                    throw new \RuntimeException(
+                        'Data pengguna gagal diperbarui.'
+                    );
+                }
+            } catch (\Throwable $exception) {
+                Storage::disk('public')->delete($newPhoto);
+                throw $exception;
+            }
             if (
                 filled($oldPhoto) &&
                 $oldPhoto !== 'images/default-user.png' &&

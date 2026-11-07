@@ -23,8 +23,8 @@ class PppkRepository
         return $P3k->refresh();
     }
 
-    public function delete(Pppk $P3k)
-    {
-        return $P3k->delete();
-    }
+    // public function delete(Pppk $P3k)
+    // {
+    //     return $P3k->delete();
+    // }
 }

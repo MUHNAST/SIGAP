@@ -66,6 +66,7 @@
                                         $text = 'text-orange-600';
                                         break;
                                     case 'kgb':
+                                    case 'kgb diproses':
                                         $icon = 'fa-wallet';
                                         $bg = 'bg-blue-100';
                                         $text = 'text-blue-600';
@@ -77,7 +78,9 @@
                                         break;
                                 }
                             @endphp
-                            <a href="{{ route('notification.read.notification', $notification->id) }}"
+                            <form method="POST" action="{{ route('notification.read.notification', $notification->id) }}">
+                                @csrf
+                                <button type="submit"
                                 class="flex items-start gap-4 p-4 rounded-2xl border transition
                                 {{ !$notification->sudah_dibaca ? 'bg-orange-50 border-orange-200' : 'bg-white border-slate-100 hover:bg-slate-50' }}">
                                 <!-- ICON -->
@@ -105,7 +108,8 @@
                                         {{ $notification->created_at?->diffForHumans() }}
                                     </p>
                                 </div>
-                            </a>
+                                </button>
+                            </form>
                         @empty
                             <div class="py-10 text-center">
                                 <div

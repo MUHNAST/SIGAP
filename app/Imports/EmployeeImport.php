@@ -100,7 +100,7 @@ class EmployeeImport implements ToCollection, WithHeadingRow
                     continue;
                 }
                 // Admin hanya boleh mengimpor unit kerjanya sendiri.
-                if ( $user->role === 'admin' && ( blank($user->kode_unit_kerja) || (string) $departmentCode !== (string) $user->kode_unit_kerjam)) {
+                if ( $user->role === 'admin' && ( blank($user->kode_unit_kerja) || (string) $departmentCode !== (string) $user->kode_unit_kerja)) {
                     // Log::warning('Import pegawai dilewati karena unit kerja tidak sesuai dengan pengguna.', [
                     //     'nip' => $nip,
                     //     'unit_kerja_import' => $unitKerja,

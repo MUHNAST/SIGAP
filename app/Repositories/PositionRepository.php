@@ -23,8 +23,8 @@ class PositionRepository
         return $position;
     }
 
-    public function delete(string $kode){
-        $position = Position::findOrFail($kode);
-        return $position->delete();
-    }
+    // public function delete(string $kode){
+    //     $position = Position::findOrFail($kode);
+    //     return $position->delete();
+    // }
 }

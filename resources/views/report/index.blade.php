@@ -94,7 +94,7 @@
                                         {{ $pegawai->position?->nama ?? '-' }}
                                     </td>
                                     <td class="px-6 py-4 font-medium text-blue-600">
-                                        {{ $pegawai->tanggal_kgb->translatedFormat('d F Y') }}
+                                        {{ $pegawai->tanggal_kgb?->translatedFormat('d F Y') ?? '-' }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-2">

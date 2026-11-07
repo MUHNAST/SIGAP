@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Requests;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 class UpdateEmployeeRequest extends FormRequest
@@ -397,6 +398,26 @@ class UpdateEmployeeRequest extends FormRequest
             'dokumen.KTP' => 'dokumen KTP',
         ];
     }
+
+    protected function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                foreach ($this->file('dokumen', []) as $jenis => $file) {
+                    if (
+                        $file instanceof \Illuminate\Http\UploadedFile
+                        && $file->getSize() === 0
+                    ) {
+                        $validator->errors()->add(
+                            'dokumen.' . $jenis,
+                            'File dokumen tidak boleh kosong.'
+                        );
+                    }
+                }
+            },
+        ];
+    }
+
     /**
      * Normalisasi nomor HP menjadi format 08.
      */

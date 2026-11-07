@@ -89,7 +89,7 @@ Route::middleware(['auth', 'role:super_admin,admin,user'])->group(function () {
         Route::get('/unread-count', 'unreadCount')->name('unread-count');
         Route::put('/read-all', 'markAllAsRead')->name('read-all');
         Route::put('/{id}/read', 'markAsRead')->name('read');
-        Route::get('/{id}', 'read')->name('read.notification');
+        Route::post('/{id}', 'read')->name('read.notification');
     });
     //  2.4. Referensi Formulir Pegawai
     // Data wilayah.
@@ -127,7 +127,7 @@ Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
         Route::get('/', 'index')->middleware('permission:unit_kerja.view')->name('index');
         Route::get('/create', 'create')->middleware('permission:unit_kerja.create')->name('create');
         Route::post('/', 'store')->middleware('permission:unit_kerja.create')->name('store');
-        Route::get('/{department}', 'show')->middleware('permission:unit_kerja.view')->name('show');
+        // Route::get('/{department}', 'show')->middleware('permission:unit_kerja.view')->name('show');
         Route::get('/{department}/edit', 'edit')->middleware('permission:unit_kerja.update')->name('edit');
         Route::put('/{department}', 'update')->middleware('permission:unit_kerja.update')->name('update');
         Route::delete('/{department}', 'destroy')->middleware('permission:unit_kerja.update')->name('destroy');
@@ -137,7 +137,7 @@ Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
         Route::get('/', 'index')->middleware('permission:jabatan.view')->name('index');
         Route::get('/create', 'create')->middleware('permission:jabatan.create')->name('create');
         Route::post('/', 'store')->middleware('permission:jabatan.create')->name('store');
-        Route::get('/{position}', 'show')->middleware('permission:jabatan.view')->name('show');
+        // Route::get('/{position}', 'show')->middleware('permission:jabatan.view')->name('show');
         Route::get('/{position}/edit', 'edit')->middleware('permission:jabatan.update')->name('edit');
         Route::put('/{position}', 'update')->middleware('permission:jabatan.update')->name('update');
         Route::delete('/{position}', 'destroy')->middleware('permission:jabatan.update')->name('destroy');
@@ -147,7 +147,7 @@ Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
         Route::get('/', 'index')->middleware('permission:pangkat.view')->name('index');
         Route::get('/create', 'create')->middleware('permission:pangkat.create')->name('create');
         Route::post('/', 'store')->middleware('permission:pangkat.create')->name('store');
-        Route::get('/{rank}', 'show')->middleware('permission:pangkat.view')->name('show');
+        // Route::get('/{rank}', 'show')->middleware('permission:pangkat.view')->name('show');
         Route::get('/{rank}/edit', 'edit')->middleware('permission:pangkat.update')->name('edit');
         Route::put('/{rank}', 'update')->middleware('permission:pangkat.update')->name('update');
         Route::delete('/{rank}', 'destroy')->middleware('permission:pangkat.update')->name('destroy');
@@ -157,7 +157,7 @@ Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
         Route::get('/', 'index')->middleware('permission:pppk.view')->name('index');
         Route::get('/create', 'create')->middleware('permission:pppk.create')->name('create');
         Route::post('/', 'store')->middleware('permission:pppk.create')->name('store');
-        Route::get('/{pppk}', 'show')->middleware('permission:pppk.view')->name('show');
+        // Route::get('/{pppk}', 'show')->middleware('permission:pppk.view')->name('show');
         Route::get('/{pppk}/edit', 'edit')->middleware('permission:pppk.update')->name('edit');
         Route::put('/{pppk}', 'update')->middleware('permission:pppk.update')->name('update');
         Route::delete('/{pppk}', 'destroy')->middleware('permission:pppk.update')->name('destroy');
@@ -167,7 +167,7 @@ Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
         Route::get('/', 'index')->middleware('permission:gaji.view')->name('index');
         Route::get('/create', 'create')->middleware('permission:gaji.create')->name('create');
         Route::post('/', 'store')->middleware('permission:gaji.create')->name('store');
-        Route::get('/{salary}', 'show')->middleware('permission:gaji.view')->name('show');
+        // Route::get('/{salary}', 'show')->middleware('permission:gaji.view')->name('show');
         Route::get('/{salary}/edit', 'edit')->middleware('permission:gaji.update')->name('edit');
         Route::put('/{salary}', 'update')->middleware('permission:gaji.update')->name('update');
         Route::delete('/{salary}', 'destroy')->middleware('permission:gaji.update')->name('destroy');

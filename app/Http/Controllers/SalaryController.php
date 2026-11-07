@@ -30,7 +30,7 @@ class SalaryController extends Controller
         // Simpan Activity Log
         $this->activity_log_service->log(
             'Tambah Data Gaji',
-            "{$nama} menambahkan data gaji {$data->rank->nama} masa kerja {$data->masa_kerja} tahun."
+            "{$nama} menambahkan data gaji {$data->rank->nama} masa kerja {$data->tahun_masa_kerja} tahun."
         );
         if($data){
             return redirect()->route('salary.index')->with('success', 'Data Gaji berhasil ditambahkan');
@@ -46,7 +46,7 @@ class SalaryController extends Controller
         // Simpan Activity Log
         $this->activity_log_service->log(
             'Update Data Gaji',
-            "{$nama} mengubah data gaji {$data->rank->nama} masa kerja {$data->masa_kerja} tahun."
+            "{$nama} mengubah data gaji {$data->rank->nama} masa kerja {$data->tahun_masa_kerja} tahun."
         );
         if($data){
             return redirect()->route('salary.index')->with('success', 'Data Gaji berhasil diedit');

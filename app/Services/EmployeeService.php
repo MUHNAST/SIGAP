@@ -830,7 +830,7 @@ class EmployeeService
                                             'id_pangkat_lama' => $rankLama->id,
                                             'id_pangkat_baru' => $rankBaru->id,
                                             'tmt_pangkat' => $employee->tmt_pangkat_lama,
-                                            'deskripsi' => 'Kenaikan pangkat otomatis',
+                                            'keterangan' => 'Kenaikan pangkat otomatis',
                                         ]);
                                     }
                                     /*

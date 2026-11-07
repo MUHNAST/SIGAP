@@ -52,7 +52,12 @@
                             <i class="fa-solid fa-eye"></i>
                         </button>
                     </div>
-                    @error('current_password')
+                    @error('current_password', 'logout')
+                        <small class="text-red-500">
+                            {{ $message }}
+                        </small>
+                    @enderror
+                    @error('error', 'logout')
                         <small class="text-red-500">
                             {{ $message }}
                         </small>

@@ -1,7 +1,6 @@
 const TABS = [
     'account',
-    'security',
-    'notification'
+    'security'
 ];
 export function showTab(
     tab = 'account'

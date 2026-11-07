@@ -13,7 +13,7 @@ class ActivityLogRepository
     private function withRelations(Builder $query): Builder
     {
         return $query->with([
-            'user:id,nama,kode_unit_kerja',
+            'user:id,nama,kode_unit_kerja,role,nip',
         ]);
     }
     /*
@@ -60,6 +60,17 @@ class ActivityLogRepository
         $query = $this->activityLog->newQuery()->where('id_user', $idUser);
         return $this->withRelations($query)->latest()->get();
     }
+    public function findById(int $id, ?string $kodeUnitKerja = null): ActivityLog
+    {
+        $query = $this->withRelations($this->activityLog->newQuery())
+            ->whereKey($id);
+        if (!is_null($kodeUnitKerja)) {
+            $query->whereHas('user', function (Builder $query) use ($kodeUnitKerja) {
+                $query->where('kode_unit_kerja', $kodeUnitKerja);
+            });
+        }
+        return $query->firstOrFail();
+    }
     public function create(array $data): ActivityLog
     {
         return $this->activityLog->create($data);
@@ -105,9 +116,9 @@ class ActivityLogRepository
                 $query->where(function (Builder $query) use ( $activityGroups, $aktivitas, $like ) {
                     foreach ($activityGroups[$aktivitas] as $index => $pattern) {
                         if ($index === 0) {
-                            $query->where('aktivitas', $like, $pattern);
+                            $query->where('aktivitas', $like, "{$pattern}%");
                         } else {
-                            $query->orWhere('aktivitas', $like, $pattern);
+                            $query->orWhere('aktivitas', $like, "{$pattern}%");
                         }
                     }
                 });

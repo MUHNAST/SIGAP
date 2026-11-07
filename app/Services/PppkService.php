@@ -29,7 +29,7 @@ class PppkService  {
         return $this->p3k_repository->update($p3k, $data);
     }
 
-    public function delete(Pppk $p3k) {
-        return $this->p3k_repository->delete($p3k);
-    }
+    // public function delete(Pppk $p3k) {
+    //     return $this->p3k_repository->delete($p3k);
+    // }
 }

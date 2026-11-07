@@ -7,6 +7,7 @@ use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+         if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         RateLimiter::for('login', function (Request $request) {
             return Limit::perMinute(5)->by(
                 $request->ip().'|'.$request->input('username')

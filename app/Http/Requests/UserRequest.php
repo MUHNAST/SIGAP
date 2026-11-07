@@ -30,7 +30,10 @@ class UserRequest extends FormRequest
         $userId = $existingUser?->id ?? $this->route('id') ?? $routeUser;
         // Prioritaskan role dari database ketika update.
         // Jika create, gunakan role dari input atau default Admin.
-        $role = $existingUser?->role ?? $this->input('role', 'admin');
+        $role = $existingUser?->role
+            ?? ($this->isMethod('post')
+                ? 'admin'
+                : $this->input('role', 'admin'));
         // Aturan dasar email.
         $emailRules = [
             'required',

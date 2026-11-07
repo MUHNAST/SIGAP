@@ -1,4 +1,5 @@
-import Chart from 'chart.js/auto';
+let chartModulePromise = null;
+let chartInitializationPromise = null;
 let jenisChart = null;
 let genderChart = null;
 let reminderChart = null;
@@ -9,10 +10,23 @@ let riwayatChart = null;
 let pangkatPnsChart = null;
 let pangkatPppkChart = null;
 let pendidikanChart = null;
+
+function loadChart() {
+    if (!chartModulePromise) {
+        chartModulePromise = import('chart.js/auto')
+            .then(module => module.default)
+            .catch(error => {
+                chartModulePromise = null;
+                throw error;
+            });
+    }
+    return chartModulePromise;
+}
+
 /**
  * Horizontal Bar Chart
  */
-export function createHorizontalBarChart(
+export async function createHorizontalBarChart(
     canvasId,
     dataArray = [],
     color = '#2563EB'
@@ -21,6 +35,7 @@ export function createHorizontalBarChart(
     if (!canvas) {
         return null;
     }
+    const Chart = await loadChart();
     Chart.getChart(canvas)?.destroy();
     const labels = dataArray.map(
         item => item.label
@@ -75,7 +90,7 @@ export function createHorizontalBarChart(
 /**
  * Doughnut Chart
  */
-export function createDoughnutChart(
+export async function createDoughnutChart(
     canvasId,
     legendId,
     dataObject = {},
@@ -86,6 +101,7 @@ export function createDoughnutChart(
     if (!canvas) {
         return null;
     }
+    const Chart = await loadChart();
     Chart.getChart(canvas)?.destroy();
     let labels = [];
     let values = [];
@@ -216,139 +232,228 @@ export function createDoughnutChart(
     }
     return chart;
 }
+
 /**
  * Init seluruh chart dashboard
  */
 export function initChart() {
-    if (window.chartJenisPegawai) {
-        jenisChart = createDoughnutChart(
-            'chartJenisPegawai',
-            'legendJenisPegawai',
+    if (chartInitializationPromise) {
+        return chartInitializationPromise;
+    }
+    const chartTargets = [
+        [window.chartJenisPegawai, 'chartJenisPegawai'],
+        [window.ChartJenisKelamin, 'ChartJenisKelamin'],
+        [window.chartReminder, 'pegawaiChart'],
+        [window.chartStatus, 'chartStatus'],
+        [window.chartMasaKerja, 'chartMasaKerja'],
+        [window.chartUsia, 'chartUsia'],
+        [window.chartRiwayat, 'chartRiwayat'],
+        [window.chartPangkat, 'chartPangkat'],
+        [window.chartGolonganPppk, 'chartPangkatPppk'],
+        [window.chartPendidikan, 'chartPendidikan']
+    ];
+    if (!chartTargets.some(
+        ([data, canvasId]) =>
+            data && document.getElementById(canvasId)
+    )) {
+        return Promise.resolve();
+    }
+
+    chartInitializationPromise = (async () => {
+        try {
+            await loadChart();
+        } catch (error) {
+            chartInitializationPromise = null;
+            console.error(
+                'Gagal memuat Chart.js:',
+                error
+            );
+            return;
+        }
+
+        const initialize = async (
+            instance,
+            data,
+            canvasId,
+            create
+        ) => {
+            if (
+                instance ||
+                !data ||
+                !document.getElementById(canvasId)
+            ) {
+                return instance;
+            }
+            try {
+                return await create();
+            } catch (error) {
+                console.error(
+                    `Gagal membuat grafik ${canvasId}:`,
+                    error
+                );
+                return null;
+            }
+        };
+
+        jenisChart = await initialize(
+            jenisChart,
             window.chartJenisPegawai,
-            [
-                '#2563EB',
-                '#10B981',
-                '#F59E0B'
-            ],
-            'Pegawai'
+            'chartJenisPegawai',
+            () => createDoughnutChart(
+                'chartJenisPegawai',
+                'legendJenisPegawai',
+                window.chartJenisPegawai,
+                [
+                    '#2563EB',
+                    '#10B981',
+                    '#F59E0B'
+                ],
+                'Pegawai'
+            )
         );
-    }
-    if (window.ChartJenisKelamin) {
-        genderChart = createDoughnutChart(
-            'ChartJenisKelamin',
-            'legendGender',
+        genderChart = await initialize(
+            genderChart,
             window.ChartJenisKelamin,
-            [
-                '#3B82F6',
-                '#EC4899'
-            ],
-            'Pegawai'
+            'ChartJenisKelamin',
+            () => createDoughnutChart(
+                'ChartJenisKelamin',
+                'legendGender',
+                window.ChartJenisKelamin,
+                [
+                    '#3B82F6',
+                    '#EC4899'
+                ],
+                'Pegawai'
+            )
         );
-    }
-    if (window.chartReminder) {
-        reminderChart = createDoughnutChart(
+        reminderChart = await initialize(
+            reminderChart,
+            window.chartReminder,
             'pegawaiChart',
-            'legendReminder',
-            {
-                'Naik Pangkat':
-                    window.chartReminder.total_pangkat,
-                'KGB':
-                    window.chartReminder.total_kgb,
-                'Pensiun':
-                    window.chartReminder.total_pensiun
-            },
-            [
-                '#2563EB',
-                '#8B5CF6',
-                '#F97316'
-            ],
-            'Event'
+            () => createDoughnutChart(
+                'pegawaiChart',
+                'legendReminder',
+                {
+                    'Naik Pangkat':
+                        window.chartReminder.total_pangkat,
+                    'KGB':
+                        window.chartReminder.total_kgb,
+                    'Pensiun':
+                        window.chartReminder.total_pensiun
+                },
+                [
+                    '#2563EB',
+                    '#8B5CF6',
+                    '#F97316'
+                ],
+                'Event'
+            )
         );
-    }
-    if (window.chartStatus) {
-        statusChart = createDoughnutChart(
-            'chartStatus',
-            'legendStatus',
+        statusChart = await initialize(
+            statusChart,
             window.chartStatus,
-            [
-                '#10B981',
-                '#EF4444',
-                '#F59E0B'
-            ],
-            'Pegawai'
+            'chartStatus',
+            () => createDoughnutChart(
+                'chartStatus',
+                'legendStatus',
+                window.chartStatus,
+                [
+                    '#10B981',
+                    '#EF4444',
+                    '#F59E0B'
+                ],
+                'Pegawai'
+            )
         );
-    }
-    if (window.chartMasaKerja) {
-        masaKerjaChart = createDoughnutChart(
-            'chartMasaKerja',
-            'legendMasaKerja',
+        masaKerjaChart = await initialize(
+            masaKerjaChart,
             window.chartMasaKerja,
-            [
-                '#2563EB',
-                '#10B981',
-                '#F59E0B',
-                '#8B5CF6'
-            ],
-            'Pegawai'
+            'chartMasaKerja',
+            () => createDoughnutChart(
+                'chartMasaKerja',
+                'legendMasaKerja',
+                window.chartMasaKerja,
+                [
+                    '#2563EB',
+                    '#10B981',
+                    '#F59E0B',
+                    '#8B5CF6'
+                ],
+                'Pegawai'
+            )
         );
-    }
-    if (window.chartUsia) {
-        usiaChart = createDoughnutChart(
-            'chartUsia',
-            'legendUsia',
+        usiaChart = await initialize(
+            usiaChart,
             window.chartUsia,
-            [
-                '#0EA5E9',
-                '#10B981',
-                '#F59E0B',
-                '#EF4444'
-            ],
-            'Pegawai'
+            'chartUsia',
+            () => createDoughnutChart(
+                'chartUsia',
+                'legendUsia',
+                window.chartUsia,
+                [
+                    '#0EA5E9',
+                    '#10B981',
+                    '#F59E0B',
+                    '#EF4444'
+                ],
+                'Pegawai'
+            )
         );
-    }
-    if (window.chartRiwayat) {
-        riwayatChart = createDoughnutChart(
+        riwayatChart = await initialize(
+            riwayatChart,
+            window.chartRiwayat,
             'chartRiwayat',
-            'legendRiwayat',
-            {
-                'KGB':
-                    window.chartRiwayat.total_kgb,
-                'Naik Pangkat':
-                    window.chartRiwayat.total_pangkat,
-                'Pensiun':
-                    window.chartRiwayat.total_pensiun
-            },
-            [
-                '#8B5CF6',
-                '#2563EB',
-                '#F97316'
-            ],
-            'Pegawai'
+            () => createDoughnutChart(
+                'chartRiwayat',
+                'legendRiwayat',
+                {
+                    'KGB':
+                        window.chartRiwayat.total_kgb,
+                    'Naik Pangkat':
+                        window.chartRiwayat.total_pangkat,
+                    'Pensiun':
+                        window.chartRiwayat.total_pensiun
+                },
+                [
+                    '#8B5CF6',
+                    '#2563EB',
+                    '#F97316'
+                ],
+                'Pegawai'
+            )
         );
-    }
-    if (window.chartPangkat) {
-        pangkatPnsChart =
-            createHorizontalBarChart(
+        pangkatPnsChart = await initialize(
+            pangkatPnsChart,
+            window.chartPangkat,
+            'chartPangkat',
+            () => createHorizontalBarChart(
                 'chartPangkat',
                 window.chartPangkat,
                 '#2563EB'
-            );
-    }
-    if (window.chartGolonganPppk) {
-        pangkatPppkChart = createHorizontalBarChart(
-            'chartPangkatPppk',
-            window.chartGolonganPppk,
-            '#10B981'
+            )
         );
-    }
-    if (window.chartPendidikan) {
-        pendidikanChart =
-            createHorizontalBarChart(
+        pangkatPppkChart = await initialize(
+            pangkatPppkChart,
+            window.chartGolonganPppk,
+            'chartPangkatPppk',
+            () => createHorizontalBarChart(
+                'chartPangkatPppk',
+                window.chartGolonganPppk,
+                '#10B981'
+            )
+        );
+        pendidikanChart = await initialize(
+            pendidikanChart,
+            window.chartPendidikan,
+            'chartPendidikan',
+            () => createHorizontalBarChart(
                 'chartPendidikan',
                 window.chartPendidikan,
                 '#0EA5E9'
-            );
-    }
+            )
+        );
+    })();
+    return chartInitializationPromise;
 }
 /**
  * Resize chart

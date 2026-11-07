@@ -29,8 +29,8 @@ class SalaryRepository
         return $salary;
     }
 
-    public function delete(int $id){
-        $salary = Salary::findOrFail($id);
-        return $salary->delete();
-    }
+    // public function delete(int $id){
+    //     $salary = Salary::findOrFail($id);
+    //     return $salary->delete();
+    // }
 }

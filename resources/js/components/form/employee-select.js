@@ -4,23 +4,24 @@ import {
 // ===============================
 // INIT EMPLOYEE SELECT
 // ===============================
-function initEmployeeSelect(container = document) {
-    container
-        .querySelectorAll('.pegawai-select')
-        .forEach(select => {
-            searchableSelect(
-                select,
-                'Pilih Pegawai'
-            );
-            const selected =
-                select.dataset.selected;
-            if (selected) {
-                select.tomselect.setValue(
-                    String(selected),
-                    true
+async function initEmployeeSelect(container = document) {
+    await Promise.all(
+        [...container.querySelectorAll('.pegawai-select')]
+            .map(async select => {
+                const instance = await searchableSelect(
+                    select,
+                    'Pilih Pegawai'
                 );
-            }
-        });
+                const selected =
+                    select.dataset.selected;
+                if (selected && instance) {
+                    instance.setValue(
+                        String(selected),
+                        true
+                    );
+                }
+            })
+    );
 }
 export {
     initEmployeeSelect

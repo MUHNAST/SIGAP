@@ -37,6 +37,11 @@
                 </span>
                 akan dihapus dan diganti dengan foto bawaan sistem.
             </p>
+            @error('error', 'reset_photo')
+                <p class="mt-4 text-center text-sm text-red-600">
+                    {{ $message }}
+                </p>
+            @enderror
         </div>
         <!-- FOOTER -->
         <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">

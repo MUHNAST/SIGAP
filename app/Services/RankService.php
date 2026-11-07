@@ -29,7 +29,7 @@ class RankService  {
         return $this->rank_repository->update($rank, $data);
     }
 
-    public function delete(Rank $rank) {
-        return $this->rank_repository->delete($rank);
-    }
+    // public function delete(Rank $rank) {
+    //     return $this->rank_repository->delete($rank);
+    // }
 }

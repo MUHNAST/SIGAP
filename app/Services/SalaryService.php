@@ -24,9 +24,9 @@ class SalaryService {
         $this->validateSalary($data);
         return $this->salary_repository->update($id, $data);
     }
-    public function delete(int $id) {
-        return $this->salary_repository->delete($id);
-    }
+    // public function delete(int $id) {
+    //     return $this->salary_repository->delete($id);
+    // }
     private function validateSalary(array $data): void
     {
         if ($data['gaji_pokok'] < 0) {

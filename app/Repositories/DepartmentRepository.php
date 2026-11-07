@@ -23,8 +23,8 @@ class DepartmentRepository
         return $department;
     }
 
-    public function delete(string $kode){
-        $department = Department::findOrFail($kode);
-        return $department->delete();
-    }
+    // public function delete(string $kode){
+    //     $department = Department::findOrFail($kode);
+    //     return $department->delete();
+    // }
 }

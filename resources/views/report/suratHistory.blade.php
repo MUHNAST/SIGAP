@@ -295,8 +295,7 @@
             <div class="w-80 text-center text-[14px] leading-[1.5]">
                 <p class="m-0 uppercase">
                     <span data-field="ttd_pejabat">
-                        {{-- {{ optional($camat->position)->nama?? 'Camat Pekalongan Timur' }} --}}
-                        CAMAT PEKALONGAN TIMUR
+                        {{ $camat?->position?->nama ?: 'CAMAT PEKALONGAN TIMUR' }}
                     </span>
                 </p>
                 <p class="m-0 uppercase">KOTA PEKALONGAN</p>
@@ -309,8 +308,8 @@
                 </p>
                 <p class="m-0 text-[13px]">
                     <span data-field="jabatan_camat">
-                        {{ optional($camat->rank)->nama
-                            ? optional($camat->rank)->nama. ' (' . optional($camat->rank)->kode . ')'
+                        {{ $camat?->rank?->nama
+                            ? $camat->rank->nama . ' (' . $camat->rank->kode . ')'
                             : '-' }}
                     </span>
                 </p>

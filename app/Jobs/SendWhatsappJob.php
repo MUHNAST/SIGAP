@@ -1,16 +1,21 @@
 <?php
 namespace App\Jobs;
+use App\Exceptions\WhatsAppDeliveryException;
 use App\Models\Notification;
 use App\Services\WhatsAppService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-class SendWhatsappJob implements ShouldQueue
+use DateInterval;
+use DateTimeInterface;
+class SendWhatsappJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    private const UNIQUE_LOCK_BUFFER_SECONDS = 3600;
     // Maksimal dicoba 10 kali
     public $tries = 10;
     public $timeout = 120;
@@ -19,6 +24,39 @@ class SendWhatsappJob implements ShouldQueue
         public string $no_hp,
         public bool $isSuperAdmin = false
     ) {}
+
+    public function uniqueId(): string
+    {
+        return implode(':', [
+            $this->notification->getKey(),
+            'whatsapp',
+            $this->isSuperAdmin ? 'super-admin' : 'employee',
+        ]);
+    }
+
+    public function uniqueFor(): int
+    {
+        return $this->delaySeconds()
+            + ($this->timeout * $this->tries)
+            + array_sum($this->backoff())
+            + self::UNIQUE_LOCK_BUFFER_SECONDS;
+    }
+
+    private function delaySeconds(): int
+    {
+        if ($this->delay instanceof DateTimeInterface) {
+            return max(0, now()->diffInSeconds($this->delay, false));
+        }
+
+        if ($this->delay instanceof DateInterval) {
+            return max(0, now()->diffInSeconds(now()->add($this->delay), false));
+        }
+
+        return is_numeric($this->delay)
+            ? max(0, (int) $this->delay)
+            : 0;
+    }
+
     /**
      * Jeda retry.
      */
@@ -78,10 +116,7 @@ class SendWhatsappJob implements ShouldQueue
             //     'no_hp' => '****' . substr($no_hp, -4),
             //     'super_admin' => $this->isSuperAdmin,
             // ]);
-            $success = $whatsapp->send($no_hp, $message);
-            if (!$success) {
-                throw new \Exception('Gagal mengirim WhatsApp.');
-            }
+            $whatsapp->sendOrFail($no_hp, $message);
             /*
             |--------------------------------------------------------------------------
             | Update status berdasarkan penerima
@@ -109,11 +144,21 @@ class SendWhatsappJob implements ShouldQueue
     }
     public function failed(\Throwable $e): void
     {
-        // Log::critical('SendWhatsappJob gagal permanen', [
-        //     'notification' => $this->notification->id,
-        //     'super_admin' => $this->isSuperAdmin,
-        //     'error' => $e->getMessage(),
-        // ]);
+        $deliveryFailure = $e instanceof WhatsAppDeliveryException
+            ? $e
+            : null;
+
+        Log::error('WhatsApp notification delivery permanently failed.', [
+            'notification_id' => $this->notification->getKey(),
+            'channel' => 'whatsapp',
+            'job_id' => $this->job?->getJobId(),
+            'attempts' => $this->attempts(),
+            'failure_type' => $deliveryFailure?->failureType ?? 'exception',
+            'http_status' => $deliveryFailure?->httpStatus,
+            'error' => $deliveryFailure?->getMessage()
+                ?? 'WhatsApp notification delivery failed.',
+            'failed_at' => now('Asia/Jakarta')->toIso8601String(),
+        ]);
     }
     /**
      * Format pesan WhatsApp.
@@ -130,7 +175,7 @@ class SendWhatsappJob implements ShouldQueue
             "{$notification->pesan}\n" .
             "━━━━━━━━━━━━━━━━━━━━━━\n" .
             "🕒 *Tanggal Notifikasi*\n" .
-            now()->translatedFormat('d F Y H:i') . "\n" .
+            now('Asia/Jakarta')->translatedFormat('d F Y H:i') . "\n" .
             "🤖 Pesan ini dikirim otomatis oleh aplikasi SIGAP.\n" .
             "Apabila memerlukan bantuan atau informasi lebih lanjut, silakan menghubungi Admin Kecamatan Pekalongan Timur.\n" .
             "_Mohon tidak membalas pesan ini._";

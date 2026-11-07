@@ -424,6 +424,11 @@
                 ],
             ];
             $dokumenTersimpan = $data->dokumen->keyBy('jenis_dokumen');
+            $jumlahFileTersedia = $dokumenTersimpan
+                ->filter(fn ($dokumen) => filled($dokumen->nama_file)
+                    && \Illuminate\Support\Facades\Storage::disk('local')
+                        ->exists($dokumen->nama_file))
+                ->count();
         @endphp
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
             <div>
@@ -437,13 +442,17 @@
             <span
                 class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-sm font-medium text-slate-600">
                 <i class="fa-solid fa-folder-open"></i>
-                {{ $dokumenTersimpan->count() }} dari {{ count($jenisDokumen) }} dokumen
+                {{ $jumlahFileTersedia }} dari {{ count($jenisDokumen) }} dokumen
             </span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             @foreach ($jenisDokumen as $jenis => $info)
                 @php
                     $dokumen = $dokumenTersimpan->get($jenis);
+                    $fileTersedia = $dokumen
+                        && filled($dokumen->nama_file)
+                        && \Illuminate\Support\Facades\Storage::disk('local')
+                            ->exists($dokumen->nama_file);
                 @endphp
                 <div class="rounded-2xl border border-slate-200 p-4 transition hover:border-blue-300 hover:shadow-sm">
                     <div class="flex items-start gap-3">
@@ -455,11 +464,17 @@
                             <h4 class="font-semibold text-slate-800 text-sm leading-5">
                                 {{ $info['label'] }}
                             </h4>
-                            @if ($dokumen)
+                            @if ($fileTersedia)
                                 <span
                                     class="inline-flex items-center gap-1 mt-2 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">
                                     <i class="fa-solid fa-circle-check"></i>
                                     Tersedia
+                                </span>
+                            @elseif ($dokumen)
+                                <span
+                                    class="inline-flex items-center gap-1 mt-2 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-700">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    File tidak ditemukan
                                 </span>
                             @else
                                 <span
@@ -486,7 +501,8 @@
                                 Pengunggah:
                                 {{ $dokumen->user->nama ?? 'Tidak Diketahui' }}
                             </p>
-                            <div class="mt-4">
+                            @if ($fileTersedia)
+                                <div class="mt-4">
                                 <a href="{{ route('employee.documents.show', [
                                     'employee' => $data->nip,
                                     'document' => $dokumen->id,
@@ -496,7 +512,12 @@
                                     <i class="fa-solid fa-eye"></i>
                                     Lihat Dokumen
                                 </a>
-                            </div>
+                                </div>
+                            @else
+                                <p class="mt-4 text-sm text-amber-700">
+                                    File dokumen tidak ditemukan di penyimpanan.
+                                </p>
+                            @endif
                         </div>
                     @else
                         <div class="mt-4 border-t border-slate-100 pt-3">

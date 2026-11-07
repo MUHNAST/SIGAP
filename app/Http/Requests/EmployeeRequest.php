@@ -458,7 +458,27 @@ class EmployeeRequest extends FormRequest
             } elseif (is_string($employee)) {
                 $redirect->with('edit_employee_nip', $employee);
             }
+
         }
         throw new HttpResponseException($redirect);
+    }
+
+    protected function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                foreach ($this->file('dokumen', []) as $jenis => $file) {
+                    if (
+                        $file instanceof \Illuminate\Http\UploadedFile
+                        && $file->getSize() === 0
+                    ) {
+                        $validator->errors()->add(
+                            'dokumen.' . $jenis,
+                            'File dokumen tidak boleh kosong.'
+                        );
+                    }
+                }
+            },
+        ];
     }
 }

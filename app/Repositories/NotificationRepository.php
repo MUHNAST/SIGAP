@@ -204,7 +204,7 @@ class NotificationRepository
     {
         return Notification::with('employee.department')
             ->where('jenis', 'Pangkat')
-            ->where('tanggal_referensi', '>=', now()->toDateString())
+            ->where('tanggal_referensi', '>=', now('Asia/Jakarta')->toDateString())
             ->orderBy('tanggal_referensi')
             ->first();
     }
@@ -213,7 +213,7 @@ class NotificationRepository
     {
         return Notification::with('employee.department')
             ->where('jenis', 'KGB')
-            ->where('tanggal_referensi', '>=', now()->toDateString())
+            ->where('tanggal_referensi', '>=', now('Asia/Jakarta')->toDateString())
             ->orderBy('tanggal_referensi')
             ->first();
     }
@@ -222,7 +222,7 @@ class NotificationRepository
     {
         return Notification::with('employee.department')
             ->where('jenis', 'Pensiun')
-            ->where('tanggal_referensi', '>=', now()->toDateString())
+            ->where('tanggal_referensi', '>=', now('Asia/Jakarta')->toDateString())
             ->orderBy('tanggal_referensi')
             ->first();
     }
@@ -230,7 +230,7 @@ class NotificationRepository
     {
         return Notification::with('employee.department')
             ->where('jenis', 'Pangkat')
-            ->where('tanggal_referensi', '>=', now()->toDateString())
+            ->where('tanggal_referensi', '>=', now('Asia/Jakarta')->toDateString())
             ->whereHas('employee', function ($q) use ($kodeUnitKerja) {
                 $q->where('kode_unit_kerja', $kodeUnitKerja);
             })
@@ -242,7 +242,7 @@ class NotificationRepository
     {
         return Notification::with('employee.department')
             ->where('jenis', 'KGB')
-            ->where('tanggal_referensi', '>=', now()->toDateString())
+            ->where('tanggal_referensi', '>=', now('Asia/Jakarta')->toDateString())
             ->whereHas('employee', function ($q) use ($kodeUnitKerja) {
                 $q->where('kode_unit_kerja', $kodeUnitKerja);
             })
@@ -254,7 +254,7 @@ class NotificationRepository
     {
         return Notification::with('employee.department')
             ->where('jenis', 'Pensiun')
-            ->where('tanggal_referensi', '>=', now()->toDateString())
+            ->where('tanggal_referensi', '>=', now('Asia/Jakarta')->toDateString())
             ->whereHas('employee', function ($q) use ($kodeUnitKerja) {
                 $q->where('kode_unit_kerja', $kodeUnitKerja);
             })

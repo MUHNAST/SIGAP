@@ -55,7 +55,7 @@ class DashboardRepository
     }
     public function naikPangkat(?User $user=null)
     {
-        return $this->employeeQuery($user)->where('status', 'Aktif')->whereNotNull('tmt_pangkat_baru')
+        return $this->employeeQuery($user)->where('status', 'Aktif')->where('status_pegawai', 'PNS')->whereNotNull('tmt_pangkat_baru')
             ->whereBetween('tmt_pangkat_baru',[now(), now()->copy()->addMonths(2)])->count();
     }
     public function kgb(?User $user=null)

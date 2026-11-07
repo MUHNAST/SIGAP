@@ -746,6 +746,10 @@
                             @foreach ($jenisDokumen as $jenis => $label)
                                 @php
                                     $dokumenSaatIni = $dokumenTersimpan->get($jenis);
+                                    $fileDokumenTersedia = $dokumenSaatIni
+                                        && filled($dokumenSaatIni->nama_file)
+                                        && \Illuminate\Support\Facades\Storage::disk('local')
+                                            ->exists($dokumenSaatIni->nama_file);
                                 @endphp
                                 <div
                                     class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-blue-300">
@@ -760,10 +764,18 @@
                                             <i class="fa-solid fa-file-lines text-lg"></i>
                                         </div>
                                         <div class="min-w-0 flex-1">
-                                            @if ($dokumenSaatIni)
+                                            @if ($fileDokumenTersedia)
                                                 <p class="text-xs font-medium text-emerald-700">
                                                     <i class="fa-solid fa-circle-check mr-1"></i>
                                                     Dokumen sudah tersedia
+                                                </p>
+                                                <p class="mt-1 break-all text-sm text-slate-700">
+                                                    {{ $dokumenSaatIni->nama_file_asli }}
+                                                </p>
+                                            @elseif ($dokumenSaatIni)
+                                                <p class="text-xs font-medium text-amber-700">
+                                                    <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                                                    Metadata tersedia, file tidak ditemukan.
                                                 </p>
                                                 <p class="mt-1 break-all text-sm text-slate-700">
                                                     {{ $dokumenSaatIni->nama_file_asli }}
@@ -798,11 +810,11 @@
                                         data-filename="#namaFile_{{ $jenis }}"
                                         data-info="#infoDokumen_{{ $jenis }}"
                                         data-status="#statusDokumen_{{ $jenis }}" data-edit="true"
-                                        data-existing="{{ $dokumenSaatIni ? 'true' : 'false' }}">
+                                        data-existing="{{ $fileDokumenTersedia ? 'true' : 'false' }}">
                                     <p id="statusDokumen_{{ $jenis }}"
-                                        class="mt-2 text-xs {{ $dokumenSaatIni ? 'text-emerald-700' : 'text-slate-500' }}"
+                                        class="mt-2 text-xs {{ $fileDokumenTersedia ? 'text-emerald-700' : ($dokumenSaatIni ? 'text-amber-700' : 'text-slate-500') }}"
                                         aria-live="polite">
-                                        {{ $dokumenSaatIni ? 'Dokumen telah diunggah.' : 'Dokumen ini belum diunggah.' }}
+                                        {{ $fileDokumenTersedia ? 'Dokumen telah diunggah.' : ($dokumenSaatIni ? 'File dokumen tidak ditemukan. Pilih file untuk mengganti.' : 'Dokumen ini belum diunggah.') }}
                                     </p>
                                     @error("dokumen.$jenis")
                                         <p class="mt-2 text-sm text-red-500">

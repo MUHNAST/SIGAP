@@ -14,19 +14,22 @@ use Tests\TestCase;
 
 class AuthServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic unit test example.
      */
     private function makeService(?User $user): AuthService
     {
         $repository = Mockery::mock(UserRepository::class);
+        $authRepository = Mockery::mock(\App\Repositories\AuthRepository::class);
 
         $repository->shouldReceive('getByUsername')
             ->once()
             ->with('admin')
             ->andReturn($user);
 
-        return new AuthService($repository);
+        return new AuthService($repository, $authRepository);
     }
 
     public function test_username_tidak_ditemukan(): void

@@ -25,6 +25,7 @@ class CardRepository
         $query = $this->employeeQuery($user)->where('status', 'Aktif');
         return match ($jenis) {
             'kp' => $query
+                ->where('status_pegawai', 'PNS')
                 ->whereNotNull('tmt_pangkat_baru')
                 ->whereBetween('tmt_pangkat_baru', [now(), now()->copy()->addMonths(2),])
                 ->orderBy('tmt_pangkat_baru')

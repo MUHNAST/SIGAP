@@ -64,7 +64,7 @@
                         <option value="KGB" @selected(request('kategori') == 'KGB')>
                             Kenaikan Gaji Berkala
                         </option>
-                        <option value="KGB SELESAI" @selected(request('kategori') == 'KGB SELESAI')>
+                        <option value="KGB Diproses" @selected(request('kategori') == 'KGB Diproses')>
                             KGB Telah Diproses
                         </option>
                         <option value="Pensiun" @selected(request('kategori') == 'Pensiun')>

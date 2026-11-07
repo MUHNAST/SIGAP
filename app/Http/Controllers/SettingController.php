@@ -9,6 +9,8 @@ use App\Services\NotificationService;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 class SettingController extends Controller
 {
     public function __construct(
@@ -96,9 +98,14 @@ class SettingController extends Controller
             );
             return back()->with('success', 'Foto profil berhasil direset.')->with('active_tab', 'account');
         } catch (\Throwable $e) {
+            Log::error('Failed to reset profile photo.', [
+                'user_id' => Auth::id(),
+                'exception_type' => $e::class,
+            ]);
+
             return back()
                 ->withErrors([
-                    'error' => $e->getMessage()
+                    'error' => 'Foto profil gagal direset. Silakan coba kembali.'
                 ], 'reset_photo')
                 ->with('open_modal', 'modalResetFoto')
                 ->with('active_tab', 'account');
@@ -124,8 +131,20 @@ class SettingController extends Controller
                 Auth::user()->nama . ' logout dari seluruh perangkat.'
             );
             return back()->with('success', 'Berhasil logout dari seluruh perangkat.')->with('active_tab', 'security');
+        } catch (ValidationException $e) {
+            return back()
+                ->withErrors($e->errors(), 'logout')
+                ->with('open_modal', 'modalLogoutDevices')
+                ->with('active_tab', 'security');
         } catch (\Throwable $e) {
-            return back()->withErrors(['error' => $e->getMessage()], 'logout')->with('open_modal', 'modalLogoutDevices')->with('active_tab', 'security');
+            Log::error('Failed to log out other devices.', [
+                'user_id' => Auth::id(),
+                'exception_type' => $e::class,
+            ]);
+
+            return back()->withErrors([
+                'error' => 'Perangkat lain gagal dikeluarkan. Silakan coba kembali.'
+            ], 'logout')->with('open_modal', 'modalLogoutDevices')->with('active_tab', 'security');
         }
     }
     /**

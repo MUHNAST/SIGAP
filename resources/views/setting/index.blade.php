@@ -33,10 +33,10 @@
         @include('setting.resetFoto')
         @include('setting.logout')
     </div>
-    @if ($errors->any())
+    @if ($errors->any() || session()->has('open_modal'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const modalId = sessionStorage.getItem('activeModal');
+                const modalId = @json(session('open_modal')) || sessionStorage.getItem('activeModal');
                 if (modalId) {
                     const modal = document.getElementById(modalId);
                     if (modal) {

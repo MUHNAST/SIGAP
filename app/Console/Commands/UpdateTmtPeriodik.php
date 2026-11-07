@@ -5,7 +5,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 class UpdateTmtPeriodik extends Command
 {
-    protected $signature = 'employee:sync-tmt';
+    protected $signature = 'employee:update-tmt-periodik';
     protected $deskripsi = 'Update otomatis TMT KGB dan Pangkat';
     public function handle(): int
     {

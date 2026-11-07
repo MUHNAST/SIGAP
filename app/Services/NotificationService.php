@@ -87,8 +87,8 @@ class NotificationService
             'judul' => $judul,
             'pesan' => $pesan,
             'sudah_dibaca' => false,
-            'tanggal_referensi' => now()->toDateString(),
-            'tanggal_notifikasi' => now()->toDateString(),
+            'tanggal_referensi' => now('Asia/Jakarta')->toDateString(),
+            'tanggal_notifikasi' => now('Asia/Jakarta')->toDateString(),
             'email_terkirim' => false,
             'whatsapp_terkirim' => false,
             'email_super_admin_terkirim'    => false,
@@ -303,13 +303,19 @@ class NotificationService
     */
     public function generateNotification(Employee $pegawai): void
     {
+        if ($pegawai->status !== 'Aktif') {
+            return;
+        }
+
         $this->generatePangkat($pegawai);
         $this->generateKGB($pegawai);
         $this->generatePensiun($pegawai);
     }
     public function generateNotifications(): void
     {
-        Employee::query()->chunkById(
+        Employee::query()
+            ->where('status', 'Aktif')
+            ->chunkById(
                 100,
                 function ($employees) {
                     foreach ($employees as $pegawai) {
@@ -320,6 +326,10 @@ class NotificationService
     }
     public function generatePangkat(Employee $pegawai): void
     {
+        if ($pegawai->status !== 'Aktif') {
+            return;
+        }
+
         // PPPK tidak menerima notifikasi kenaikan pangkat
         if ($pegawai->status_pegawai !== 'PNS') {
             return;
@@ -341,7 +351,7 @@ class NotificationService
         }
         $referenceDate = Carbon::parse($pegawai->tmt_pangkat_baru);
         // Notifikasi aktif 2 bulan sebelum TMT pangkat baru
-        if (Carbon::today()->lt($referenceDate->copy()->subMonths(2))) {
+        if (Carbon::today('Asia/Jakarta')->lt($referenceDate->copy()->subMonths(2))) {
             return;
         }
         $pesan = "Yth. Bapak/Ibu {$pegawai->nama},\n\n"
@@ -361,12 +371,16 @@ class NotificationService
     }
     public function generateKGB(Employee $pegawai): void
     {
+        if ($pegawai->status !== 'Aktif') {
+            return;
+        }
+
         if (empty($pegawai->tmt_kgb_baru)) {
             return;
         }
         $referenceDate = Carbon::parse($pegawai->tmt_kgb_baru);
         // Notifikasi muncul 2 bulan sebelum KGB
-        if (Carbon::today()->lt($referenceDate->copy()->subMonths(2))) {
+        if (Carbon::today('Asia/Jakarta')->lt($referenceDate->copy()->subMonths(2))) {
             return;
         }
         $pesan = "Yth. Bapak/Ibu {$pegawai->nama},\n\n"
@@ -386,11 +400,15 @@ class NotificationService
     }
     public function generatePensiun(Employee $pegawai): void
     {
+        if ($pegawai->status !== 'Aktif') {
+            return;
+        }
+
         if (empty($pegawai->tmt_pensiun)) {
             return;
         }
         $referenceDate = Carbon::parse($pegawai->tmt_pensiun);
-        if (Carbon::today()->lt($referenceDate->copy()->subMonths(6))) {
+        if (Carbon::today('Asia/Jakarta')->lt($referenceDate->copy()->subMonths(6))) {
             return;
         }
         $pesan = "Yth. Bapak/Ibu {$pegawai->nama},\n\n"
@@ -464,7 +482,7 @@ class NotificationService
             'jenis'                      => 'KGB Diproses',
             'judul'                     => 'Kenaikan Gaji Berkala Telah Diproses',
             'pesan'                   => $pesan,
-            'tanggal_notifikasi'         => now(),
+            'tanggal_notifikasi'         => now('Asia/Jakarta')->toDateString(),
             'tanggal_referensi'            => $referenceDate->toDateString(),
             'sudah_dibaca'                   => false,
             // Status pengiriman pegawai
@@ -498,7 +516,11 @@ class NotificationService
         | Jika notifikasi sudah ada
         |--------------------------------------------------------------------------
         */
-        $notification = $this->notification_repository->findNotification( $pegawai->nip, $jenis, $referenceDate);
+        $notification = $this->notification_repository->findNotification(
+            $pegawai->nip,
+            $jenis,
+            $referenceDate->toDateString()
+        );
         if ($notification) {
             $notification->update([
                 'judul' => $judul,
@@ -514,7 +536,7 @@ class NotificationService
             'jenis' => $jenis,
             'judul' => $judul,
             'pesan' => $pesan,
-            'tanggal_notifikasi' => now()->toDateString(),
+            'tanggal_notifikasi' => now('Asia/Jakarta')->toDateString(),
             'tanggal_referensi' => $referenceDate->toDateString(),
             'sudah_dibaca' => false,
             'email_terkirim' => false,
@@ -542,6 +564,10 @@ class NotificationService
         */
         $emailDelay = $this->getNextEmailDelay();
         $waDelay    = $this->getNextWhatsappDelay();
+        $employee = $notification->employee;
+        $account = $employee?->user;
+        $email = $account?->email ?: $employee?->email;
+        $phone = $account?->no_hp ?: $employee?->no_hp;
         // Log::info('Notification queued', [
         //     'notification_id' => $notification->id,
         //     'email_delay'     => $emailDelay,
@@ -552,18 +578,18 @@ class NotificationService
         | EMAIL PEGAWAI
         |--------------------------------------------------------------------------
         */
-        if ( !$notification->email_terkirim && $notification->employee?->email) {
+        if (!$notification->email_terkirim && $email) {
             // Log::info('MASUK EMAIL PEGAWAI');
-            SendEmailJob::dispatch($notification,$notification->employee->email)->delay(now()->addSeconds($emailDelay));
+            SendEmailJob::dispatch($notification, $email)->delay(now()->addSeconds($emailDelay));
         }
         /*
         |--------------------------------------------------------------------------
         | WHATSAPP PEGAWAI
         |--------------------------------------------------------------------------
         */
-        if ( !$notification->whatsapp_terkirim && $notification->employee?->no_hp) {
+        if (!$notification->whatsapp_terkirim && $phone) {
             // Log::info('MASUK WHATSAPP PEGAWAI');
-            SendWhatsappJob::dispatch($notification,$notification->employee->no_hp)->delay(now()->addSeconds($waDelay));
+            SendWhatsappJob::dispatch($notification, $phone)->delay(now()->addSeconds($waDelay));
         }
         /*
         |--------------------------------------------------------------------------

@@ -27,8 +27,8 @@ class DepartmentService  {
         return $this->department_repository->update($department->kode, $data);
     }
 
-    public function delete(string $kode) {
-        return $this->department_repository->delete($kode);
-    }
+    // public function delete(string $kode) {
+    //     return $this->department_repository->delete($kode);
+    // }
 
 }

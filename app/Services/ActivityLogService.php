@@ -55,6 +55,18 @@ class ActivityLogService
             $this->unitKerjaId($user)
         );
     }
+    public function getById(int $id)
+    {
+        $user = $this->authenticatedUser();
+        if ($user->role === 'super_admin') {
+            return $this->activity_log_repository->findById($id);
+        }
+        abort_unless($user->role === 'admin', 403, 'Anda tidak memiliki akses.');
+        return $this->activity_log_repository->findById(
+            $id,
+            $this->unitKerjaId($user)
+        );
+    }
     public function create(array $data)
     {
         return $this->activity_log_repository->create($data);
