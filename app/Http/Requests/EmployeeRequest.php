@@ -83,7 +83,7 @@ class EmployeeRequest extends FormRequest
             'kode_pppk' => [
                 'exclude_unless:status_pegawai,PPPK',
                 'nullable',
-                'exists:Pppk,kode',
+                'exists:pppk,kode',
             ],
             'tingkat_pendidikan' => [
                 // 'required',
