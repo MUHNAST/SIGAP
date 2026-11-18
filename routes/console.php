@@ -14,4 +14,4 @@ Schedule::command('notification:generate')->everyMinute()->withoutOverlapping();
 // Schedule::command('notification:generate')->everyFifteenMinutes()->withoutOverlapping();
 Schedule::command('app:clean-login-devices')->hourly()->withoutOverlapping();
 // Schedule::command('employee:sync-tmt')->daily()->withoutOverlapping();
-Schedule::command('employee:sync-tmt')->everyMinute()->withoutOverlapping();
+Schedule::command('employee:sync-tmt')->everyFiveSeconds()->withoutOverlapping();
