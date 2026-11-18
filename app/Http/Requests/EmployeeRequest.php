@@ -32,12 +32,45 @@ class EmployeeRequest extends FormRequest
             | KEPEGAWAIAN
             |--------------------------------------------------------------------------
             */
+<<<<<<< HEAD
             'status_pegawai' => [ 'nullable', Rule::in(['PNS', 'PPPK']) ],
             'id_pangkat' => [ 'exclude_unless:status_pegawai,PNS', 'nullable', 'exists:ranks,id' ],
             'kode_pppk' => [ 'exclude_unless:status_pegawai,PPPK', 'nullable', 'exists:pppk,kode' ],
             'tingkat_pendidikan' => [ 'nullable', 'exists:education_levels,kode' ],
             'kode_unit_kerja' => [ 'nullable', 'exists:departments,kode' ],
             'kode_jabatan' => [ 'nullable', 'exists:positions,kode' ],
+=======
+            'status_pegawai' => [
+                // 'required',
+                'nullable',
+                Rule::in(['PNS', 'PPPK']),
+            ],
+            'id_pangkat' => [
+                'exclude_unless:status_pegawai,PNS',
+                'nullable',
+                'exists:ranks,id',
+            ],
+            'kode_pppk' => [
+                'exclude_unless:status_pegawai,PPPK',
+                'nullable',
+                'exists:pppk,kode',
+            ],
+            'tingkat_pendidikan' => [
+                // 'required',
+                'nullable',
+                'exists:education_levels,kode',
+            ],
+            'kode_unit_kerja' => [
+                // 'required',
+                'nullable',
+                'exists:departments,kode',
+            ],
+            'kode_jabatan' => [
+                // 'required',
+                'nullable',
+                'exists:positions,kode',
+            ],
+>>>>>>> c9f68231c24d4853ad7673843defecbcde71e349
             /*
             |--------------------------------------------------------------------------
             | DATA PRIBADI
