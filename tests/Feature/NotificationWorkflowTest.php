@@ -247,13 +247,36 @@ class NotificationWorkflowTest extends TestCase
             'KGB' => '2027-01-05',
             'Pensiun' => '2027-05-05',
         ] as $jenis => $tanggalReferensi) {
-            $this->assertTrue(
-                Notification::query()
-                    ->where('nip', $employee->nip)
-                    ->where('jenis', $jenis)
-                    ->whereDate('tanggal_referensi', $tanggalReferensi)
-                    ->whereDate('tanggal_notifikasi', '2026-11-05')
-                    ->exists()
+            $notification = Notification::query()
+                ->where('nip', $employee->nip)
+                ->where('jenis', $jenis)
+                ->whereDate('tanggal_referensi', $tanggalReferensi)
+                ->whereDate('tanggal_notifikasi', '2026-11-05')
+                ->firstOrFail();
+
+            $formattedDate = Carbon::parse($tanggalReferensi)->translatedFormat('d F Y');
+            $expectedMessage = match ($jenis) {
+                'Pangkat' => "Yth. Bapak/Ibu {$employee->nama},\n\n"
+                    . "Berdasarkan data kepegawaian, Anda akan memasuki periode Kenaikan Pangkat.\n\n"
+                    . "Tanggal Efektif: {$formattedDate}\n\n"
+                    . "Mohon segera mempersiapkan dokumen administrasi yang diperlukan untuk proses Kenaikan Pangkat Anda.\n\n"
+                    . "Terima kasih.",
+                'KGB' => "Yth. Bapak/Ibu {$employee->nama},\n\n"
+                    . "Berdasarkan data kepegawaian, Anda akan memasuki periode Kenaikan Gaji Berkala (KGB).\n\n"
+                    . "Tanggal Efektif: {$formattedDate}\n\n"
+                    . "Mohon segera mempersiapkan dokumen administrasi yang diperlukan untuk proses Kenaikan Gaji Berkala (KGB) Anda.\n\n"
+                    . "Terima kasih.",
+                'Pensiun' => "Yth. Bapak/Ibu {$employee->nama},\n\n"
+                    . "Berdasarkan data kepegawaian, Anda akan memasuki masa pensiun.\n\n"
+                    . "Tanggal Efektif: {$formattedDate}\n\n"
+                    . "Mohon segera mempersiapkan dokumen administrasi dan menyelesaikan proses pemberkasan pensiun Anda.\n\n"
+                    . "Terima kasih.",
+            };
+
+            $this->assertFalse($notification->sudah_dibaca);
+            $this->assertSame(
+                $expectedMessage,
+                $notification->pesan
             );
         }
     }
@@ -365,6 +388,8 @@ class NotificationWorkflowTest extends TestCase
         Queue::fake();
         config(['cache.default' => 'database']);
         Cache::flush();
+        $baseTime = Carbon::parse('2026-11-15 12:00:00', 'Asia/Jakarta');
+        Carbon::setTestNow($baseTime);
         $employee = $this->createNotificationEmployee('199001012020011112', 'NOTIF-QUEUE');
         $employee->forceFill([
             'email' => 'employee@example.test',
@@ -382,42 +407,97 @@ class NotificationWorkflowTest extends TestCase
             'no_hp' => '081234567891',
         ]);
 
-        app(NotificationService::class)->createNotification(
+        $service = app(NotificationService::class);
+        $notification = $service->createNotification(
             $employee,
             'KGB',
             'Pengingat KGB',
             'Pesan antrean',
             Carbon::parse('2027-01-05')
         );
-        app(NotificationService::class)->createNotification(
+        $service->createNotification(
             $employee,
             'KGB',
-            'Pengingat KGB',
-            'Pesan antrean',
+            'Pengingat KGB diperbarui',
+            'Pesan antrean diperbarui',
             Carbon::parse('2027-01-05')
+        );
+        $this->assertDatabaseHas('notifications', [
+            'id' => $notification->id,
+            'judul' => 'Pengingat KGB diperbarui',
+            'pesan' => 'Pesan antrean diperbarui',
+            'sudah_dibaca' => false,
+        ]);
+        $this->assertSame(
+            '2027-01-05',
+            Notification::query()->findOrFail($notification->id)->tanggal_referensi->toDateString()
         );
 
-        Queue::assertPushed(SendEmailJob::class, 2);
+        $fallbackEmployee = $this->createNotificationEmployee(
+            '199001012020011120',
+            'NOTIF-QUEUE-FALLBACK'
+        );
+        $fallbackEmployee->forceFill([
+            'email' => 'employee-fallback@example.test',
+            'no_hp' => '081234567893',
+        ])->save();
+        $fallbackNotification = $service->createNotification(
+            $fallbackEmployee,
+            'Pensiun',
+            'Pemberitahuan Pensiun',
+            'Pesan antrean fallback',
+            Carbon::parse('2027-02-05')
+        );
+
+        Queue::assertPushed(SendEmailJob::class, 4);
         Queue::assertPushed(
             SendEmailJob::class,
             fn (SendEmailJob $job): bool => $job->email === 'account@example.test'
                 && !$job->isSuperAdmin
+                && $job->notification->is($notification)
+                && $job->delay instanceof \DateTimeInterface
+                && Carbon::instance($job->delay)->equalTo($baseTime)
         );
         Queue::assertPushed(
             SendEmailJob::class,
             fn (SendEmailJob $job): bool => $job->email === 'superadmin@example.test'
                 && $job->isSuperAdmin
+                && $job->notification->is($notification)
+                && $job->delay instanceof \DateTimeInterface
+                && Carbon::instance($job->delay)->equalTo($baseTime->copy()->addSeconds(30))
         );
-        Queue::assertPushed(SendWhatsappJob::class, 2);
+        Queue::assertPushed(
+            SendEmailJob::class,
+            fn (SendEmailJob $job): bool => $job->email === 'employee-fallback@example.test'
+                && !$job->isSuperAdmin
+                && $job->notification->is($fallbackNotification)
+                && $job->delay instanceof \DateTimeInterface
+                && Carbon::instance($job->delay)->equalTo($baseTime->copy()->addSeconds(60))
+        );
+        Queue::assertPushed(SendWhatsappJob::class, 4);
         Queue::assertPushed(
             SendWhatsappJob::class,
             fn (SendWhatsappJob $job): bool => $job->no_hp === '081234567892'
                 && !$job->isSuperAdmin
+                && $job->notification->is($notification)
+                && $job->delay instanceof \DateTimeInterface
+                && Carbon::instance($job->delay)->equalTo($baseTime)
         );
         Queue::assertPushed(
             SendWhatsappJob::class,
             fn (SendWhatsappJob $job): bool => $job->no_hp === '081234567891'
                 && $job->isSuperAdmin
+                && $job->notification->is($notification)
+                && $job->delay instanceof \DateTimeInterface
+                && Carbon::instance($job->delay)->equalTo($baseTime->copy()->addSeconds(60))
+        );
+        Queue::assertPushed(
+            SendWhatsappJob::class,
+            fn (SendWhatsappJob $job): bool => $job->no_hp === '081234567893'
+                && !$job->isSuperAdmin
+                && $job->notification->is($fallbackNotification)
+                && $job->delay instanceof \DateTimeInterface
+                && Carbon::instance($job->delay)->equalTo($baseTime->copy()->addSeconds(900))
         );
     }
 
@@ -533,24 +613,73 @@ class NotificationWorkflowTest extends TestCase
         $employee->forceFill([
             'tmt_kgb_lama' => '2024-10-01',
             'tmt_kgb_baru' => '2026-10-01',
+            'email' => 'employee-processed@example.test',
+            'no_hp' => '081234567899',
         ])->save();
+        User::factory()->create([
+            'role' => 'super_admin',
+            'email' => 'super-admin-processed@example.test',
+            'no_hp' => '081234567898',
+        ]);
         $service = app(NotificationService::class);
 
-        $service->notifyKgbProcessed($employee, 3100000);
-        $service->notifyKgbProcessed($employee, 3100000);
+        $service->notifyKgbProcessed($employee, 3_100_049);
+        $service->notifyKgbProcessed($employee, 3_100_049);
 
         $this->assertDatabaseCount('notifications', 1);
         $this->assertDatabaseHas('notifications', [
             'nip' => $employee->nip,
             'jenis' => 'KGB Diproses',
         ]);
+        $notification = Notification::firstOrFail();
         $this->assertSame(
             '2026-10-01',
-            Notification::firstOrFail()->tanggal_referensi->toDateString()
+            $notification->tanggal_referensi->toDateString()
         );
-        $this->assertStringContainsString(
-            'Rp 3.100.000',
-            Notification::firstOrFail()->pesan
+        $formattedOldDate = Carbon::parse('2024-10-01')->translatedFormat('d F Y');
+        $formattedNewDate = Carbon::parse('2026-10-01')->translatedFormat('d F Y');
+        $this->assertSame(
+            "Yth. Bapak/Ibu {$employee->nama},\n\n"
+                . "Kenaikan Gaji Berkala (KGB) Anda telah berhasil diproses sesuai dengan ketentuan yang berlaku.\n\n"
+                . "Informasi KGB:\n"
+                . "- TMT KGB Sebelumnya : {$formattedOldDate}\n"
+                . "- TMT KGB Berikutnya : {$formattedNewDate}\n"
+                . "- Gaji Pokok Baru : Rp 3.100.049\n\n"
+                . "Silakan menyimpan Surat Keputusan (SK) Kenaikan Gaji Berkala sebagai arsip kepegawaian.\n\n"
+                . "Terima kasih.",
+            $notification->pesan
+        );
+        $this->assertFalse($notification->sudah_dibaca);
+        $this->assertFalse($notification->email_terkirim);
+        $this->assertFalse($notification->whatsapp_terkirim);
+        $this->assertFalse($notification->email_super_admin_terkirim);
+        $this->assertFalse($notification->whatsapp_super_admin_terkirim);
+
+        Queue::assertPushed(SendEmailJob::class, 2);
+        Queue::assertPushed(
+            SendEmailJob::class,
+            fn (SendEmailJob $job): bool => $job->notification->is($notification)
+                && $job->email === 'employee-processed@example.test'
+                && !$job->isSuperAdmin
+        );
+        Queue::assertPushed(
+            SendEmailJob::class,
+            fn (SendEmailJob $job): bool => $job->notification->is($notification)
+                && $job->email === 'super-admin-processed@example.test'
+                && $job->isSuperAdmin
+        );
+        Queue::assertPushed(SendWhatsappJob::class, 2);
+        Queue::assertPushed(
+            SendWhatsappJob::class,
+            fn (SendWhatsappJob $job): bool => $job->notification->is($notification)
+                && $job->no_hp === '081234567899'
+                && !$job->isSuperAdmin
+        );
+        Queue::assertPushed(
+            SendWhatsappJob::class,
+            fn (SendWhatsappJob $job): bool => $job->notification->is($notification)
+                && $job->no_hp === '081234567898'
+                && $job->isSuperAdmin
         );
     }
 }

@@ -23,6 +23,7 @@ class SalaryRequest extends FormRequest
             'id_pangkat' => ['required','exists:ranks,id'],
             'tahun_masa_kerja' => ['required','integer','min:0', 'max:33', Rule::unique('salaries')->where(fn ($query) => $query->where('id_pangkat', $this->id_pangkat))->ignore($this->route('salary'))],
             'gaji_pokok' => ['required','numeric','min:0', 'max:100000000',],
+            'status' => ['required', 'boolean'],
         ];
     }
     public function messages(): array
@@ -39,6 +40,8 @@ class SalaryRequest extends FormRequest
             'gaji_pokok.numeric'  => 'Gaji pokok harus angka.',
             'gaji_pokok.min'      => 'Gaji pokok tidak boleh kurang dari 0.',
             'gaji_pokok.max' => 'Gaji pokok tidak boleh lebih dari Rp100.000.000.',
+            'status.required'   => 'Status wajib dipilih.',
+            'status.boolean'    => 'Status tidak valid.',
         ];
     }
     protected function prepareForValidation(): void

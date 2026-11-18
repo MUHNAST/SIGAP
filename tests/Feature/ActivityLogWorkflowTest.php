@@ -84,6 +84,58 @@ class ActivityLogWorkflowTest extends TestCase
         $this->assertSame('SIGAP test browser', $log->user_agent);
     }
 
+    public function test_activity_log_service_scopes_lists_and_user_access_by_department(): void
+    {
+        $departmentA = $this->createDepartment('LOG-SERVICE-A');
+        $departmentB = $this->createDepartment('LOG-SERVICE-B');
+        $admin = $this->createUser('admin', $departmentA->kode);
+        $superAdmin = $this->createUser('super_admin', null);
+        $userA = $this->createUser('user', $departmentA->kode);
+        $userB = $this->createUser('user', $departmentB->kode);
+        $logA = $this->createLog(
+            $userA,
+            'Login',
+            'Aktivitas unit A',
+            now()->toDateTimeString()
+        );
+        $logB = $this->createLog(
+            $userB,
+            'Login',
+            'Aktivitas unit B',
+            now()->toDateTimeString()
+        );
+        $unassignedUser = $this->createUser('user', null);
+        $service = new ActivityLogService(
+            new ActivityLogRepository(new ActivityLog())
+        );
+
+        $this->actingAs($superAdmin);
+        $this->assertEqualsCanonicalizing(
+            [$logA->id, $logB->id],
+            $service->getAll(['id'])->pluck('id')->all()
+        );
+        $this->assertTrue($service->canAccessUser($userB));
+
+        $this->actingAs($admin);
+        $this->assertSame(
+            [$logA->id],
+            $service->getAll(['id'])->pluck('id')->all()
+        );
+        $this->assertSame(
+            [$logA->id],
+            $service->getByUserId($userA->id)->pluck('id')->all()
+        );
+        $this->assertTrue($service->canAccessUser($userA));
+        $this->assertFalse($service->canAccessUser($unassignedUser));
+
+        try {
+            $service->authorizeUser($userB);
+            $this->fail('An admin should not access users in another unit.');
+        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
+            $this->assertSame(403, $exception->getStatusCode());
+        }
+    }
+
     public function test_activity_log_repository_returns_filtered_ordered_rows_and_statistics(): void
     {
         Carbon::setTestNow('2026-11-04 12:00:00');

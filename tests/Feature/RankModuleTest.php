@@ -30,6 +30,7 @@ class RankModuleTest extends TestCase
             'kode' => 'III/a',
             'nama' => 'Penata Muda',
             'urutan_pangkat' => 9,
+            'status' => true,
         ])->assertRedirect(route('rank.index'));
 
         $rank = Rank::where('kode', 'III/a')->firstOrFail();
@@ -37,12 +38,14 @@ class RankModuleTest extends TestCase
             'kode' => 'III/a',
             'nama' => 'Penata Muda',
             'urutan_pangkat' => 9,
+            'status' => true,
         ])->assertRedirect(route('rank.index'));
 
         $this->put(route('rank.update', $rank), [
             'kode' => 'III/b',
             'nama' => 'Penata Muda Tingkat I',
             'urutan_pangkat' => 10,
+            'status' => true,
         ])->assertRedirect(route('rank.index'));
 
         $this->assertDatabaseHas('ranks', [
@@ -63,18 +66,21 @@ class RankModuleTest extends TestCase
             'kode' => 'III/a',
             'nama' => 'Pangkat Duplikat',
             'urutan_pangkat' => 20,
+            'status' => true,
         ])->assertSessionHasErrors('kode');
 
         $this->post(route('rank.store'), [
             'kode' => 'III/a',
             'nama' => 'Penata Muda',
             'urutan_pangkat' => 9,
+            'status' => true,
         ])->assertSessionHasErrors(['kode', 'nama', 'urutan_pangkat']);
 
         $this->post(route('rank.store'), [
             'kode' => 'III/b',
             'nama' => 'Pangkat Tidak Valid',
             'urutan_pangkat' => 0,
+            'status' => true,
         ])->assertSessionHasErrors('urutan_pangkat');
 
         $this->assertDatabaseCount('ranks', $count);
@@ -116,11 +122,13 @@ class RankModuleTest extends TestCase
             'kode' => 'IV/e',
             'nama' => 'Pembina Utama',
             'urutan_pangkat' => 17,
+            'status' => true,
         ])->assertRedirect(route('rank.index'));
         $this->put(route('rank.update', $existingRank), [
             'kode' => 'III/a',
             'nama' => 'Penata Muda',
             'urutan_pangkat' => 9,
+            'status' => true,
         ])->assertRedirect(route('rank.index'));
 
         RolePermission::query()->delete();
@@ -133,11 +141,13 @@ class RankModuleTest extends TestCase
             'kode' => 'I/a',
             'nama' => 'Juru Muda',
             'urutan_pangkat' => 1,
+            'status' => true,
         ])->assertForbidden();
         $this->put(route('rank.update', $existingRank), [
             'kode' => 'III/a',
             'nama' => 'Penata Muda',
             'urutan_pangkat' => 9,
+            'status' => true,
         ])->assertForbidden();
     }
 

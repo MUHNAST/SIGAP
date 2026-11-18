@@ -35,6 +35,7 @@ class SalaryModuleTest extends TestCase
             'id_pangkat' => $rank->id,
             'tahun_masa_kerja' => 0,
             'gaji_pokok' => 2785700,
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
 
         $salary = Salary::firstOrFail();
@@ -42,12 +43,14 @@ class SalaryModuleTest extends TestCase
             'id_pangkat' => $rank->id,
             'tahun_masa_kerja' => 0,
             'gaji_pokok' => 2785700,
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
 
         $this->put(route('salary.update', $salary->id), [
             'id_pangkat' => $rank->id,
             'tahun_masa_kerja' => 32,
             'gaji_pokok' => 4575200,
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
 
         $this->assertDatabaseHas('salaries', [
@@ -114,6 +117,7 @@ class SalaryModuleTest extends TestCase
             'id_pangkat' => $rank->id,
             'tahun_masa_kerja' => '4',
             'gaji_pokok' => '2.964.000',
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
 
         $this->assertDatabaseHas('salaries', [
@@ -197,12 +201,14 @@ class SalaryModuleTest extends TestCase
             'id_pangkat' => $secondRank->id,
             'tahun_masa_kerja' => 2,
             'gaji_pokok' => 2995000,
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
         $salary = Salary::where('id_pangkat', $secondRank->id)->firstOrFail();
         $this->put(route('salary.update', $salary->id), [
             'id_pangkat' => $secondRank->id,
             'tahun_masa_kerja' => 2,
             'gaji_pokok' => 2995000,
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
 
         RolePermission::query()->delete();
@@ -215,11 +221,13 @@ class SalaryModuleTest extends TestCase
             'id_pangkat' => $firstRank->id,
             'tahun_masa_kerja' => 6,
             'gaji_pokok' => 3057300,
+            'status' => true,
         ])->assertForbidden();
         $this->put(route('salary.update', $salary->id), [
             'id_pangkat' => $secondRank->id,
             'tahun_masa_kerja' => 2,
             'gaji_pokok' => 2995000,
+            'status' => true,
         ])->assertForbidden();
     }
 
@@ -239,6 +247,7 @@ class SalaryModuleTest extends TestCase
             'id_pangkat' => $rank->id,
             'tahun_masa_kerja' => 4,
             'gaji_pokok' => 2964000,
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
 
         $this->assertDatabaseHas('activity_logs', [
@@ -252,6 +261,7 @@ class SalaryModuleTest extends TestCase
             'id_pangkat' => $rank->id,
             'tahun_masa_kerja' => 5,
             'gaji_pokok' => 3057300,
+            'status' => true,
         ])->assertRedirect(route('salary.index'));
 
         $this->assertDatabaseHas('activity_logs', [

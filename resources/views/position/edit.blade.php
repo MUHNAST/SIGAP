@@ -107,6 +107,30 @@
                                 </p>
                             @enderror
                         </div>
+                        <div class="relative">
+                            <label for="status"
+                                class="block mb-2 text-sm font-medium text-slate-700">
+                                Status Jabatan <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i
+                                    class="fa-solid fa-user-check absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <select id="status" name="status"
+                                    class="w-full h-12 pl-11 pr-10 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none appearance-none">
+                                    <option value="1"
+                                        {{ old('status', $position->status) == 1 ? 'selected' : '' }}>
+                                        Aktif
+                                    </option>
+                                    <option value="0"
+                                        {{ old('status', $position->status) == 0 ? 'selected' : '' }}>
+                                        Nonaktif
+                                    </option>
+                                </select>
+                            </div>
+                            @error('status')
+                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <!-- DESKRIPSI FULL WIDTH -->
                         <div class="md:col-span-2">
                             <label class="text-sm font-medium text-slate-700 mb-2 block">

@@ -14,14 +14,8 @@ return new class extends Migration
         Schema::table('promotion_histories', function (Blueprint $table) {
             $table->dropForeign(['id_pangkat_baru']);
             $table->dropForeign(['id_pangkat_lama']);
-            $table->foreign('id_pangkat_baru')
-                ->references('id')
-                ->on('ranks')
-                ->cascadeOnDelete();
-            $table->foreign('id_pangkat_lama')
-                ->references('id')
-                ->on('ranks')
-                ->cascadeOnDelete();
+            $table->foreign('id_pangkat_baru')->references('id')->on('ranks')->cascadeOnDelete();
+            $table->foreign('id_pangkat_lama')->references('id')->on('ranks')->cascadeOnDelete();
         });
     }
 
@@ -32,14 +26,8 @@ return new class extends Migration
         Schema::table('promotion_histories', function (Blueprint $table) {
             $table->dropForeign(['id_pangkat_baru']);
             $table->dropForeign(['id_pangkat_lama']);
-            $table->foreign('id_pangkat_baru')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
-            $table->foreign('id_pangkat_lama')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
+            $table->foreign('id_pangkat_baru')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('id_pangkat_lama')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
@@ -48,9 +36,7 @@ return new class extends Migration
         foreach (['id_pangkat_baru', 'id_pangkat_lama'] as $column) {
             $hasMissingRank = DB::table('promotion_histories')
                 ->whereNotExists(function ($query) use ($column) {
-                    $query->selectRaw('1')
-                        ->from('ranks')
-                        ->whereColumn('ranks.id', 'promotion_histories.'.$column);
+                    $query->selectRaw('1')->from('ranks')->whereColumn('ranks.id', 'promotion_histories.'.$column);
                 })
                 ->exists();
 
@@ -67,9 +53,7 @@ return new class extends Migration
         foreach (['id_pangkat_baru', 'id_pangkat_lama'] as $column) {
             $hasMissingUser = DB::table('promotion_histories')
                 ->whereNotExists(function ($query) use ($column) {
-                    $query->selectRaw('1')
-                        ->from('users')
-                        ->whereColumn('users.id', 'promotion_histories.'.$column);
+                    $query->selectRaw('1')->from('users')->whereColumn('users.id', 'promotion_histories.'.$column);
                 })
                 ->exists();
 

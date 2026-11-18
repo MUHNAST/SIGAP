@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for D:\XAMPP\htdocs\sigap\app\Models</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/billboard.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">D:\XAMPP\htdocs\sigap\app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Models</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classesCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Notification.php.html#6">App\Models\Notification</a></td><td class="text-right">25%</td></tr>
+       <tr><td><a href="User.php.html#14">App\Models\User</a></td><td class="text-right">44%</td></tr>
+       <tr><td><a href="EmployeeDocument.php.html#8">App\Models\EmployeeDocument</a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="KgbHistory.php.html#5">App\Models\KgbHistory</a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Rank.php.html#6">App\Models\Rank</a></td><td class="text-right">80%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="User.php.html#14">App\Models\User</a></td><td class="text-right">44.4%</td><td class="text-right">8</td><td class="text-right">11</td></tr>
+       <tr><td><a href="Notification.php.html#6">App\Models\Notification</a></td><td class="text-right">25.0%</td><td class="text-right">5</td><td class="text-right">5</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2 style="margin-top: 3rem;">Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodsCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Employee.php.html#135"><abbr title="App\Models\Employee::promotionHistories">promotionHistories</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeDocument.php.html#21"><abbr title="App\Models\EmployeeDocument::employee">employee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="KgbHistory.php.html#34"><abbr title="App\Models\KgbHistory::rank">rank</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Rank.php.html#19"><abbr title="App\Models\Rank::kgbHistories">kgbHistories</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#42"><abbr title="App\Models\User::kgbHistories">kgbHistories</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#46"><abbr title="App\Models\User::loginDevices">loginDevices</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#50"><abbr title="App\Models\User::document">document</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Notification.php.html#29"><abbr title="App\Models\Notification::getIconAttribute">getIconAttribute</abbr></a></td><td class="text-right">14%</td></tr>
+       <tr><td><a href="User.php.html#60"><abbr title="App\Models\User::hasPermission">hasPermission</abbr></a></td><td class="text-right">33%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Notification.php.html#29"><abbr title="App\Models\Notification::getIconAttribute">getIconAttribute</abbr></a></td><td class="text-right">14.3%</td><td class="text-right">4</td><td class="text-right">4</td></tr>
+       <tr><td><a href="User.php.html#60"><abbr title="App\Models\User::hasPermission">hasPermission</abbr></a></td><td class="text-right">33.3%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 12.5.7</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.36</a> and <a href="https://phpunit.de/">PHPUnit 12.5.33</a> at Sat Nov 14 21:38:29 WIB 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/billboard.pkgd.min.js?v=12.5.7" type="text/javascript"></script>
+  <script type="application/json" id="complexity_class">[[25,5,"Notification.php.html#6","App\\Models\\Notification","5"],[44.44444444444444,8,"User.php.html#14","App\\Models\\User","11.38"],[50,2,"EmployeeDocument.php.html#8","App\\Models\\EmployeeDocument","2.50"],[75,4,"KgbHistory.php.html#5","App\\Models\\KgbHistory","4.25"],[80,5,"Rank.php.html#6","App\\Models\\Rank","5.20"],[94.44444444444444,18,"Employee.php.html#7","App\\Models\\Employee","18.06"],[100,1,"ActivityLog.php.html#9","App\\Models\\ActivityLog","1"],[100,2,"City.php.html#9","App\\Models\\City","2"],[100,3,"Department.php.html#6","App\\Models\\Department","3"],[100,2,"District.php.html#9","App\\Models\\District","2"],[100,1,"EducationLevel.php.html#5","App\\Models\\EducationLevel","1"],[100,1,"LoginDevice.php.html#7","App\\Models\\LoginDevice","1"],[100,1,"Permission.php.html#4","App\\Models\\Permission","1"],[100,2,"Position.php.html#5","App\\Models\\Position","2"],[100,3,"Pppk.php.html#6","App\\Models\\Pppk","3"],[100,3,"PromotionHistory.php.html#5","App\\Models\\PromotionHistory","3"],[100,1,"Province.php.html#8","App\\Models\\Province","1"],[100,1,"RolePermission.php.html#4","App\\Models\\RolePermission","1"],[100,1,"Salary.php.html#9","App\\Models\\Salary","1"],[100,1,"UrbanVillage.php.html#8","App\\Models\\UrbanVillage","1"]]</script>
+  <script type="application/json" id="complexity_method">[[0,1,"Employee.php.html#135","App\\Models\\Employee::promotionHistories","2"],[0,1,"EmployeeDocument.php.html#21","App\\Models\\EmployeeDocument::employee","2"],[0,1,"KgbHistory.php.html#34","App\\Models\\KgbHistory::rank","2"],[0,1,"Rank.php.html#19","App\\Models\\Rank::kgbHistories","2"],[0,1,"User.php.html#42","App\\Models\\User::kgbHistories","2"],[0,1,"User.php.html#46","App\\Models\\User::loginDevices","2"],[0,1,"User.php.html#50","App\\Models\\User::document","2"],[14.285714285714285,4,"Notification.php.html#29","App\\Models\\Notification::getIconAttribute","4"],[33.33333333333333,2,"User.php.html#60","App\\Models\\User::hasPermission","2"],[100,1,"ActivityLog.php.html#16","App\\Models\\ActivityLog::user","1"],[100,1,"City.php.html#22","App\\Models\\City::province","1"],[100,1,"City.php.html#27","App\\Models\\City::districts","1"],[100,1,"Department.php.html#22","App\\Models\\Department::getRouteKeyName","1"],[100,1,"Department.php.html#26","App\\Models\\Department::employees","1"],[100,1,"Department.php.html#33","App\\Models\\Department::users","1"],[100,1,"District.php.html#22","App\\Models\\District::city","1"],[100,1,"District.php.html#27","App\\Models\\District::urbanVillages","1"],[100,1,"EducationLevel.php.html#29","App\\Models\\EducationLevel::employees","1"],[100,1,"Employee.php.html#49","App\\Models\\Employee::casts","1"],[100,1,"Employee.php.html#64","App\\Models\\Employee::user","1"],[100,1,"Employee.php.html#68","App\\Models\\Employee::getRouteKeyName","1"],[100,1,"Employee.php.html#72","App\\Models\\Employee::position","1"],[100,1,"Employee.php.html#76","App\\Models\\Employee::rank","1"],[100,1,"Employee.php.html#80","App\\Models\\Employee::pppk","1"],[100,1,"Employee.php.html#85","App\\Models\\Employee::educationLevel","1"],[100,1,"Employee.php.html#89","App\\Models\\Employee::department","1"],[100,1,"Employee.php.html#93","App\\Models\\Employee::notifications","1"],[100,1,"Employee.php.html#101","App\\Models\\Employee::province","1"],[100,1,"Employee.php.html#105","App\\Models\\Employee::city","1"],[100,1,"Employee.php.html#109","App\\Models\\Employee::district","1"],[100,1,"Employee.php.html#113","App\\Models\\Employee::urbanVillage","1"],[100,1,"Employee.php.html#117","App\\Models\\Employee::birthplace","1"],[100,1,"Employee.php.html#124","App\\Models\\Employee::kgbHistories","1"],[100,1,"Employee.php.html#131","App\\Models\\Employee::latestKgbHistory","1"],[100,1,"Employee.php.html#139","App\\Models\\Employee::dokumen","1"],[100,1,"EmployeeDocument.php.html#26","App\\Models\\EmployeeDocument::user","1"],[100,1,"KgbHistory.php.html#9","App\\Models\\KgbHistory::casts","1"],[100,1,"KgbHistory.php.html#27","App\\Models\\KgbHistory::employee","1"],[100,1,"KgbHistory.php.html#41","App\\Models\\KgbHistory::user","1"],[100,1,"LoginDevice.php.html#24","App\\Models\\LoginDevice::user","1"],[100,1,"Notification.php.html#25","App\\Models\\Notification::employee","1"],[100,1,"Permission.php.html#13","App\\Models\\Permission::rolePermissions","1"],[100,1,"Position.php.html#23","App\\Models\\Position::getRouteKeyName","1"],[100,1,"Position.php.html#27","App\\Models\\Position::employees","1"],[100,1,"Pppk.php.html#19","App\\Models\\Pppk::casts","1"],[100,1,"Pppk.php.html#26","App\\Models\\Pppk::employees","1"],[100,1,"Pppk.php.html#30","App\\Models\\Pppk::getRouteKeyName","1"],[100,1,"PromotionHistory.php.html#23","App\\Models\\PromotionHistory::employee","1"],[100,1,"PromotionHistory.php.html#30","App\\Models\\PromotionHistory::oldRank","1"],[100,1,"PromotionHistory.php.html#37","App\\Models\\PromotionHistory::newRank","1"],[100,1,"Province.php.html#20","App\\Models\\Province::cities","1"],[100,1,"Rank.php.html#11","App\\Models\\Rank::employees","1"],[100,1,"Rank.php.html#15","App\\Models\\Rank::salaries","1"],[100,1,"Rank.php.html#23","App\\Models\\Rank::oldPromotionHistories","1"],[100,1,"Rank.php.html#27","App\\Models\\Rank::newPromotionHistories","1"],[100,1,"RolePermission.php.html#11","App\\Models\\RolePermission::permission","1"],[100,1,"Salary.php.html#15","App\\Models\\Salary::rank","1"],[100,1,"UrbanVillage.php.html#21","App\\Models\\UrbanVillage::district","1"],[100,1,"User.php.html#32","App\\Models\\User::department","1"],[100,1,"User.php.html#36","App\\Models\\User::activityLogs","1"],[100,1,"User.php.html#54","App\\Models\\User::employee","1"]]</script>
+  <script type="text/javascript" defer>
+  const barLabels = [
+    '0%',
+    '0-10%',
+    '10-20%',
+    '20-30%',
+    '30-40%',
+    '40-50%',
+    '50-60%',
+    '60-70%',
+    '70-80%',
+    '80-90%',
+    '90-100%',
+    '100%'
+  ];
+  const barConfig = (name, fullName, values) => ({
+    axis: {
+      x: {
+        type: "category",
+        categories: barLabels,
+      },
+      y: {
+        label: {
+          text: `#${name}`,
+          position: 'outer-top',
+        },
+      },
+    },
+    bindto: `#${name}CoverageDistribution`,
+    data: {
+      columns: [
+        [fullName].concat(values),
+      ],
+      colors: {
+        [fullName]: "rgba(69, 114, 167, 0.75)",
+      },
+      type: "bar",
+    },
+    bar: {
+      width: {
+        ratio: 0.9,
+      },
+    },
+    grid: {
+      focus: {
+        show: false,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">Coverage ${barLabels[data[0].x]}</th></tr>
+            <tr><td class="value">${data[0].value} ${name}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  bb.generate(
+    barConfig('classes', "Class Coverage", [0,0,0,1,0,1,1,0,1,1,1,14])
+  );
+  bb.generate(
+    barConfig('methods', "Method Coverage", [7,0,1,0,1,0,0,0,0,0,0,52])
+  );
+
+  const scatterConfig = (name, complexityData) => ({
+    axis: {
+      x: {
+        label: {
+          text: 'Code Coverage (in percent)',
+          position: 'outer-right',
+        },
+        tick: {
+          values: [0, 20, 40, 60, 80, 100],
+        },
+      },
+      y: {
+        label: {
+          text: 'Cyclomatic Complexity',
+          position: 'outer-top',
+        },
+        min: 0,
+        padding: {
+          bottom: 0,
+          top: 5,
+        },
+      },
+    },
+    bindto: `#${name}Complexity`,
+    data: {
+      columns: [
+        ["complexity_x"].concat(complexityData.map(d => d[0])),
+        ["complexity"].concat(complexityData.map(d => d[1])),
+      ],
+      onclick: function(data, element) {
+        window.location = complexityData[data.index][2];
+      },
+      type: "scatter",
+      xs: {
+        "complexity": "complexity_x",
+      },
+    },
+    grid: {
+      focus: {
+        show: true,
+        y: true,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        const coverage = Math.round(data[0].x);
+        const complexity = data[0].value;
+        const targetName = complexityData[data[0].index][3];
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">${targetName}</th></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Coverage</td><td class="name">${coverage}%</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Complexity</td><td class="value">${complexity}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  const classComplexityData = JSON.parse(document.getElementById('complexity_class').textContent);
+  bb.generate(
+    scatterConfig("class", classComplexityData)
+  );
+  const methodComplexityData = JSON.parse(document.getElementById('complexity_method').textContent);
+  bb.generate(
+    scatterConfig("method", methodComplexityData),
+  );
+  </script>
+ </body>
+</html>

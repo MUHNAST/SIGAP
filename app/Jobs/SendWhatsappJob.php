@@ -85,10 +85,12 @@ class SendWhatsappJob implements ShouldQueue, ShouldBeUnique
         //     'target_phone' => '****' . substr($this->no_hp, -4),
         //     'super_admin' => $this->isSuperAdmin,
         // ]);
-        if (empty($this->no_hp)) {
-            // Log::warning('Nomor WhatsApp kosong', [
-            //     'notification' => $notification->id,
+        if (blank($this->no_hp)) {
+            // Log::warning('WhatsApp notification skipped: empty phone number.', [
+            //     'notification_id' => $notification->id,
+            //     'super_admin' => $this->isSuperAdmin,
             // ]);
+
             return;
         }
         if (!$this->isSuperAdmin && $notification->whatsapp_terkirim) {
@@ -99,9 +101,10 @@ class SendWhatsappJob implements ShouldQueue, ShouldBeUnique
         }
         $no_hp = $this->normalizePhone($this->no_hp);
         if (!$no_hp) {
-            // Log::warning('Nomor WhatsApp tidak valid.', [
-            //     'notification' => $notification->id,
-            //     'no_hp' => '****' . substr($this->no_hp, -4),
+            //  Log::warning('WhatsApp notification skipped: invalid phone number.', [
+            //     'notification_id' => $notification->id,
+            //     'phone_suffix' => substr($this->no_hp, -4),
+            //     'super_admin' => $this->isSuperAdmin,
             // ]);
             return;
         }
@@ -133,12 +136,19 @@ class SendWhatsappJob implements ShouldQueue, ShouldBeUnique
             //     'super_admin' => $this->isSuperAdmin,
             // ]);
         } catch (\Throwable $e) {
-            // Log::error('WhatsApp gagal dikirim', [
-            //     'notification' => $notification->id,
-            //     'no_hp' => '****' . substr($no_hp, -4),
-            //     'super_admin' => $this->isSuperAdmin,
-            //     'error' => $e->getMessage(),
-            // ]);
+            Log::warning('WhatsApp notification delivery attempt failed.', [
+                'notification_id' => $notification->id,
+                'channel' => 'whatsapp',
+                'attempt' => $this->attempts(),
+                'exception' => get_class($e),
+                'failure_type' => $e instanceof WhatsAppDeliveryException
+                    ? $e->failureType
+                    : 'exception',
+                'http_status' => $e instanceof WhatsAppDeliveryException
+                    ? $e->httpStatus
+                    : null,
+            ]);
+
             throw $e;
         }
     }

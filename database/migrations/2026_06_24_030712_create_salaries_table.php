@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('id_pangkat')->constrained('ranks')->cascadeOnDelete();
             $table->unsignedTinyInteger('tahun_masa_kerja');
             $table->unsignedInteger('gaji_pokok');
+            $table->boolean('status')->default(true);
             $table->timestamps();
-            // $table->softDeletes();
             $table->unique(['id_pangkat','tahun_masa_kerja']);
         });
     }

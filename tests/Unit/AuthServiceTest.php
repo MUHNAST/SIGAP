@@ -56,6 +56,7 @@ class AuthServiceTest extends TestCase
         $user = new User([
             'username' => 'admin',
             'password' => Hash::make('password123'),
+            'status' => true,
             'kode_unit_kerja' => null,
             'department' => 'IT',
         ]);
@@ -82,6 +83,7 @@ class AuthServiceTest extends TestCase
         $user = new User([
             'username' => 'admin',
             'password' => Hash::make('password123'),
+            'status' => true,
             'kode_unit_kerja' => 'UNIT01',
             'department' => 'IT',
         ]);

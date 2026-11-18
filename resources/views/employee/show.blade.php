@@ -53,20 +53,16 @@
             </div>
         </div>
         {{-- Ringkasan --}}
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-5 mb-6">
             {{-- Umur --}}
             <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-3xl p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm opacity-90">
-                            Umur
-                        </p>
+                        <p class="text-sm opacity-90">Umur</p>
                         <h3 class="text-3xl font-bold mt-2">
-                            {{ \Carbon\Carbon::parse($data->tanggal_lahir)->age }}
+                            {{ $data->tanggal_lahir ? \Carbon\Carbon::parse($data->tanggal_lahir)->age : '-' }}
                         </h3>
-                        <p class="text-sm opacity-90">
-                            Tahun
-                        </p>
+                        <p class="text-sm opacity-90">Tahun</p>
                     </div>
                     <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
                         <i class="fa-solid fa-cake-candles text-2xl"></i>
@@ -77,16 +73,27 @@
             <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-3xl p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm opacity-90">
-                            TMT KGB
-                        </p>
-                        <h3 class="text-lg font-bold mt-2">
-                            {{ $data->tmt_kgb_baru ? \Carbon\Carbon::parse($data->tmt_kgb_baru)->translatedFormat('d M Y') : '-' }}
-                        </h3>
-                        @if ($data->tmt_kgb_baru)
+                        <p class="text-sm opacity-90">TMT KGB</p>
+                        @if ($scheduleStatus['sudahPensiun'])
+                            <h3 class="text-lg font-bold mt-2">Sudah Pensiun</h3>
+                            <p class="text-sm opacity-90">Tidak ada jadwal KGB</p>
+                        @elseif ($scheduleStatus['masaKerjaMaksimum'])
+                            <h3 class="text-lg font-bold mt-2">Masa Kerja Maksimum</h3>
                             <p class="text-sm opacity-90">
-                                {{ \Carbon\Carbon::parse($data->tmt_kgb_baru)->diffForHumans() }}
+                                Batas masa kerja gaji telah tercapai
                             </p>
+                            <p class="text-xs opacity-90 mt-1">
+                                Maksimum {{ $scheduleStatus['maksimumMasaKerja'] }} tahun berdasarkan data gaji.
+                            </p>
+                        @else
+                            <h3 class="text-lg font-bold mt-2">
+                                {{ $data->tmt_kgb_baru ? \Carbon\Carbon::parse($data->tmt_kgb_baru)->translatedFormat('d M Y') : '-' }}
+                            </h3>
+                            @if ($data->tmt_kgb_baru)
+                                <p class="text-sm opacity-90">
+                                    {{ \Carbon\Carbon::parse($data->tmt_kgb_baru)->diffForHumans() }}
+                                </p>
+                            @endif
                         @endif
                     </div>
                     <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
@@ -95,40 +102,61 @@
                 </div>
             </div>
             {{-- Pangkat --}}
-            @if ($data->tmt_pangkat_baru)
-                <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-3xl p-5 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div>
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-3xl p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm opacity-90">TMT Pangkat</p>
+                        @if ($scheduleStatus['sudahPensiun'])
+                            <h3 class="text-lg font-bold mt-2">Sudah Pensiun</h3>
                             <p class="text-sm opacity-90">
-                                TMT Pangkat
+                                Tidak ada jadwal kenaikan pangkat karena masa pensiun telah tercapai.
                             </p>
+                        @elseif ($data->status_pegawai === 'PPPK')
+                            <h3 class="text-lg font-bold mt-2">PPPK</h3>
+                            <p class="text-sm opacity-90">
+                                Tidak memiliki jadwal kenaikan pangkat.
+                            </p>
+                        @elseif ($scheduleStatus['pangkatMaksimum'])
+                            <h3 class="text-lg font-bold mt-2">Pangkat Maksimum</h3>
+                            <p class="text-sm opacity-90">
+                                Pangkat saat ini telah mencapai batas maksimal berdasarkan tingkat pendidikan.
+                                Tidak terdapat jadwal kenaikan pangkat berikutnya.
+                            </p>
+                        @else
                             <h3 class="text-lg font-bold mt-2">
-                                {{ \Carbon\Carbon::parse($data->tmt_pangkat_baru)->translatedFormat('d M Y') }}
+                                {{ $data->tmt_pangkat_baru ? \Carbon\Carbon::parse($data->tmt_pangkat_baru)->translatedFormat('d M Y') : '-' }}
                             </h3>
-                            <p class="text-sm opacity-90">
-                                {{ \Carbon\Carbon::parse($data->tmt_pangkat_baru)->diffForHumans() }}
-                            </p>
-                        </div>
-                        <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
-                            <i class="fa-solid fa-medal text-2xl"></i>
-                        </div>
+                            @if ($data->tmt_pangkat_baru)
+                                <p class="text-sm opacity-90">
+                                    {{ \Carbon\Carbon::parse($data->tmt_pangkat_baru)->diffForHumans() }}
+                                </p>
+                            @endif
+                        @endif
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+                        <i class="fa-solid fa-medal text-2xl"></i>
                     </div>
                 </div>
-            @endif
+            </div>
             {{-- Pensiun --}}
             <div class="bg-gradient-to-r from-rose-500 to-red-600 text-white rounded-3xl p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm opacity-90">
-                            TMT Pensiun
-                        </p>
-                        <h3 class="text-lg font-bold mt-2">
-                            {{ $data->tmt_pensiun ? \Carbon\Carbon::parse($data->tmt_pensiun)->translatedFormat('d M Y') : '-' }}
-                        </h3>
-                        @if ($data->tmt_pensiun)
+                        <p class="text-sm opacity-90">TMT Pensiun</p>
+                        @if ($scheduleStatus['sudahPensiun'])
+                            <h3 class="text-lg font-bold mt-2">Sudah Pensiun</h3>
                             <p class="text-sm opacity-90">
-                                {{ \Carbon\Carbon::parse($data->tmt_pensiun)->diffForHumans() }}
+                                Masa pensiun telah tercapai
                             </p>
+                        @else
+                            <h3 class="text-lg font-bold mt-2">
+                                {{ $data->tmt_pensiun ? \Carbon\Carbon::parse($data->tmt_pensiun)->translatedFormat('d M Y') : '-' }}
+                            </h3>
+                            @if ($data->tmt_pensiun)
+                                <p class="text-sm opacity-90">
+                                    {{ \Carbon\Carbon::parse($data->tmt_pensiun)->diffForHumans() }}
+                                </p>
+                            @endif
                         @endif
                     </div>
                     <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
@@ -425,9 +453,10 @@
             ];
             $dokumenTersimpan = $data->dokumen->keyBy('jenis_dokumen');
             $jumlahFileTersedia = $dokumenTersimpan
-                ->filter(fn ($dokumen) => filled($dokumen->nama_file)
-                    && \Illuminate\Support\Facades\Storage::disk('local')
-                        ->exists($dokumen->nama_file))
+                ->filter(
+                    fn($dokumen) => filled($dokumen->nama_file) &&
+                        \Illuminate\Support\Facades\Storage::disk('local')->exists($dokumen->nama_file),
+                )
                 ->count();
         @endphp
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
@@ -449,10 +478,10 @@
             @foreach ($jenisDokumen as $jenis => $info)
                 @php
                     $dokumen = $dokumenTersimpan->get($jenis);
-                    $fileTersedia = $dokumen
-                        && filled($dokumen->nama_file)
-                        && \Illuminate\Support\Facades\Storage::disk('local')
-                            ->exists($dokumen->nama_file);
+                    $fileTersedia =
+                        $dokumen &&
+                        filled($dokumen->nama_file) &&
+                        \Illuminate\Support\Facades\Storage::disk('local')->exists($dokumen->nama_file);
                 @endphp
                 <div class="rounded-2xl border border-slate-200 p-4 transition hover:border-blue-300 hover:shadow-sm">
                     <div class="flex items-start gap-3">
@@ -503,15 +532,15 @@
                             </p>
                             @if ($fileTersedia)
                                 <div class="mt-4">
-                                <a href="{{ route('employee.documents.show', [
-                                    'employee' => $data->nip,
-                                    'document' => $dokumen->id,
-                                ]) }}"
-                                    target="_blank" rel="noopener noreferrer"
-                                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700">
-                                    <i class="fa-solid fa-eye"></i>
-                                    Lihat Dokumen
-                                </a>
+                                    <a href="{{ route('employee.documents.show', [
+                                        'employee' => $data->nip,
+                                        'document' => $dokumen->id,
+                                    ]) }}"
+                                        target="_blank" rel="noopener noreferrer"
+                                        class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700">
+                                        <i class="fa-solid fa-eye"></i>
+                                        Lihat Dokumen
+                                    </a>
                                 </div>
                             @else
                                 <p class="mt-4 text-sm text-amber-700">

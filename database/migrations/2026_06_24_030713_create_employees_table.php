@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('kode_unit_kerja')->references('kode')->on('departments')->nullOnDelete()->cascadeOnUpdate();;
             $table->string('kode_jabatan')->nullable();
             $table->foreign('kode_jabatan')->references('kode')->on('positions')->nullOnDelete()->cascadeOnUpdate();;
-            $table->string('nama');
+            $table->string('nama')->nullable();
             // $table->enum('education_level', ['SD/Sederajat','SMP/Sederajat','SMA/SMK/MA/Sederajat','D1','D2','D3','D4','S1','S2','S3'])->nullable();
             $table->string('tingkat_pendidikan')->nullable();
             $table->foreign('tingkat_pendidikan')->references('kode')->on('education_levels')->nullOnDelete();
@@ -65,7 +65,6 @@ return new class extends Migration
             $table->unsignedTinyInteger('bulan_masa_kerja')->default(0)->nullable();
             $table->enum('status', ['Aktif', 'Nonaktif', 'Pensiun'])->nullable();
             $table->timestamps();
-            // $table->softDeletes();
         });
     }
     /**

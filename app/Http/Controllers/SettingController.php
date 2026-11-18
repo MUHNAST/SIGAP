@@ -22,20 +22,7 @@ class SettingController extends Controller
 {
     $user = Auth::user();
     $employee = $user->employee;
-
-    $master = $employee
-        ? $this->setting_service->getMasterData($user)
-        : [];
-
-//     dd([
-//     'status_pegawai' => $employee->status_pegawai,
-//     'id_pangkat_pegawai' => $employee->id_pangkat,
-//     'kode_pppk_pegawai' => $employee->kode_pppk,
-
-//     'rank_pertama' => $master['ranks']->first(),
-//     'pppk_pertama' => $master['pppk']->first(),
-// ]);
-
+    $master = $employee ? $this->setting_service->getMasterData($user) : [];
     return view('setting.index', [
         'title' => 'Pengaturan',
         'user' => $user,
@@ -102,7 +89,6 @@ class SettingController extends Controller
                 'user_id' => Auth::id(),
                 'exception_type' => $e::class,
             ]);
-
             return back()
                 ->withErrors([
                     'error' => 'Foto profil gagal direset. Silakan coba kembali.'
@@ -141,7 +127,6 @@ class SettingController extends Controller
                 'user_id' => Auth::id(),
                 'exception_type' => $e::class,
             ]);
-
             return back()->withErrors([
                 'error' => 'Perangkat lain gagal dikeluarkan. Silakan coba kembali.'
             ], 'logout')->with('open_modal', 'modalLogoutDevices')->with('active_tab', 'security');

@@ -60,6 +60,7 @@
                             <th class="w-48 px-6 py-4 text-left">Golongan</th>
                             <th class="px-6 py-4 text-left">Nama Pangkat</th>
                             <th class="px-6 py-4 text-left">Urutan Pangkat</th>
+                            <th class="px-6 py-4 text-left">Status</th>
                             @if ($edit)
                                 <th class="w-40 px-6 py-4 text-center">Aksi</th>
                             @endif
@@ -79,6 +80,21 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $rank->urutan_pangkat }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if ($rank->status)
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                            <i class="fa-solid fa-circle-check mr-1"></i>
+                                            Aktif
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                            <i class="fa-solid fa-circle-xmark mr-1"></i>
+                                            Tidak Aktif
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="w-40 px-6 py-4" data-ignore="true">
                                     <div class="flex items-center justify-start  gap-2">

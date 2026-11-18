@@ -10,16 +10,15 @@ use App\Services\ActivityLogService;
 use App\Services\EmployeeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 class EmployeeController extends Controller
 {
     private EmployeeService $employee_service;
     private ActivityLogService $activity_log_service;
-    public function __construct(
-        EmployeeService $employee_service,
-        ActivityLogService $activity_log_service
-    ) {
+    public function __construct( EmployeeService $employee_service, ActivityLogService $activity_log_service ) {
         $this->employee_service = $employee_service;
         $this->activity_log_service = $activity_log_service;
     }
@@ -91,14 +90,14 @@ class EmployeeController extends Controller
     public function show(Employee $employee)
     {
         $user = $this->authenticatedUser();
-
-
         $employee = $this->employee_service->getById($employee->nip);
         $this->employee_service->authorizeEmployee($employee);
+        $scheduleStatus = $this->employee_service->attachScheduleStatus($employee);
         return view('employee.show', [
             'title' => 'Detail Data Pegawai',
             'data' => $employee,
             'user' => $user,
+            'scheduleStatus' => $scheduleStatus,
         ]);
     }
     public function showForUser()
@@ -109,10 +108,12 @@ class EmployeeController extends Controller
         $employee = $this->employee_service->getById($user->nip);
         abort_if(!$employee, 404);
         $this->employee_service->authorizeEmployee($employee);
+        $scheduleStatus = $this->employee_service->attachScheduleStatus($employee);
         return view('employee.show', [
             'title' => 'Detail Data Pegawai',
             'data' => $employee,
             'user' => $user,
+            'scheduleStatus' => $scheduleStatus,
         ]);
     }
     public function store(EmployeeRequest $request)
@@ -198,9 +199,7 @@ class EmployeeController extends Controller
     }
     public function getUrbanVillages(string $districtId)
     {
-        return UrbanVillage::where('id_kecamatan', $districtId)
-            ->orderBy('nama')
-            ->get();
+        return UrbanVillage::where('id_kecamatan', $districtId)->orderBy('nama')->get();
     }
     public function export(string $format)
     {
@@ -288,27 +287,41 @@ class EmployeeController extends Controller
             ],
         ]);
         $file = $request->file('file');
+         Log::info('EmployeeController: permintaan import diterima.', [
+            'user_id' => $user->id,
+            'role' => $user->role,
+            'file' => $file->getClientOriginalName(),
+            'file_size' => $file->getSize(),
+        ]);
+
         try {
-            $this->employee_service->import($file);
+            $this->employee_service->import($file, $user);
             $this->activity_log_service->log(
                 'Import Data Pegawai',
                 "{$user->nama} mengimpor data pegawai dari file '{$file->getClientOriginalName()}'."
             );
+            Log::info('EmployeeController: import berhasil diselesaikan.', [
+                'user_id' => $user->id,
+                'role' => $user->role,
+            ]);
+
             return back()->with(
                 'success',
                 'File selesai diproses. Periksa data pegawai untuk memastikan hasil impor.'
             );
-        } catch (\Throwable $e) {
-            // Log::error('Import data pegawai gagal.', [
-            //     'user_id' => $user->id,
-            //     'file' => $file->getClientOriginalName(),
-            //     'error' => $e->getMessage(),
-            //     'file_error' => $e->getFile(),
-            //     'line' => $e->getLine(),
-            // ]);
+        } catch (Throwable $e) {
+             Log::error('EmployeeController: import gagal.', [
+                'user_id' => $user->id,
+                'role' => $user->role,
+                'file' => $file->getClientOriginalName(),
+                'error' => $e->getMessage(),
+                'exception' => get_class($e),
+                'file_error' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
             return back()->with(
                 'error',
-                'Impor gagal. Periksa format file, data referensi, dan log aplikasi.'
+                'Impor gagal. Silakan periksa storage/logs/laravel.log untuk mengetahui penyebabnya.'
             );
         }
     }

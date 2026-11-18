@@ -19,8 +19,8 @@ return new class extends Migration
             // $table->foreignId('retirement_rule_id')->constrained('retirement_rules')->cascadeOnDelete();
             $table->text('deskripsi')->nullable();
             $table->tinyInteger('usia_pensiun');
+            $table->boolean('status')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

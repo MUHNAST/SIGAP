@@ -47,21 +47,16 @@ class DashboardController extends Controller
     public function dashboardUser(Request $request)
     {
         $user = Auth::user();
-
         if (!$user) {
             return redirect()->route('login');
         }
-
         if ($user->role !== 'user') {
             abort(403, 'Anda tidak memiliki hak akses.');
         }
-
         $title = 'Dashboard Kepegawaian';
         $sub_title = 'Informasi Kepegawaian Pribadi';
-
         $dashboardData = $this->dashboard_service
             ->getUserDashboardData($user);
-
         return view(
             'dashboard.dashboard_user',
             array_merge(

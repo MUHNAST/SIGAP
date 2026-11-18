@@ -43,24 +43,24 @@ class ActivityLogController extends Controller
             )
         );
     }
-    // public function show(ActivityLog $activityLog)
-    // {
-    //     $user = Auth::user();
-    //     abort_unless($user instanceof User, 401);
-    //     abort_unless(
-    //         in_array($user->role, ['super_admin', 'admin'], true),
-    //         403,
-    //         'Anda tidak memiliki akses.'
-    //     );
-    //     $activityLog = $this->activity_log_service->getById(
-    //         (int) $activityLog->getKey()
-    //     );
-    //     return view('activityLog.detail', [
-    //         'title' => 'Detail Aktivitas',
-    //         'user' => $user,
-    //         'activityLog' => $activityLog,
-    //     ]);
-    // }
+    public function show(ActivityLog $activityLog)
+    {
+        $user = Auth::user();
+        abort_unless($user instanceof User, 401);
+        abort_unless(
+            in_array($user->role, ['super_admin', 'admin'], true),
+            403,
+            'Anda tidak memiliki akses.'
+        );
+        $activityLog = $this->activity_log_service->getById(
+            (int) $activityLog->getKey()
+        );
+        return view('activityLog.detail', [
+            'title' => 'Detail Aktivitas',
+            'user' => $user,
+            'activityLog' => $activityLog,
+        ]);
+    }
     public function showForUser(Request $request)
     {
         $loginUser = Auth::user();
@@ -75,9 +75,7 @@ class ActivityLogController extends Controller
             $loginUser->id,
             $filters
         );
-        $nama = $loginUser->employee?->nama
-            ?? $loginUser->nama
-            ?? 'Pengguna';
+        $nama = $loginUser->employee?->nama ?? $loginUser->nama ?? 'Pengguna';
         $title = "Riwayat Aktivitas {$nama}";
         return view('activityLog.show', [
             'user' => $loginUser,

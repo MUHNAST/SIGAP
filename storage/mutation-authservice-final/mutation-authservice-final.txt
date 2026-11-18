@@ -1,0 +1,50 @@
+Note: Pass `--log-verbosity=all` to log information about killed and errored mutants.
+Note: Pass `--debug` to log test-framework output.
+
+Escaped mutants:
+================
+
+1) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\authservice-infection-run\app\Services\AuthService.php:41    [M] CastBool [ID] 172b8db6a14bd562fe56db325c04890a
+
+@@ @@
+             ]);
+         }
+         // Memastikan akun berstatus aktif.
+-        if (! (bool) $user->status) {
++        if (! $user->status) {
+             throw ValidationException::withMessages([
+                 'username' => 'Akun Anda sedang nonaktif. Silakan hubungi administrator.',
+             ]);
+
+
+2) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\authservice-infection-run\app\Services\AuthService.php:99    [M] CastString [ID] 7170458c9f6898dbe695e49069821468
+
+@@ @@
+                 'code' => "Silakan tunggu {$seconds} detik sebelum meminta kode baru.",
+             ]);
+         }
+-        $code = (string) random_int(100000, 999999);
++        $code = random_int(100000, 999999);
+         try {
+             Mail::to($user->email)->send(
+                 new EmailOtpMail(
+
+
+3) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\authservice-infection-run\app\Services\AuthService.php:188    [M] CastBool [ID] fd801b5a837f7db9c21b1d6f3fb1e0dd
+
+@@ @@
+      * Menyelesaikan login setelah autentikasi berhasil.
+      */
+     public function completeLogin( User $user, bool $remember = false ): User {
+-        if (! (bool) $user->fresh()->status) {
++        if (! $user->fresh()->status) {
+             $this->clearTwoFactorChallenge();
+             throw ValidationException::withMessages([
+                 'username' => 'Akun Anda sedang nonaktif. Silakan hubungi administrator.',
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================

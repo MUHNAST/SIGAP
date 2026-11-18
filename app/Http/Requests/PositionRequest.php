@@ -28,6 +28,7 @@ class PositionRequest extends FormRequest
             'nama' => [ 'required', 'string', 'max:50', Rule::unique('positions', 'nama')->ignore($kode, 'kode'),],
             'deskripsi' => ['nullable', 'string', 'max:255'],
             'usia_pensiun' => ['required','integer','min:58','max:70'],
+            'status' => ['required', 'boolean'],
         ];
     }
     public function messages(): array
@@ -47,6 +48,8 @@ class PositionRequest extends FormRequest
             'usia_pensiun.integer' => 'Masa Pensiun harus berupa angka.',
             'usia_pensiun.max'    => 'Masa Pensiun maksimal 70 Tahun.',
             'usia_pensiun.min'    => 'Masa Pensiun Minimal 58 Tahun.',
+            'status.required'   => 'Status wajib dipilih.',
+            'status.boolean'    => 'Status tidak valid.',
         ];
     }
     protected function prepareForValidation(): void

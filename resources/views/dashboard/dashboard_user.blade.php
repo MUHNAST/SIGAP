@@ -21,34 +21,60 @@
         @endphp
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {{-- Kenaikan Gaji Berkala --}}
+            {{-- Kenaikan Gaji Berkala --}}
             <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-sm text-slate-500">
                             Kenaikan Gaji Berkala
                         </p>
-                        <h3 class="mt-3 text-2xl font-bold text-slate-800">
-                            {{ $kgb['tanggal']?->translatedFormat('d F Y') }}
-                        </h3>
-                        <div
-                            class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
-                            <i class="fa-solid fa-calendar-days mr-2"></i>
-                            @if ($kgb['status'] == 'Hari Ini')
-                                Hari Ini
-                            @elseif($kgb['status'] == 'Terlambat')
-                                Terlambat
-                            @else
-                                @if ($kgb['tahun_sisa'] > 0)
-                                    {{ $kgb['tahun_sisa'] }} Tahun
+                        @if ($sudahPensiun)
+                            <h3 class="mt-3 text-xl font-bold text-slate-800">
+                                Sudah Pensiun
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-sm font-medium">
+                                <i class="fa-solid fa-circle-info mr-2"></i>
+                                Tidak ada jadwal KGB
+                            </div>
+                        @elseif ($masaKerjaMaksimum)
+                            <h3 class="mt-3 text-xl font-bold text-slate-800">
+                                Masa Kerja Maksimum
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-sm font-medium">
+                                <i class="fa-solid fa-check-circle mr-2"></i>
+                                Batas masa kerja gaji telah tercapai
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">
+                                Maksimum {{ $maksimumMasaKerja }} tahun berdasarkan data gaji.
+                            </p>
+                        @else
+                            <h3 class="mt-3 text-2xl font-bold text-slate-800">
+                                {{ $kgb['tanggal']?->translatedFormat('d F Y') ?? '-' }}
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+                                <i class="fa-solid fa-calendar-days mr-2"></i>
+                                @if ($kgb['status'] == 'Hari Ini')
+                                    Hari Ini
+                                @elseif ($kgb['status'] == 'Terlambat')
+                                    Terlambat
+                                @elseif ($kgb['status'] == 'Menunggu')
+                                    @if ($kgb['tahun_sisa'] > 0)
+                                        {{ $kgb['tahun_sisa'] }} Tahun
+                                    @endif
+                                    @if ($kgb['bulan_sisa'] > 0)
+                                        {{ $kgb['bulan_sisa'] }} Bulan
+                                    @endif
+                                    @if ($kgb['hari_sisa'] > 0)
+                                        {{ $kgb['hari_sisa'] }} Hari
+                                    @endif
+                                @else
+                                    Belum dijadwalkan
                                 @endif
-                                @if ($kgb['bulan_sisa'] > 0)
-                                    {{ $kgb['bulan_sisa'] }} Bulan
-                                @endif
-                                @if ($kgb['hari_sisa'] > 0)
-                                    {{ $kgb['hari_sisa'] }} Hari
-                                @endif
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
                         <i class="fa-solid fa-money-bill-wave text-2xl"></i>
@@ -56,22 +82,50 @@
                 </div>
             </div>
             {{-- Kenaikan Pangkat --}}
+            {{-- Kenaikan Pangkat --}}
             <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-sm text-slate-500">
                             Kenaikan Pangkat
                         </p>
-                        <h3 class="mt-3 text-2xl font-bold text-slate-800">
-                            {{ $promotion['tanggal']?->translatedFormat('d F Y') ?? '-' }}
-                        </h3>
-                        <div
-                            class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                            <i class="fa-solid fa-arrow-trend-up mr-2"></i>
-                            <span>
+                        @if ($sudahPensiun)
+                            <h3 class="mt-3 text-xl font-bold text-slate-800">
+                                Sudah Pensiun
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-sm font-medium">
+                                <i class="fa-solid fa-circle-info mr-2"></i>
+                                Tidak ada jadwal kenaikan pangkat
+                            </div>
+                        @elseif ($employee?->status_pegawai === 'PPPK')
+                            <h3 class="mt-3 text-xl font-bold text-slate-800">
+                                PPPK
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-sm font-medium">
+                                <i class="fa-solid fa-circle-info mr-2"></i>
+                                Tidak ada kenaikan pangkat
+                            </div>
+                        @elseif (!$promotion['tanggal'])
+                            <h3 class="mt-3 text-xl font-bold text-slate-800">
+                                Pangkat Maksimum
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-sm font-medium">
+                                <i class="fa-solid fa-check-circle mr-2"></i>
+                                Pangkat sudah mencapai batas maksimum
+                            </div>
+                        @else
+                            <h3 class="mt-3 text-2xl font-bold text-slate-800">
+                                {{ $promotion['tanggal']->translatedFormat('d F Y') }}
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+                                <i class="fa-solid fa-arrow-trend-up mr-2"></i>
                                 @if ($promotion['status'] == 'Hari Ini')
                                     Hari Ini
-                                @elseif($promotion['status'] == 'Terlambat')
+                                @elseif ($promotion['status'] == 'Terlambat')
                                     Terlambat
                                 @else
                                     @if ($promotion['tahun_sisa'] > 0)
@@ -84,8 +138,8 @@
                                         {{ $promotion['hari_sisa'] }} Hari
                                     @endif
                                 @endif
-                            </span>
-                        </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="w-16 h-16 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center">
                         <i class="fa-solid fa-medal text-2xl"></i>
@@ -93,34 +147,48 @@
                 </div>
             </div>
             {{-- Masa Pensiun --}}
+            {{-- Masa Pensiun --}}
             <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-sm text-slate-500">
                             Masa Pensiun
                         </p>
-                        <h3 class="mt-3 text-2xl font-bold text-slate-800">
-                            {{ $retirement['tanggal']?->translatedFormat('d F Y') ?? '-' }}
-                        </h3>
-                        <div
-                            class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-medium">
-                            <i class="fa-solid fa-user-clock mr-2"></i>
-                            @if ($retirement['status'] == 'Hari Ini')
-                                Hari Ini
-                            @elseif($retirement['status'] == 'Terlambat')
-                                Terlambat
-                            @else
-                                @if ($retirement['tahun_sisa'] > 0)
-                                    {{ $retirement['tahun_sisa'] }} Tahun
+                        @if ($sudahPensiun)
+                            <h3 class="mt-3 text-xl font-bold text-slate-800">
+                                Sudah Pensiun
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-sm font-medium">
+                                <i class="fa-solid fa-check-circle mr-2"></i>
+                                Masa pensiun telah tercapai
+                            </div>
+                        @else
+                            <h3 class="mt-3 text-2xl font-bold text-slate-800">
+                                {{ $retirement['tanggal']?->translatedFormat('d F Y') ?? '-' }}
+                            </h3>
+                            <div
+                                class="inline-flex items-center mt-4 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-medium">
+                                <i class="fa-solid fa-user-clock mr-2"></i>
+                                @if ($retirement['status'] == 'Hari Ini')
+                                    Hari Ini
+                                @elseif ($retirement['status'] == 'Terlambat')
+                                    Terlambat
+                                @elseif ($retirement['status'] == 'Menunggu')
+                                    @if ($retirement['tahun_sisa'] > 0)
+                                        {{ $retirement['tahun_sisa'] }} Tahun
+                                    @endif
+                                    @if ($retirement['bulan_sisa'] > 0)
+                                        {{ $retirement['bulan_sisa'] }} Bulan
+                                    @endif
+                                    @if ($retirement['hari_sisa'] > 0)
+                                        {{ $retirement['hari_sisa'] }} Hari
+                                    @endif
+                                @else
+                                    Belum dijadwalkan
                                 @endif
-                                @if ($retirement['bulan_sisa'] > 0)
-                                    {{ $retirement['bulan_sisa'] }} Bulan
-                                @endif
-                                @if ($retirement['hari_sisa'] > 0)
-                                    {{ $retirement['hari_sisa'] }} Hari
-                                @endif
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="w-16 h-16 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center">
                         <i class="fa-solid fa-hourglass-end text-2xl"></i>
@@ -442,7 +510,7 @@
                             Riwayat aktivitas sistem
                         </p>
                     </div>
-                    <a href="{{ route('activityLog.index') }}"
+                    <a href="{{ route('activityLog.user') }}"
                         class="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center gap-2">
                         Lihat Semua
                         <i class="fa-solid fa-arrow-right text-xs"></i>

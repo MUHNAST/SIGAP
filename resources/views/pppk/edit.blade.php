@@ -59,7 +59,8 @@
                                 <i class="fa-solid fa-hashtag absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                                 </i>
                                 <input type="text" name="kode" placeholder="Masukkan kode golongan PPPK"
-                                    value="{{ old('kode', $pppk->kode ?? '') }}" required autocomplete="off" maxlength="5"
+                                    value="{{ old('kode', $pppk->kode ?? '') }}" required autocomplete="off"
+                                    maxlength="5"
                                     class="w-full h-11 pl-11 pr-4 bg-slate-50 border border-slate-200 rounded-xl
                                     focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none">
                             </div>
@@ -105,6 +106,29 @@
                                 <p class="mt-2 text-sm text-red-500">
                                     {{ $message }}
                                 </p>
+                            @enderror
+                        </div>
+                        <div class="relative">
+                            <label for="status" class="block mb-2 text-sm font-medium text-slate-700">
+                                Status Golongan PPPK <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i
+                                    class="fa-solid fa-user-check absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <select id="status" name="status"
+                                    class="w-full h-12 pl-11 pr-10 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none appearance-none">
+                                    <option value="1"
+                                        {{ old('status', $pppk->status) == 1 ? 'selected' : '' }}>
+                                        Aktif
+                                    </option>
+                                    <option value="0"
+                                        {{ old('status', $pppk->status) == 0 ? 'selected' : '' }}>
+                                        Nonaktif
+                                    </option>
+                                </select>
+                            </div>
+                            @error('status')
+                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>

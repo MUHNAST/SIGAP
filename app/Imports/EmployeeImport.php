@@ -36,6 +36,10 @@ class EmployeeImport implements ToCollection, WithHeadingRow
     public function setUser(User $user): void
     {
         $this->user = $user;
+        Log::info('EmployeeImport: pengguna import berhasil ditetapkan.', [
+            'user_id' => $user->id,
+            'role' => $user->role,
+        ]);
     }
     /*
     |--------------------------------------------------------------------------
@@ -72,9 +76,9 @@ class EmployeeImport implements ToCollection, WithHeadingRow
                 $nip === null ||
                 !preg_match('/\A[0-9]{18}\z/', $nip)
             ) {
-                // Log::warning('Import pegawai dilewati karena NIP tidak valid.', [
-                //     'nip' => $nip,
-                // ]);
+                Log::warning('Import pegawai dilewati karena NIP tidak valid.', [
+                    'nip' => $nip,
+                ]);
                 continue;
             }
             /*
@@ -92,22 +96,22 @@ class EmployeeImport implements ToCollection, WithHeadingRow
                 $departmentCode = $this->departmentCode($unitKerja);
                 // Unit kerja terisi tetapi tidak ditemukan di database.
                 if ($departmentCode === null) {
-                    // Log::warning('Import pegawai dilewati karena unit kerja tidak ditemukan.', [
-                    //     'nip' => $nip,
-                    //     'unit_kerja' => $unitKerja,
-                    //     'username' => $user->username,
-                    // ]);
+                    Log::warning('Import pegawai dilewati karena unit kerja tidak ditemukan.', [
+                        'nip' => $nip,
+                        'unit_kerja' => $unitKerja,
+                        'username' => $user->username,
+                    ]);
                     continue;
                 }
                 // Admin hanya boleh mengimpor unit kerjanya sendiri.
                 if ( $user->role === 'admin' && ( blank($user->kode_unit_kerja) || (string) $departmentCode !== (string) $user->kode_unit_kerja)) {
-                    // Log::warning('Import pegawai dilewati karena unit kerja tidak sesuai dengan pengguna.', [
-                    //     'nip' => $nip,
-                    //     'unit_kerja_import' => $unitKerja,
-                    //     'kode_unit_kerja_import' => $departmentCode,
-                    //     'kode_unit_kerja_user' => $user->kode_unit_kerja,
-                    //     'username' => $user->username,
-                    // ]);
+                    Log::warning('Import pegawai dilewati karena unit kerja tidak sesuai dengan pengguna.', [
+                        'nip' => $nip,
+                        'unit_kerja_import' => $unitKerja,
+                        'kode_unit_kerja_import' => $departmentCode,
+                        'kode_unit_kerja_user' => $user->kode_unit_kerja,
+                        'username' => $user->username,
+                    ]);
                     continue;
                 }
             }
@@ -439,6 +443,12 @@ class EmployeeImport implements ToCollection, WithHeadingRow
         | SIMPAN
         |--------------------------------------------------------------------------
         */
+        Log::info('EmployeeImport: memulai penyimpanan data pegawai.', [
+            'user_id' => $this->user?->id,
+            'role' => $this->user?->role,
+            'nip' => $row['nip'] ?? null,
+            'kode_unit_kerja_excel' => $data['kode_unit_kerja'] ?? null,
+        ]);
         $employee = $this->employeeRepository->updateOrCreate(
             [
                 'nip' => $row['nip'],
@@ -446,9 +456,23 @@ class EmployeeImport implements ToCollection, WithHeadingRow
             $data,
             $this->user
         );
+        // Pastikan pegawai berhasil tersimpan.
+        if (!$employee->exists) {
+            throw new \RuntimeException(
+                'Data pegawai gagal disimpan.'
+            );
+        }
+        Log::info('EmployeeImport: data pegawai berhasil disimpan.', [
+            'nip' => $employee->nip,
+            'kode_unit_kerja' => $employee->kode_unit_kerja,
+            'role' => $this->user?->role,
+        ]);
 
         // Sinkronisasi akun pengguna berdasarkan NIP.
         $this->employeeUserSyncService->sync($employee);
+        Log::info('EmployeeImport: sinkronisasi akun pengguna berhasil.', [
+            'nip' => $employee->nip,
+        ]);
     }
     /*
     |--------------------------------------------------------------------------
@@ -473,9 +497,9 @@ class EmployeeImport implements ToCollection, WithHeadingRow
             $bulan = (int) $bulanMatch[1];
             // Bulan harus berada dalam rentang 0–11.
             if ($bulan < 0 || $bulan > 11) {
-                // Log::warning('Masa kerja Excel tidak valid.', [
-                //     'masa_kerja' => $value,
-                // ]);
+                Log::warning('Masa kerja Excel tidak valid.', [
+                    'masa_kerja' => $value,
+                ]);
                 return $default;
             }
             return [
@@ -483,9 +507,9 @@ class EmployeeImport implements ToCollection, WithHeadingRow
                 'bulan' => $bulan,
             ];
         }
-        // Log::warning('Format masa kerja Excel tidak valid.', [
-        //     'masa_kerja' => $value,
-        // ]);
+        Log::warning('Format masa kerja Excel tidak valid.', [
+            'masa_kerja' => $value,
+        ]);
         return $default;
     }
     /*

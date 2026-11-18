@@ -15,6 +15,7 @@ class PppkRequest extends FormRequest
             'kode' => ['required','string','max:8',Rule::unique('pppk', 'kode')->ignore($pppk, 'kode')],
             'nama' => ['required','string','max:255',Rule::unique('pppk', 'nama')->ignore($pppk, 'kode')],
             'urutan_golongan' => ['required','integer','min:1','max:255',Rule::unique('pppk', 'urutan_golongan')->ignore($pppk, 'kode'),],
+            'status' => ['required', 'boolean'],
         ];
     }
     public function messages(): array
@@ -33,6 +34,8 @@ class PppkRequest extends FormRequest
             'urutan_golongan.min'      => 'Urutan Golongan minimal 1.',
             'urutan_golongan.max'      => 'Urutan Golongan maksimal 255.',
             'urutan_golongan.unique'   => 'Urutan Golongan sudah digunakan.',
+            'status.required'   => 'Status wajib dipilih.',
+            'status.boolean'    => 'Status tidak valid.',
         ];
     }
     protected function prepareForValidation(): void

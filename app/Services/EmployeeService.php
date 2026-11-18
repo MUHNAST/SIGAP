@@ -14,13 +14,17 @@ use App\Imports\EmployeeImport;
 use App\Models\PromotionHistory;
 use App\Models\Rank;
 use App\Jobs\ResendNotificationJob;
+use App\Models\EducationLevel;
 use App\Models\Position;
 use App\Models\Pppk;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EmployeeDocument;
+use App\Models\Salary;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 class EmployeeService
@@ -347,6 +351,60 @@ class EmployeeService
     }
     public function getRanksByEducation(?string $educationLevelCode,?string $statusPegawai = null) {
         return $this->employee_repository->getRanksByEducation($educationLevelCode,$statusPegawai);
+    }
+    public function attachScheduleStatus(Employee $employee): array
+    {
+        $hariIni = Carbon::today();
+        // Cek status pensiun
+        $sudahPensiun = $employee->status === 'Pensiun'
+            || (
+                $employee->tmt_pensiun
+                && Carbon::parse($employee->tmt_pensiun)->startOfDay()->lte($hariIni)
+            );
+        // Inisialisasi status
+        $maksimumMasaKerja = null;
+        $masaKerjaMaksimum = false;
+        $batasPangkat = null;
+        $pangkatMaksimum = false;
+        if ($employee->status_pegawai === 'PNS') {
+            // Ambil batas maksimum masa kerja berdasarkan data gaji
+            if ($employee->id_pangkat) {
+                $maksimumMasaKerja = Salary::query()
+                    ->where('id_pangkat', $employee->id_pangkat)
+                    ->max('tahun_masa_kerja');
+                $masaKerjaMaksimum = $maksimumMasaKerja !== null
+                    && (int) $employee->tahun_masa_kerja >= (int) $maksimumMasaKerja;
+            }
+            // Ambil batas pangkat berdasarkan pendidikan
+            $pendidikan = EducationLevel::query()
+                ->where('kode', $employee->tingkat_pendidikan)
+                ->where('status', true)
+                ->first();
+            // Ambil urutan pangkat saat ini
+            $urutanPangkatSaatIni = $employee->id_pangkat
+                ? Rank::query()
+                    ->where('id', $employee->id_pangkat)
+                    ->value('urutan_pangkat')
+                : null;
+            if ($pendidikan && $urutanPangkatSaatIni !== null) {
+                // Ambil batas pangkat PNS dari tabel education_levels
+                $batasPangkat = (int) $pendidikan->pangkat_pns_maksimum;
+                // Tambahan satu tingkat untuk pendidikan D3 ke atas
+                // Batas pangkat berdasarkan tingkat pendidikan
+                $batasPangkat = (int) $pendidikan->pangkat_pns_maksimum;
+                // Cek apakah pangkat saat ini sudah mencapai batas maksimum
+                $pangkatMaksimum = (int) $urutanPangkatSaatIni >= $batasPangkat;
+                // Cek apakah pangkat saat ini sudah mencapai batas
+                $pangkatMaksimum = (int) $urutanPangkatSaatIni >= $batasPangkat;
+            }
+        }
+        return [
+            'sudahPensiun' => $sudahPensiun,
+            'masaKerjaMaksimum' => $masaKerjaMaksimum,
+            'maksimumMasaKerja' => $maksimumMasaKerja,
+            'pangkatMaksimum' => $pangkatMaksimum,
+            'batasPangkat' => $batasPangkat,
+        ];
     }
     /**
      * Persiapkan data pegawai dan hitung data kepegawaian otomatis.
@@ -713,19 +771,55 @@ class EmployeeService
         };
     }
     //
-    public function import(UploadedFile $file): void
+    public function import(UploadedFile $file, User $user): void
     {
-        $user = $this->authorizeEmployeeManagement();
-        $extension = strtolower($file->getClientOriginalExtension());
-        abort_unless(
-            in_array($extension, ['xlsx', 'xls', 'csv'], true),
-            422,
-            'Format file tidak didukung.'
-        );
-        DB::transaction(function () use ($file, $user) {
-            $this->employeeImport->setUser($user);
-            Excel::import($this->employeeImport, $file);
-        });
+        Log::info('EmployeeService: memulai proses import.', [
+            'user_id' => $user->id,
+            'role' => $user->role,
+            'file' => $file->getClientOriginalName(),
+            'file_size' => $file->getSize(),
+            'extension' => strtolower($file->getClientOriginalExtension()),
+        ]);
+        try {
+            $this->authorizeEmployeeManagement();
+            $extension = strtolower($file->getClientOriginalExtension());
+            abort_unless(
+                in_array($extension, ['xlsx', 'xls', 'csv'], true),
+                422,
+                'Format file tidak didukung.'
+            );
+            DB::transaction(function () use ($file, $user) {
+                Log::info('EmployeeService: transaksi import dimulai.', [
+                    'user_id' => $user->id,
+                    'role' => $user->role,
+                ]);
+                $this->employeeImport->setUser($user);
+                Log::info('EmployeeService: menjalankan Excel import.', [
+                    'user_id' => $user->id,
+                    'role' => $user->role,
+                ]);
+                Excel::import($this->employeeImport, $file);
+                Log::info('EmployeeService: Excel import selesai tanpa exception.', [
+                    'user_id' => $user->id,
+                    'role' => $user->role,
+                ]);
+            });
+            Log::info('EmployeeService: transaksi import berhasil di-commit.', [
+                'user_id' => $user->id,
+                'role' => $user->role,
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('EmployeeService: proses import gagal.', [
+                'user_id' => $user->id,
+                'role' => $user->role,
+                'error' => $e->getMessage(),
+                'exception' => get_class($e),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
     }
     public function downloadTemplate(string $format)
     {
@@ -744,13 +838,50 @@ class EmployeeService
                 $query->where(function ($query) use ($today) {
                     $query->where('status_pegawai', 'PPPK')
                         ->whereDate('tmt_kgb_baru', '<=', $today);
-                })->orWhereDate('tmt_pangkat_baru', '<=', $today)->orWhereDate('tmt_pensiun', '<=', $today);
+                })
+                ->orWhereDate('tmt_pangkat_baru', '<=', $today)
+                ->orWhereDate('tmt_pensiun', '<=', $today);
             })
             ->chunkById(
                 100,
                 function ($employees) use ($today) {
                     foreach ($employees as $employee) {
                         $updated = false;
+                        /*
+                    |--------------------------------------------------------------------------
+                    | Sinkronisasi Status Akun Pengguna
+                    |--------------------------------------------------------------------------
+                    | Pegawai Aktif     : Akun User Aktif
+                    | Pegawai Nonaktif  : Akun User Nonaktif
+                    | Pegawai Pensiun   : Akun User Nonaktif
+                    |--------------------------------------------------------------------------
+                    */
+                    $userStatus = $employee->status === 'Aktif';
+                    User::where('nip', $employee->nip)
+                        ->where('status', '!=', $userStatus)
+                        ->update([
+                            'status' => $userStatus,
+                        ]);
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Pemeriksaan Pensiun
+                        |--------------------------------------------------------------------------
+                        | Jika TMT pensiun sudah tercapai, ubah status menjadi Pensiun.
+                        | Pegawai yang sudah pensiun tidak diproses untuk KGB maupun
+                        | kenaikan pangkat otomatis.
+                        |--------------------------------------------------------------------------
+                        */
+                        if ( $employee->tmt_pensiun && Carbon::parse($employee->tmt_pensiun)->lte($today) && $employee->status !== 'Pensiun' ) {
+                                $employee->status = 'Pensiun';
+                                $employee->save();
+                            }
+                        if ($employee->status === 'Pensiun') {
+                            User::where('nip', $employee->nip)->where('status', true)
+                                ->update([
+                                    'status' => false,
+                                ]);
+                            continue;
+                        }
                         /*
                         |--------------------------------------------------------------------------
                         | KGB PPPK
@@ -760,13 +891,16 @@ class EmployeeService
                         | KGB PNS diproses melalui printKgb().
                         |--------------------------------------------------------------------------
                         */
-                        if ( $employee->status_pegawai === 'PPPK' && $employee->tmt_kgb_baru
+                        if (
+                            $employee->status_pegawai === 'PPPK' &&
+                            $employee->tmt_kgb_baru
                         ) {
                             $tmtKgb = Carbon::parse($employee->tmt_kgb_baru);
                             while ($tmtKgb->lte($today)) {
                                 $employee->tmt_kgb_lama = $tmtKgb->copy();
                                 $tmtKgb->addYearsNoOverflow(2);
-                                $employee->tahun_masa_kerja = (int) $employee->tahun_masa_kerja + 2;
+                                $employee->tahun_masa_kerja =
+                                    (int) $employee->tahun_masa_kerja + 2;
                                 $updated = true;
                             }
                             $employee->tmt_kgb_baru = $tmtKgb;
@@ -778,53 +912,81 @@ class EmployeeService
                         | PPPK tidak diproses untuk kenaikan pangkat otomatis.
                         |--------------------------------------------------------------------------
                         */
-                        if ( $employee->status_pegawai === 'PNS' && $employee->tmt_pangkat_baru ) {
+                        if (
+                            $employee->status_pegawai === 'PNS' &&
+                            $employee->tmt_pangkat_baru
+                        ) {
                             $educationLevel = $employee->educationLevel;
                             $rank = $employee->rank;
-                            if (!$rank || !$educationLevel) {
+                            if (! $rank || ! $educationLevel) {
                                 $employee->tmt_pangkat_baru = null;
                                 $updated = true;
-                            } elseif ( $educationLevel->pangkat_pns_maksimum !== null && $rank->urutan_pangkat >= $educationLevel->pangkat_pns_maksimum ) {
-                                $employee->tmt_pangkat_baru = null;
-                                $updated = true;
-                            } elseif ( $educationLevel->pangkat_pns_maksimum === null ) {
+                            } elseif (
+                                $educationLevel->pangkat_pns_maksimum === null ||
+                                $rank->urutan_pangkat >= $educationLevel->pangkat_pns_maksimum
+                            ) {
                                 $employee->tmt_pangkat_baru = null;
                                 $updated = true;
                             } else {
-                                $tmtPangkat = Carbon::parse( $employee->tmt_pangkat_baru );
+                                $tmtPangkat = Carbon::parse(
+                                    $employee->tmt_pangkat_baru
+                                );
                                 while ($tmtPangkat->lte($today)) {
-                                    $employee->tmt_pangkat_lama = $tmtPangkat->copy();
+                                    /*
+                                    |--------------------------------------------------------------------------
+                                    | Perbarui TMT Pangkat Lama
+                                    |--------------------------------------------------------------------------
+                                    | TMT pangkat baru yang jatuh tempo menjadi
+                                    | TMT pangkat lama.
+                                    |--------------------------------------------------------------------------
+                                    */
+                                    $employee->tmt_pangkat_lama =
+                                        $tmtPangkat->copy();
                                     $rankLama = $employee->rank;
-                                    $kodePangkatBerikutnya = $this->nextRank[$rankLama->kode] ?? null;
-                                    if (!$kodePangkatBerikutnya) {
+                                    $kodePangkatBerikutnya =
+                                        $this->nextRank[$rankLama->kode] ?? null;
+                                    if (! $kodePangkatBerikutnya) {
                                         $employee->tmt_pangkat_baru = null;
                                         $updated = true;
                                         break;
                                     }
-                                    $rankBaru = Rank::where( 'kode', $kodePangkatBerikutnya )->first();
-                                    if (!$rankBaru) {
-                                        $employee->tmt_pangkat_baru = null;
-                                        $updated = true;
-                                        break;
-                                    }
-                                    /*
-                                    |--------------------------------------------------------------------------
-                                    | Validasi batas pangkat berdasarkan pendidikan
-                                    |--------------------------------------------------------------------------
-                                    */
-                                    if ( $rankBaru->urutan_pangkat > $educationLevel->pangkat_pns_maksimum ) {
+                                    $rankBaru = Rank::where(
+                                        'kode',
+                                        $kodePangkatBerikutnya
+                                    )->first();
+                                    if (! $rankBaru) {
                                         $employee->tmt_pangkat_baru = null;
                                         $updated = true;
                                         break;
                                     }
                                     /*
                                     |--------------------------------------------------------------------------
-                                    | Cek riwayat kenaikan pangkat
+                                    | Validasi Batas Pangkat Berdasarkan Pendidikan
                                     |--------------------------------------------------------------------------
                                     */
-                                    $exists = PromotionHistory::where( 'nip', $employee->nip )
-                                        ->whereDate( 'tmt_pangkat', $employee->tmt_pangkat_lama )->exists();
-                                    if (!$exists) {
+                                    if (
+                                        $rankBaru->urutan_pangkat >
+                                        $educationLevel->pangkat_pns_maksimum
+                                    ) {
+                                        $employee->tmt_pangkat_baru = null;
+                                        $updated = true;
+                                        break;
+                                    }
+                                    /*
+                                    |--------------------------------------------------------------------------
+                                    | Cek Riwayat Kenaikan Pangkat
+                                    |--------------------------------------------------------------------------
+                                    */
+                                    $exists = PromotionHistory::where(
+                                        'nip',
+                                        $employee->nip
+                                    )
+                                        ->whereDate(
+                                            'tmt_pangkat',
+                                            $employee->tmt_pangkat_lama
+                                        )
+                                        ->exists();
+                                    if (! $exists) {
                                         PromotionHistory::create([
                                             'nip' => $employee->nip,
                                             'id_pangkat_lama' => $rankLama->id,
@@ -835,30 +997,49 @@ class EmployeeService
                                     }
                                     /*
                                     |--------------------------------------------------------------------------
-                                    | Penyesuaian masa kerja
+                                    | Penyesuaian Masa Kerja
                                     |--------------------------------------------------------------------------
                                     */
-                                    $this->adjustServicePeriodAfterPromotion( $employee, $rankLama, $rankBaru);
-                                    $employee->id_pangkat = $rankBaru->id;
-                                    $employee->setRelation('rank', $rankBaru);
+                                    $this->adjustServicePeriodAfterPromotion(
+                                        $employee,
+                                        $rankLama,
+                                        $rankBaru
+                                    );
                                     /*
                                     |--------------------------------------------------------------------------
-                                    | Hentikan jika mencapai pangkat maksimum
+                                    | Perbarui Pangkat Pegawai
                                     |--------------------------------------------------------------------------
                                     */
-                                    if ( $rankBaru->urutan_pangkat >= $educationLevel->pangkat_pns_maksimum ) {
+                                    $employee->id_pangkat = $rankBaru->id;
+                                    $employee->setRelation('rank', $rankBaru);
+                                    $updated = true;
+                                    /*
+                                    |--------------------------------------------------------------------------
+                                    | Hentikan Jika Mencapai Pangkat Maksimum
+                                    |--------------------------------------------------------------------------
+                                    */
+                                    if (
+                                        $rankBaru->urutan_pangkat >=
+                                        $educationLevel->pangkat_pns_maksimum
+                                    ) {
                                         $employee->tmt_pangkat_baru = null;
-                                        $updated = true;
                                         break;
                                     }
                                     /*
                                     |--------------------------------------------------------------------------
-                                    | Jadwal kenaikan pangkat berikutnya
+                                    | Jadwal Kenaikan Pangkat Berikutnya
+                                    |--------------------------------------------------------------------------
+                                    | TMT berikutnya dihitung 4 tahun dari TMT
+                                    | kenaikan pangkat yang baru diproses.
                                     |--------------------------------------------------------------------------
                                     */
                                     $tmtPangkat->addYearsNoOverflow(4);
-                                    $updated = true;
                                 }
+                                /*
+                                |--------------------------------------------------------------------------
+                                | Simpan TMT Pangkat Baru Berikutnya
+                                |--------------------------------------------------------------------------
+                                */
                                 if ($employee->tmt_pangkat_baru !== null) {
                                     $employee->tmt_pangkat_baru = $tmtPangkat;
                                 }
@@ -866,16 +1047,7 @@ class EmployeeService
                         }
                         /*
                         |--------------------------------------------------------------------------
-                        | Pensiun
-                        |--------------------------------------------------------------------------
-                        */
-                        if ( $employee->tmt_pensiun && Carbon::parse($employee->tmt_pensiun)->lte($today) && $employee->status !== 'Pensiun'     ) {
-                            $employee->status = 'Pensiun';
-                            $updated = true;
-                        }
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Simpan perubahan
+                        | Simpan Perubahan
                         |--------------------------------------------------------------------------
                         */
                         if ($updated) {
@@ -997,19 +1169,27 @@ class EmployeeService
     /**
      * Hanya Super Admin dan Admin yang dapat mengelola data pegawai.
      */
+    /**
+     * Hanya Super Admin dan Admin yang dapat mengelola data pegawai.
+     *
+     * @throws AuthorizationException
+     */
     private function authorizeEmployeeManagement(): User
     {
         $user = Auth::user();
-        abort_unless($user, 401);
-        abort_unless(
-            in_array($user->role, ['super_admin', 'admin'], true),
-            403,
-            'Anda tidak memiliki hak akses untuk mengelola data pegawai.'
-        );
-        if ($user->role === 'admin') {
-            abort_unless(
-                filled($user->kode_unit_kerja),
-                403,
+        if (!$user) {
+            abort(401);
+        }
+        if (!in_array($user->role, ['super_admin', 'admin'], true)) {
+            throw new AuthorizationException(
+                'Anda tidak memiliki hak akses untuk mengelola data pegawai.'
+            );
+        }
+        if (
+            $user->role === 'admin' &&
+            !filled($user->kode_unit_kerja)
+        ) {
+            throw new AuthorizationException(
                 'Unit kerja Admin belum ditentukan.'
             );
         }

@@ -17,7 +17,7 @@ class SalaryController extends Controller
     {
         $title = 'Data Gaji';
         $sub_title = 'Kelola Seluruh Data Gaji Dalam Sistem';
-        $ranks = Rank::orderBy('kode', 'asc')->get();
+        $ranks = Rank::orderBy('kode', 'asc')->where('status', true)->where('kode', '!=', '0')->get();
         $data = $this->salary_service->getAll(['*']);
         $user = Auth::user();
         return view('salary.index', compact('title', 'sub_title', 'data', 'ranks', 'user'));

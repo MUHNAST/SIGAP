@@ -31,12 +31,16 @@ class AuthService
      */
     public function login(array $data): User|array
     {
-        $user = $this->user_repository->getByUsername(
-            $data['username']
-        );
+        $user = $this->user_repository->getByUsername($data['username']);
         if (! $user) {
             throw ValidationException::withMessages([
                 'username' => 'Username tidak ditemukan.',
+            ]);
+        }
+        // Memastikan akun berstatus aktif.
+        if (! (bool) $user->status) {
+            throw ValidationException::withMessages([
+                'username' => 'Akun Anda sedang nonaktif. Silakan hubungi administrator.',
             ]);
         }
         if (! $user->kode_unit_kerja || ! $user->department) {
@@ -180,10 +184,13 @@ class AuthService
     /**
      * Menyelesaikan login setelah autentikasi berhasil.
      */
-    public function completeLogin(
-        User $user,
-        bool $remember = false
-    ): User {
+    public function completeLogin( User $user, bool $remember = false ): User {
+        if (! (bool) $user->fresh()->status) {
+            $this->clearTwoFactorChallenge();
+            throw ValidationException::withMessages([
+                'username' => 'Akun Anda sedang nonaktif. Silakan hubungi administrator.',
+            ]);
+        }
         $this->validateDeviceLimit($user);
         Auth::login($user, $remember);
         request()->session()->regenerate();

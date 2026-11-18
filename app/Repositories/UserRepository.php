@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Auth\Access\AuthorizationException;
 class UserRepository
 {
     /**
@@ -17,11 +16,9 @@ class UserRepository
     {
         $query = User::query()
             ->with(['department', 'activityLogs']);
-
         if ($actor->role === 'super_admin') {
             return $query;
         }
-
         if (
             $actor->role === 'admin' &&
             filled($actor->kode_unit_kerja)
@@ -30,7 +27,6 @@ class UserRepository
                 ->where('role', 'user')
                 ->where('kode_unit_kerja', $actor->kode_unit_kerja);
         }
-
         return $query->whereRaw('1 = 0');
     }
     /**
@@ -57,88 +53,101 @@ class UserRepository
     {
         return User::where('username', $username)->first();
     }
+    /**
+     * Menyimpan foto pengguna.
+     */
+    private function uploadPhoto(UploadedFile $foto): string
+    {
+        $filename = Str::uuid() . '.' .
+            $foto->getClientOriginalExtension();
+        $path = $foto->storeAs(
+            'pengguna',
+            $filename,
+            'public'
+        );
+        if (!$path) {
+            throw new \RuntimeException(
+                'Foto profil gagal disimpan.'
+            );
+        }
+        return $path;
+    }
+    /**
+     * Menghapus foto pengguna dari penyimpanan.
+     */
+    private function deletePhoto(?string $photo): void
+    {
+        if (
+            filled($photo) &&
+            $photo !== 'images/default-user.png' &&
+            Storage::disk('public')->exists($photo)
+        ) {
+            Storage::disk('public')->delete($photo);
+        }
+    }
+    /**
+     * Memeriksa apakah data foto merupakan unggahan baru.
+     */
+    private function hasNewPhoto(array $data): bool
+    {
+        return isset($data['foto']) &&
+            $data['foto'] instanceof UploadedFile;
+    }
+    /**
+     * Membuat akun pengguna.
+     */
     public function create(array $data): User
     {
         $storedPhoto = null;
-        if (
-            isset($data['foto']) &&
-            $data['foto'] instanceof UploadedFile
-        ) {
-            $filename = Str::uuid() . '.' .
-                $data['foto']->getClientOriginalExtension();
-            $storedPhoto = $data['foto']->storeAs(
-                'pengguna',
-                $filename,
-                'public'
-            );
-            if (! $storedPhoto) {
-                throw new \RuntimeException(
-                    'Foto profil gagal disimpan.'
-                );
-            }
+        if ($this->hasNewPhoto($data)) {
+            $storedPhoto = $this->uploadPhoto($data['foto']);
             $data['foto'] = $storedPhoto;
         }
         try {
             return User::create($data);
         } catch (\Throwable $exception) {
-            if ($storedPhoto !== null) {
-                Storage::disk('public')->delete($storedPhoto);
-            }
+            $this->deletePhoto($storedPhoto);
             throw $exception;
         }
     }
+    /**
+     * Memperbarui data pengguna.
+     */
     public function update(User $user, array $data): User
     {
-        if (
-            isset($data['foto']) &&
-            $data['foto'] instanceof UploadedFile
-        ) {
-            $filename = Str::uuid() . '.' .
-                $data['foto']->getClientOriginalExtension();
-            $newPhoto = $data['foto']->storeAs(
-                'pengguna',
-                $filename,
-                'public'
-            );
-            if (! $newPhoto) {
+        $storedPhoto = null;
+        $oldPhoto = $user->foto;
+        if ($this->hasNewPhoto($data)) {
+            $storedPhoto = $this->uploadPhoto($data['foto']);
+            $data['foto'] = $storedPhoto;
+        }
+        try {
+            if (!$user->update($data)) {
                 throw new \RuntimeException(
-                    'Foto profil gagal disimpan.'
+                    'Data pengguna gagal diperbarui.'
                 );
             }
-            $oldPhoto = $user->foto;
-            $data['foto'] = $newPhoto;
-            try {
-                if (! $user->update($data)) {
-                    throw new \RuntimeException(
-                        'Data pengguna gagal diperbarui.'
-                    );
-                }
-            } catch (\Throwable $exception) {
-                Storage::disk('public')->delete($newPhoto);
-                throw $exception;
-            }
-            if (
-                filled($oldPhoto) &&
-                $oldPhoto !== 'images/default-user.png' &&
-                Storage::disk('public')->exists($oldPhoto)
-            ) {
-                Storage::disk('public')->delete($oldPhoto);
+            // Hapus foto lama setelah pembaruan berhasil.
+            if ($storedPhoto !== null) {
+                $this->deletePhoto($oldPhoto);
             }
             return $user->fresh();
+        } catch (\Throwable $exception) {
+            // Hapus foto baru jika pembaruan gagal.
+            $this->deletePhoto($storedPhoto);
+            throw $exception;
         }
-        $user->update($data);
-        return $user->fresh();
     }
+    /**
+     * Menghapus pengguna beserta foto profilnya.
+     */
     public function delete(User $user): bool
     {
-        if (
-            filled($user->foto) &&
-            $user->foto !== 'images/default-user.png' &&
-            Storage::disk('public')->exists($user->foto)
-        ) {
-            Storage::disk('public')->delete($user->foto);
+        $deleted = $user->delete();
+        if ($deleted) {
+            $this->deletePhoto($user->foto);
         }
-        return $user->delete();
+        return $deleted;
     }
     /**
      * Memeriksa apakah unit kerja sudah digunakan

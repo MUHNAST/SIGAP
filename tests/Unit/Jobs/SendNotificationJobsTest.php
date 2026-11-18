@@ -3,13 +3,16 @@
 namespace Tests\Unit\Jobs;
 
 use App\Jobs\SendEmailJob;
+use App\Jobs\ResendNotificationJob;
 use App\Jobs\SendWhatsappJob;
 use App\Exceptions\WhatsAppDeliveryException;
 use App\Mail\NotificationMail;
 use App\Models\Employee;
 use App\Models\Notification;
 use App\Services\WhatsAppService;
+use App\Services\NotificationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Mockery;
@@ -310,5 +313,84 @@ class SendNotificationJobsTest extends TestCase
         $this->assertSame(10, $whatsappJob->tries);
         $this->assertSame([60, 180, 600], $emailJob->backoff());
         $this->assertSame([10, 20, 30, 60, 120, 300, 600, 900, 1800], $whatsappJob->backoff());
+    }
+
+    public function test_resend_job_skips_missing_employee_and_resends_for_existing_employee(): void
+    {
+        $service = Mockery::mock(NotificationService::class);
+
+        (new ResendNotificationJob('missing-nip'))->handle($service);
+
+        $employee = $this->createNotification()->employee;
+        $service->shouldReceive('resendPendingNotifications')
+            ->once()
+            ->with(Mockery::on(
+                fn (Employee $found): bool =>
+                    $found->is($employee)
+                    && $found->relationLoaded('notifications')
+                    && $found->notifications->contains('id', $employee->notifications->sole()->id)
+            ));
+
+        (new ResendNotificationJob($employee->nip))->handle($service);
+    }
+
+    public function test_unique_lock_lifetime_includes_supported_delivery_delays(): void
+    {
+        Carbon::setTestNow('2026-11-14 10:00:00');
+
+        try {
+            $notification = $this->createNotification();
+            $emailBase = 3600 + (120 * 3) + array_sum([60, 180, 600]);
+            $whatsappBase = 3600 + (120 * 10) + array_sum([10, 20, 30, 60, 120, 300, 600, 900, 1800]);
+
+            $emailJob = new SendEmailJob($notification, 'pegawai@example.test');
+            $whatsappJob = new SendWhatsappJob($notification, '081234567890');
+
+            $this->assertSame($emailBase + 45, $emailJob->delay(45)->uniqueFor());
+            $this->assertSame(
+                $emailBase + 300,
+                $emailJob->delay(new \DateInterval('PT5M'))->uniqueFor()
+            );
+            $this->assertSame(
+                $emailBase + 30,
+                $emailJob->delay(now()->addSeconds(30))->uniqueFor()
+            );
+            $this->assertSame($emailBase, $emailJob->delay(null)->uniqueFor());
+
+            $this->assertSame($whatsappBase + 45, $whatsappJob->delay(45)->uniqueFor());
+            $this->assertSame(
+                $whatsappBase + 300,
+                $whatsappJob->delay(new \DateInterval('PT5M'))->uniqueFor()
+            );
+            $this->assertSame(
+                $whatsappBase + 30,
+                $whatsappJob->delay(now()->addSeconds(30))->uniqueFor()
+            );
+            $this->assertSame($whatsappBase, $whatsappJob->delay(null)->uniqueFor());
+        } finally {
+            Carbon::setTestNow();
+        }
+    }
+
+    public function test_whatsapp_permanent_failure_logs_generic_exception_context(): void
+    {
+        Log::shouldReceive('error')
+            ->once()
+            ->withArgs(
+                fn (string $message, array $context): bool =>
+                    $context['failure_type'] === 'exception'
+                    && $context['http_status'] === null
+                    && $context['error'] === 'WhatsApp notification delivery failed.'
+                    && $context['job_id'] === 'queue-job-43'
+                    && $context['attempts'] === 3
+            );
+        $notification = $this->createNotification();
+        $queueJob = Mockery::mock(QueueJob::class);
+        $queueJob->shouldReceive('getJobId')->once()->andReturn('queue-job-43');
+        $queueJob->shouldReceive('attempts')->once()->andReturn(3);
+        $job = new SendWhatsappJob($notification, '081234567890');
+        $job->job = $queueJob;
+
+        $job->failed(new RuntimeException('Unexpected delivery error.'));
     }
 }

@@ -100,6 +100,7 @@
                             </p>
                         @enderror
                     </div>
+                    <input type="hidden" name="status" value="1">
                 </div>
                 <!-- INFO BOX -->
                 <div class="flex items-start gap-3 rounded-xl border border-emerald-100 bg-emerald-50 p-3">

@@ -25,8 +25,7 @@ class ReportService
     public function getLaporanKGB(array $filter = []): Collection
     {
         $user = $this->authenticatedUser();
-        return $this->repository
-            ->getLaporanKGB($filter, $user)
+        return $this->repository->getLaporanKGB($filter, $user)
             ->map(function ($employee) {
                 return $this->prepareKgbInformation($employee);
             });
@@ -52,38 +51,31 @@ class ReportService
             403,
             'Preview surat KGB hanya tersedia untuk pegawai PNS.'
         );
-
         // Memastikan TMT KGB tersedia.
         abort_unless(
             filled($employee->tmt_kgb_baru),
             403,
             'TMT KGB belum tersedia.'
         );
-
         $tmtKgb = Carbon::parse(
             $employee->tmt_kgb_baru
         )->startOfDay();
-
         // Memastikan periode KGB belum pernah diproses.
         $existingHistory = $this->repository->getExistingKgbHistory(
             $employee->nip,
             $tmtKgb,
             $user
         );
-
         abort_if(
             $existingHistory !== null,
             403,
             'Periode KGB ini sudah pernah diproses.'
         );
-
         // Memastikan tanggal preview berada dalam rentang yang ditentukan.
         $today = Carbon::today();
-
         $awalPeriode = $tmtKgb
             ->copy()
             ->subMonthsNoOverflow(2);
-
         abort_if(
             $today->lt($awalPeriode) || $today->gt($tmtKgb),
             403,
@@ -406,7 +398,8 @@ class ReportService
         |--------------------------------------------------------------------------
         |
         | Cetak KGB baru:
-        | Mengambil nomor dan tanggal SK baru dari riwayat KGB sebelumnya.
+        | Mengambil data SK baru dari riwayat sebelumnya sebagai
+        | nilai awal SK lama jika data SK lama saat ini belum diisi.
         |
         | Cetak riwayat:
         | Menggunakan data SK lama yang tersimpan pada riwayat tersebut.
@@ -425,13 +418,16 @@ class ReportService
         |--------------------------------------------------------------------------
         */
         if ($isHistory) {
-            // Cetak ulang riwayat KGB yang sudah tersimpan.
+            // Cetak ulang menggunakan data yang tersimpan.
             $nomorSkLama = $history?->nomor_sk_lama;
             $tanggalSkLama = $history?->tanggal_sk_lama;
         } else {
-            // Cetak KGB baru menggunakan SK baru dari riwayat sebelumnya.
-            $nomorSkLama = $dasarSk?->nomor_sk_baru;
-            $tanggalSkLama = $dasarSk?->tanggal_sk_baru;
+            // Cetak KGB baru: prioritaskan data SK lama saat ini.
+            $nomorSkLama = filled($history?->nomor_sk_lama)
+                ? $history->nomor_sk_lama
+                : $dasarSk?->nomor_sk_baru;
+            $tanggalSkLama = $history?->tanggal_sk_lama
+                ?? $dasarSk?->tanggal_sk_baru;
         }
         /*
         |--------------------------------------------------------------------------
@@ -449,6 +445,11 @@ class ReportService
                 ?: $camat?->position?->nama
                 ?: 'Camat Pekalongan Timur'
             );
+        /*
+        |--------------------------------------------------------------------------
+        | Data surat KGB
+        |--------------------------------------------------------------------------
+        */
         return (object) [
             // SK baru
             'nomor_sk_baru' => $history?->nomor_sk_baru
@@ -719,7 +720,6 @@ class ReportService
         array $filter = []
     ): Collection {
         $user = $this->authenticatedEmployeeUser();
-
         return $this->repository
             ->getLaporanKGBForUser($user, $filter)
             ->map(function (Employee $employee) {
@@ -742,14 +742,12 @@ class ReportService
         Employee $employee
     ): void {
         $user = $this->authenticatedEmployeeUser();
-
         // Memastikan pegawai merupakan milik akun User.
         abort_unless(
             (string) $employee->nip === (string) $user->nip,
             403,
             'Anda tidak memiliki akses ke data pegawai tersebut.'
         );
-
         // Menggunakan validasi periode KGB yang sama.
         $this->ensureKgbPreviewAvailable($employee, $user);
     }

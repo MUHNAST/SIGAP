@@ -108,8 +108,8 @@
                                 <div class="relative">
                                     <i
                                         class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                    <input type="text" name="username" value="{{ old('username') }}" autocomplete="off"
-                                        placeholder="Masukkan username"
+                                    <input type="text" name="username" value="{{ old('username') }}"
+                                        autocomplete="off" placeholder="Masukkan username"
                                         class="w-full h-12 pl-11 pr-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none">
                                 </div>
                                 @error('username')
@@ -177,6 +177,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            <input type="hidden" name="status" value="1">
                         </div>
                     </div>
                 </div>

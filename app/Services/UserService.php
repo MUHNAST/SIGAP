@@ -103,14 +103,8 @@ class UserService
                 $exceptUserId
             );
         }
-        if (
-            $actor->role === 'admin' &&
-            filled($actor->kode_unit_kerja)
-        ) {
-            return $this->user_repository->getAvailableDepartments(
-                $exceptUserId,
-                $actor->kode_unit_kerja
-            );
+        if ( $actor->role === 'admin' && filled($actor->kode_unit_kerja) ) {
+            return $this->user_repository->getAvailableDepartments( $exceptUserId, $actor->kode_unit_kerja );
         }
         throw new AuthorizationException(
             'Anda tidak memiliki hak akses untuk melihat unit kerja.'
@@ -153,11 +147,7 @@ class UserService
             );
         }
         $data['role'] = 'admin';
-        if (
-            $this->user_repository->isUnitUsedByPrivilegedRole(
-                $data['kode_unit_kerja']
-            )
-        ) {
+        if ( $this->user_repository->isUnitUsedByPrivilegedRole( $data['kode_unit_kerja'] ) ) {
             throw new \Exception(
                 'Unit kerja tersebut sudah digunakan oleh akun Admin atau Super Admin.'
             );
@@ -172,11 +162,13 @@ class UserService
     public function update(User $user, array $data): User
     {
         $actor = $this->getActor();
+
         if ($actor->role !== 'super_admin') {
             throw new AuthorizationException(
                 'Anda tidak memiliki hak akses untuk mengubah pengguna.'
             );
         }
+
         if (in_array($user->role, ['admin', 'super_admin'], true)) {
             if (
                 $this->user_repository->isUnitUsedByPrivilegedRole(
@@ -189,17 +181,8 @@ class UserService
                 );
             }
         }
-        $payload = [
-            'nama' => $data['nama'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'no_hp' => $data['no_hp'],
-            'kode_unit_kerja' => $data['kode_unit_kerja'],
-        ];
-        if (!empty($data['foto'])) {
-            $payload['foto'] = $data['foto'];
-        }
-        return $this->user_repository->update($user, $payload);
+
+        return $this->user_repository->update($user, $data);
     }
     /**
      * Reset password pengguna.

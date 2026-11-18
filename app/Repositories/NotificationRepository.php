@@ -13,7 +13,10 @@ class NotificationRepository
      */
     public function getAll(array $data = ['*']): LengthAwarePaginator
     {
-        return Notification::with(['employee.department'])->select($data)->latest()->get();
+        return Notification::with(['employee.department'])
+            ->select($data)
+            ->latest()
+            ->paginate(config('app.pagination'));
     }
     /**
      * Notifikasi pegawai sendiri

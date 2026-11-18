@@ -12,6 +12,7 @@ use App\Models\Salary;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 class EmployeeRepository
 {
@@ -42,10 +43,7 @@ class EmployeeRepository
      */
     protected function getAdminUnit(User $user): string
     {
-        if (
-            $user->role !== 'admin'
-            || !filled($user->kode_unit_kerja)
-        ) {
+        if ( $user->role !== 'admin' || !filled($user->kode_unit_kerja) ) {
             throw new AuthorizationException(
                 'Unit kerja Admin belum ditentukan.'
             );
@@ -88,11 +86,7 @@ class EmployeeRepository
      */
     public function getAll(User $user, array $columns = ['*'])
     {
-        return $this->employeeQuery($user)
-            ->with($this->relations)
-            ->select($columns)
-            ->latest()
-            ->get();
+        return $this->employeeQuery($user)->with($this->relations)->select($columns)->latest()->get();
     }
     /**
      * Mengambil data untuk export.
@@ -101,29 +95,16 @@ class EmployeeRepository
     public function getExportData(User $user)
     {
         $this->authorizeEmployeeManagement($user);
-        return $this->employeeQuery($user)
-            ->with($this->relations)
-            ->get();
+        return $this->employeeQuery($user)->with($this->relations)->get();
     }
     /**
      * Menampilkan detail pegawai sesuai hak akses.
      */
-    public function getById(
-        string $nip,
-        User $user,
-        array $columns = ['*']
-    ) {
-        if (
-            $columns !== ['*']
-            && !in_array('nip', $columns, true)
-        ) {
+    public function getById( string $nip, User $user, array $columns = ['*'] ) {
+        if ( $columns !== ['*'] && !in_array('nip', $columns, true) ) {
             $columns[] = 'nip';
         }
-        return $this->employeeQuery($user)
-            ->with($this->relations)
-            ->select($columns)
-            ->where('nip', $nip)
-            ->firstOrFail();
+        return $this->employeeQuery($user)->with($this->relations)->select($columns)->where('nip', $nip)->firstOrFail();
     }
     /**
      * Menambahkan data pegawai.
@@ -147,18 +128,12 @@ class EmployeeRepository
      */
     public function update(string $nip, array $data, User $user)
     {
-        if (!in_array(
-            $user->role,
-            ['super_admin', 'admin', 'user'],
-            true
-        )) {
+        if (!in_array( $user->role, ['super_admin', 'admin', 'user'], true )) {
             throw new AuthorizationException(
                 'Anda tidak memiliki hak akses untuk memperbarui data pegawai.'
             );
         }
-        $employee = $this->employeeQuery($user)
-            ->where('nip', $nip)
-            ->firstOrFail();
+        $employee = $this->employeeQuery($user)->where('nip', $nip)->firstOrFail();
         if ($user->role === 'admin') {
             $data['kode_unit_kerja'] = $this->getAdminUnit($user);
         }
@@ -176,9 +151,7 @@ class EmployeeRepository
                 'Hanya Super Admin yang memiliki hak akses untuk menghapus data pegawai.'
             );
         }
-        $employee = Employee::query()
-            ->where('nip', $nip)
-            ->firstOrFail();
+        $employee = Employee::query()->where('nip', $nip)->firstOrFail();
         return $employee->delete();
     }
     /**
@@ -191,29 +164,25 @@ class EmployeeRepository
     public function getMasterData(User $user)
     {
         $departments = match ($user->role) {
-            'super_admin', 'user' => Department::orderBy('nama', 'ASC')->get(),
-            'admin' => Department::where(
-                'kode',
-                $this->getAdminUnit($user)
-            )->get(),
+            'super_admin', 'user' => Department::query()->where('status', true)->orderBy('nama', 'ASC')->get(),
+            'admin' => Department::query()->where('kode', $this->getAdminUnit($user))->where('status', true)->get(),
             default => throw new AuthorizationException(
                 'Anda tidak memiliki hak akses untuk mengakses data master pegawai.'
             ),
         };
         return [
-            'positions' => Position::orderBy('nama', 'ASC')->get(),
-            'ranks' => Rank::orderBy('nama', 'ASC')->get(),
-            'pppk' => Pppk::orderBy('nama', 'ASC')->get(),
-            'salaries' => Salary::orderBy('id_pangkat', 'ASC')->get(),
+            'positions' => Position::query()->where('status', true)->orderBy('nama', 'ASC')->get(),
+            'ranks' => Rank::query()->where('status', true)->orderBy('nama', 'ASC')->get(),
+            'pppk' => Pppk::query()->where('status', true)->orderBy('nama', 'ASC')->get(),
+            'salaries' => Salary::query()->where('status', true)->whereHas('rank', function ($query) {
+                    $query->where('status', true);
+                })->orderBy('id_pangkat', 'ASC')->get(),
             'provinces' => Province::orderBy('nama', 'ASC')->get(),
             'cities' => City::orderBy('nama', 'ASC')->get(),
             'departments' => $departments,
             'districts' => collect(),
             'urbanVillages' => collect(),
-            'educationLevels' => EducationLevel::query()
-                ->where('status', true)
-                ->orderBy('kode')
-                ->get(),
+            'educationLevels' => EducationLevel::query()->where('status', true)->orderBy('kode')->get(),
         ];
     }
     /**
@@ -221,89 +190,83 @@ class EmployeeRepository
      * termasuk untuk proses import.
      * Hanya Super Admin dan Admin.
      */
-    public function updateOrCreate(
-        array $attributes,
-        array $values,
-        User $user
-    ) {
-        $this->authorizeEmployeeManagement($user);
-        $existingEmployee = Employee::query()
-            ->where($attributes)
-            ->first();
-        if (
-            $user->role === 'admin'
-            && $existingEmployee
-            && $existingEmployee->kode_unit_kerja !== $this->getAdminUnit($user)
-        ) {
-            throw ValidationException::withMessages([
-                'nip' => 'Data pegawai tersebut terdaftar pada unit kerja lain.',
+    public function updateOrCreate( array $attributes, array $values, User $user ) {
+        try {
+            $this->authorizeEmployeeManagement($user);
+            $existingEmployee = Employee::query() ->where($attributes) ->first();
+            $adminUnit = $user->role === 'admin' ? $this->getAdminUnit($user) : null;
+            if ( $user->role === 'admin' && $existingEmployee && $existingEmployee->kode_unit_kerja !== $adminUnit ) {
+                Log::warning('Import pegawai ditolak karena unit kerja berbeda.', [
+                    'user_id' => $user->id,
+                    'role' => $user->role,
+                    'unit_admin' => $adminUnit,
+                    'unit_pegawai' => $existingEmployee->kode_unit_kerja,
+                ]);
+                throw ValidationException::withMessages([
+                    'nip' => 'Data pegawai tersebut terdaftar pada unit kerja lain.',
+                ]);
+            }
+            if ($user->role === 'admin') {
+                $values['kode_unit_kerja'] = $adminUnit;
+            }
+            $employee = $this->employeeQuery($user)->updateOrCreate($attributes, $values);
+            Log::info('Repository: data pegawai berhasil disimpan melalui import.', [
+                'user_id' => $user->id,
+                'role' => $user->role,
+                'unit_kerja' => $employee->kode_unit_kerja,
+                'created' => $employee->wasRecentlyCreated,
             ]);
+            return $employee;
+        } catch (\Throwable $e) {
+            Log::error('Repository: gagal menyimpan data pegawai.', [
+                'user_id' => $user->id,
+                'role' => $user->role,
+                'error' => $e->getMessage(),
+                'exception' => get_class($e),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            throw $e;
         }
-        if ($user->role === 'admin') {
-            $values['kode_unit_kerja'] = $this->getAdminUnit($user);
-        }
-        return $this->employeeQuery($user)
-            ->updateOrCreate($attributes, $values);
     }
     /**
      * Mengambil daftar pangkat berdasarkan tingkat pendidikan
      * dan status pegawai.
      */
-    public function getRanksByEducation(
-        ?string $educationLevelCode,
-        ?string $statusPegawai = null
-    ) {
+    public function getRanksByEducation( ?string $educationLevelCode, ?string $statusPegawai = null ) {
         if (!$educationLevelCode || !$statusPegawai) {
             return collect();
         }
-        $education = EducationLevel::query()
-            ->where('kode', $educationLevelCode)
-            ->where('status', true)
-            ->first();
+        $education = EducationLevel::query()->where('kode', $educationLevelCode)->where('status', true)->first();
         if (!$education) {
             return collect();
         }
         // Batas golongan PPPK tetap mengikuti database.
         if ($statusPegawai === 'PPPK') {
-            if (
-                $education->golongan_pppk_minimum === null
-                || $education->golongan_pppk_maksimum === null
-            ) {
+            if ( $education->golongan_pppk_minimum === null || $education->golongan_pppk_maksimum === null ) {
                 return collect();
             }
-            return Pppk::query()
-                ->where('urutan_golongan', '>', 0)
+            return Pppk::query()->where('status', true)->where('urutan_golongan', '>', 0)
                 ->whereBetween('urutan_golongan', [
                     $education->golongan_pppk_minimum,
                     $education->golongan_pppk_maksimum,
-                ])
-                ->orderBy('urutan_golongan')
-                ->get();
+                ])->orderBy('urutan_golongan')->get();
         }
         // Batas pangkat PNS disesuaikan berdasarkan pendidikan.
         if ($statusPegawai === 'PNS') {
-            if (
-                $education->pangkat_pns_minimum === null
-                || $education->pangkat_pns_maksimum === null
-            ) {
+            if ( $education->pangkat_pns_minimum === null || $education->pangkat_pns_maksimum === null ) {
                 return collect();
             }
-
             $maksimumPangkat = (int) $education->pangkat_pns_maksimum;
-
             // Pendidikan D3 ke atas mendapatkan tambahan satu tingkat.
             if (in_array($educationLevelCode, ['D3', 'D4', 'S1', 'S2', 'S3'], true)) {
                 $maksimumPangkat++;
             }
-
-            return Rank::query()
-                ->where('urutan_pangkat', '>', 0)
+            return Rank::query()->where('status', true)->where('urutan_pangkat', '>', 0)
                 ->whereBetween('urutan_pangkat', [
                     $education->pangkat_pns_minimum,
                     $maksimumPangkat,
-                ])
-                ->orderBy('urutan_pangkat')
-                ->get();
+                ])->orderBy('urutan_pangkat')->get();
         }
         return collect();
     }

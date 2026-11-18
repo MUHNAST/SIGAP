@@ -128,7 +128,9 @@
                                     <div class="relative">
                                         <i
                                             class="fa-solid fa-at absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                        <input type="text" name="username" value="{{ old('username', $user->username) }}" placeholder="Masukkan username" autocomplete="off"
+                                        <input type="text" name="username"
+                                            value="{{ old('username', $user->username) }}"
+                                            placeholder="Masukkan username" autocomplete="off"
                                             class="w-full h-12 pl-11 pr-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none">
                                     </div>
                                     @error('username')
@@ -141,8 +143,10 @@
                                         Email <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative">
-                                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                        <input type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="contoh@email.com" autocomplete="off"
+                                        <i
+                                            class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                        <input type="email" name="email" value="{{ old('email', $user->email) }}"
+                                            placeholder="contoh@email.com" autocomplete="off"
                                             class="w-full h-12 pl-11 pr-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none">
                                     </div>
                                     @error('email')
@@ -158,10 +162,35 @@
                                         <i
                                             class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                                         <input type="text" name="no_hp" value="{{ old('no_hp', $user->no_hp) }}"
-                                            placeholder="08xxxxxxxxxx" maxlength="14" minlength="10" pattern="08[0-9]{8,12}" oninput="this.value=this.value.replace(/[^0-9]/g,'')" autocomplete="off"
+                                            placeholder="08xxxxxxxxxx" maxlength="14" minlength="10"
+                                            pattern="08[0-9]{8,12}"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'')" autocomplete="off"
                                             class="w-full h-12 pl-11 pr-4 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none">
                                     </div>
                                     @error('no_hp')
+                                        <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="relative">
+                                    <label for="status" class="block mb-2 text-sm font-medium text-slate-700">
+                                        Status Akun <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <i
+                                            class="fa-solid fa-user-check absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                        <select id="status" name="status"
+                                            class="w-full h-12 pl-11 pr-10 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none appearance-none">
+                                            <option value="1"
+                                                {{ old('status', $user->status) == 1 ? 'selected' : '' }}>
+                                                Aktif
+                                            </option>
+                                            <option value="0"
+                                                {{ old('status', $user->status) == 0 ? 'selected' : '' }}>
+                                                Nonaktif
+                                            </option>
+                                        </select>
+                                    </div>
+                                    @error('status')
                                         <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>

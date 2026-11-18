@@ -30,18 +30,21 @@ class PositionModuleTest extends TestCase
             'kode' => 'POS-58',
             'nama' => 'Jabatan Batas Bawah',
             'usia_pensiun' => 58,
+            'status' => true,
         ])->assertRedirect(route('position.index'));
 
         $this->put(route('position.update', 'POS-58'), [
             'kode' => 'POS-58',
             'nama' => 'Jabatan Batas Bawah',
             'usia_pensiun' => 58,
+            'status' => true,
         ])->assertRedirect(route('position.index'));
 
         $this->put(route('position.update', 'POS-58'), [
             'kode' => 'POS-58',
             'nama' => 'Jabatan Batas Atas',
             'usia_pensiun' => 70,
+            'status' => true,
         ])->assertRedirect(route('position.index'));
 
         $this->assertDatabaseHas('positions', [
@@ -60,12 +63,14 @@ class PositionModuleTest extends TestCase
             'kode' => 'POS-01',
             'nama' => 'Jabatan Baru',
             'usia_pensiun' => 57,
+            'status' => true,
         ])->assertSessionHasErrors(['kode', 'usia_pensiun']);
 
         $this->post(route('position.store'), [
             'kode' => 'POS-02',
             'nama' => 'Analis',
             'usia_pensiun' => 71,
+            'status' => true,
         ])->assertSessionHasErrors(['nama', 'usia_pensiun']);
 
         $this->assertDatabaseCount('positions', 1);
@@ -107,11 +112,13 @@ class PositionModuleTest extends TestCase
             'kode' => 'POS-ADMIN',
             'nama' => 'Jabatan Admin',
             'usia_pensiun' => 58,
+            'status' => true,
         ])->assertRedirect(route('position.index'));
         $this->put(route('position.update', $existingPosition), [
             'kode' => 'POS-EXIST',
             'nama' => 'Jabatan Existing',
             'usia_pensiun' => 58,
+            'status' => true,
         ])->assertRedirect(route('position.index'));
 
         RolePermission::query()->delete();
@@ -124,11 +131,13 @@ class PositionModuleTest extends TestCase
             'kode' => 'POS-DENIED',
             'nama' => 'Jabatan Ditolak',
             'usia_pensiun' => 58,
+            'status' => true,
         ])->assertForbidden();
         $this->put(route('position.update', $existingPosition), [
             'kode' => 'POS-EXIST',
             'nama' => 'Jabatan Ditolak',
             'usia_pensiun' => 58,
+            'status' => true,
         ])->assertForbidden();
     }
 
@@ -145,4 +154,5 @@ class PositionModuleTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
         $service->getByCode('NOT-FOUND');
     }
+
 }

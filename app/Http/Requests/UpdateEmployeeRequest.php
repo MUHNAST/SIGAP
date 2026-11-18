@@ -12,9 +12,7 @@ class UpdateEmployeeRequest extends FormRequest
     public function authorize(): bool
     {
         $user = $this->user();
-        return $user !== null
-            && $user->role === 'user'
-            && $user->employee !== null;
+        return $user !== null && $user->role === 'user' && $user->employee !== null;
     }
     /**
      * Aturan validasi data pegawai.
@@ -30,204 +28,63 @@ class UpdateEmployeeRequest extends FormRequest
             | IDENTITAS PEGAWAI
             |--------------------------------------------------------------------------
             */
-            'nik' => [
-                'required',
-                'digits:16',
-                Rule::unique('employees', 'nik')
-                    ->ignore($employee->nip, 'nip'),
-            ],
-            'nama' => [
-                'required',
-                'string',
-                'max:100',
-            ],
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('employees', 'email')
-                    ->ignore($employee->nip, 'nip'),
-            ],
-            'no_hp' => [
-                'required',
-                'string',
-                'max:16',
-                'regex:/^08[0-9]{8,12}$/',
-                Rule::unique('employees', 'no_hp')
-                    ->ignore($employee->nip, 'nip'),
-            ],
+            'nik' => [ 'required', 'digits:16', Rule::unique('employees', 'nik')->ignore($employee->nip, 'nip'), ],
+            'nama' => [ 'required', 'string', 'max:100', ],
+            'email' => [ 'required', 'email', 'max:255', Rule::unique('employees', 'email')->ignore($employee->nip, 'nip'), ],
+            'no_hp' => [ 'required', 'string', 'max:16', 'regex:/^08[0-9]{8,12}$/', Rule::unique('employees', 'no_hp')->ignore($employee->nip, 'nip'), ],
             /*
             |--------------------------------------------------------------------------
             | DATA PRIBADI
             |--------------------------------------------------------------------------
             */
-            'tempat_lahir' => [
-                'required',
-                'string',
-                'size:4',
-                'exists:cities,id',
-            ],
-            'tanggal_lahir' => [
-                'required',
-                'date',
-                'before:today',
-            ],
-            'jenis_kelamin' => [
-                'required',
-                Rule::in(['Laki-laki', 'Perempuan']),
-            ],
-            'agama' => [
-                'required',
-                Rule::in([
-                    'Islam',
-                    'Kristen Protestan',
-                    'Kristen Katolik',
-                    'Budha',
-                    'Hindu',
-                    'Konghucu',
-                ]),
-            ],
-            'status_nikah' => [
-                'nullable',
-                Rule::in([
-                    'Belum Menikah',
-                    'Menikah',
-                    'Cerai Hidup',
-                    'Cerai Mati',
-                ]),
-            ],
-            'tingkat_pendidikan' => [
-                'required',
-                'exists:education_levels,kode',
-            ],
-            'alamat' => [
-                'required',
-                'string',
-            ],
+            'tempat_lahir' => [ 'required', 'string', 'size:4', 'exists:cities,id', ],
+            'tanggal_lahir' => [ 'required', 'date', 'before:today', ],
+            'jenis_kelamin' => [ 'required', Rule::in(['Laki-laki', 'Perempuan']), ],
+            'agama' => [ 'required', Rule::in(['Islam','Kristen Protestan','Kristen Katolik','Budha','Hindu','Konghucu', ]), ],
+            'status_nikah' => [ 'nullable', Rule::in(['Belum Menikah','Menikah','Cerai Hidup','Cerai Mati', ]), ],
+            'tingkat_pendidikan' => [ 'required', 'exists:education_levels,kode', ],
+            'alamat' => [ 'required', 'string', ],
             /*
             |--------------------------------------------------------------------------
             | WILAYAH ADMINISTRATIF
             |--------------------------------------------------------------------------
             */
-            'id_provinsi' => [
-                'required',
-                'string',
-                'size:2',
-                'exists:provinces,id',
-            ],
-            'id_kota' => [
-                'required',
-                'string',
-                'size:4',
-                'exists:cities,id',
-            ],
-            'id_kecamatan' => [
-                'required',
-                'string',
-                'size:7',
-                'exists:districts,id',
-            ],
-            'id_kelurahan' => [
-                'required',
-                'string',
-                'size:10',
-                'exists:urban_villages,id',
-            ],
+            'id_provinsi' => [ 'required', 'string', 'size:2', 'exists:provinces,id', ],
+            'id_kota' => [ 'required', 'string', 'size:4', 'exists:cities,id', ],
+            'id_kecamatan' => [ 'required', 'string', 'size:7', 'exists:districts,id', ],
+            'id_kelurahan' => [ 'required', 'string', 'size:10', 'exists:urban_villages,id', ],
             /*
             |--------------------------------------------------------------------------
             | INFORMASI KEPEGAWAIAN
             |--------------------------------------------------------------------------
             */
-            'status_pegawai' => [
-                'required',
-                Rule::in(['PNS', 'PPPK']),
-            ],
-            'tanggal_masuk' => [
-                'required',
-                'date',
-                'after:tanggal_lahir',
-            ],
-            'kode_unit_kerja' => [
-                'required',
-                'exists:departments,kode',
-            ],
-            'kode_jabatan' => [
-                'required',
-                'exists:positions,kode',
-            ],
-            'id_pangkat' => [
-                Rule::excludeIf(! $isPns),
-                'required',
-                'exists:ranks,id',
-            ],
-            'kode_pppk' => [
-                Rule::excludeIf(! $isPppk),
-                'required',
-                'exists:pppk,kode',
-            ],
+            'status_pegawai' => [ 'required', Rule::in(['PNS', 'PPPK']), ],
+            'tanggal_masuk' => [ 'required', 'date', 'after:tanggal_lahir', ],
+            'kode_unit_kerja' => [ 'required', 'exists:departments,kode', ],
+            'kode_jabatan' => [ 'required', 'exists:positions,kode', ],
+            'id_pangkat' => [ Rule::excludeIf(! $isPns), 'required', 'exists:ranks,id', ],
+            'kode_pppk' => [ Rule::excludeIf(! $isPppk), 'required', 'exists:pppk,kode', ],
             /*
             |--------------------------------------------------------------------------
             | TANGGAL PANGKAT DAN KGB
             |--------------------------------------------------------------------------
             */
-            'tmt_pangkat_lama' => [
-                Rule::excludeIf(! $isPns),
-                'required',
-                'date',
-            ],
-            // 'tmt_pangkat_baru' => [
-            //     Rule::excludeIf(! $isPns),
-            //     'required',
-            //     'date',
-            // ],
-            'tmt_kgb_lama' => [
-                'required',
-                'date',
-            ],
-            // 'tmt_kgb_baru' => [
-            //     'required',
-            //     'date',
-            // ],
-            // /*
-            // |--------------------------------------------------------------------------
-            // | PENSIUN
-            // |--------------------------------------------------------------------------
-            // */
-            // 'tanggal_pensiun' => [
-            //     'required',
-            //     'date',
-            // ],
-            // 'tmt_pensiun' => [
-            //     'required',
-            //     'date',
-            // ],
+            'tmt_pangkat_lama' => [ Rule::excludeIf(! $isPns), 'required', 'date', 'after_or_equal:tanggal_masuk' ],
+            'tmt_kgb_lama' => [ 'required', 'date', 'after_or_equal:tanggal_masuk' ],
+
             /*
             |--------------------------------------------------------------------------
             | MASA KERJA
             |--------------------------------------------------------------------------
             */
-            'tahun_masa_kerja' => [
-                'required',
-                'integer',
-                'min:0',
-                'max:255',
-            ],
-            'bulan_masa_kerja' => [
-                'required',
-                'integer',
-                'between:0,11',
-            ],
+            'tahun_masa_kerja' => [ 'required', 'integer', 'min:0', 'max:255', ],
+            'bulan_masa_kerja' => [ 'required', 'integer', 'between:0,11', ],
             /*
             |--------------------------------------------------------------------------
             | FOTO PEGAWAI
             |--------------------------------------------------------------------------
             */
-            'foto' => [
-                'nullable',
-                'image',
-                'mimes:jpg,jpeg,png',
-                'max:2048',
-            ],
+            'foto' => [ 'nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048', ],
             /*
             |--------------------------------------------------------------------------
             | DOKUMEN KEPEGAWAIAN
@@ -235,52 +92,14 @@ class UpdateEmployeeRequest extends FormRequest
             | Semua dokumen opsional.
             | Maksimal 5 MB per file.
             */
-            'dokumen' => [
-                'sometimes',
-                'array:SK_KGB,SK_PANGKAT,SK_JABATAN,IJAZAH_TERAKHIR,SK_PENGANGKATAN_PNS,SK_PENGANGKATAN_PPPK,KTP',
-            ],
-            'dokumen.SK_KGB' => [
-                'nullable',
-                'file',
-                'mimes:pdf,jpg,jpeg,png',
-                'max:5120',
-            ],
-            'dokumen.SK_PANGKAT' => [
-                'nullable',
-                'file',
-                'mimes:pdf,jpg,jpeg,png',
-                'max:5120',
-            ],
-            'dokumen.SK_JABATAN' => [
-                'nullable',
-                'file',
-                'mimes:pdf,jpg,jpeg,png',
-                'max:5120',
-            ],
-            'dokumen.IJAZAH_TERAKHIR' => [
-                'nullable',
-                'file',
-                'mimes:pdf,jpg,jpeg,png',
-                'max:5120',
-            ],
-            'dokumen.SK_PENGANGKATAN_PNS' => [
-                'nullable',
-                'file',
-                'mimes:pdf,jpg,jpeg,png',
-                'max:5120',
-            ],
-            'dokumen.SK_PENGANGKATAN_PPPK' => [
-                'nullable',
-                'file',
-                'mimes:pdf,jpg,jpeg,png',
-                'max:5120',
-            ],
-            'dokumen.KTP' => [
-                'nullable',
-                'file',
-                'mimes:pdf,jpg,jpeg,png',
-                'max:5120',
-            ],
+            'dokumen' => [ 'sometimes', 'array:SK_KGB,SK_PANGKAT,SK_JABATAN,IJAZAH_TERAKHIR,SK_PENGANGKATAN_PNS,SK_PENGANGKATAN_PPPK,KTP', ],
+            'dokumen.SK_KGB' => [ 'nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120', ],
+            'dokumen.SK_PANGKAT' => [ 'nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120', ],
+            'dokumen.SK_JABATAN' => [ 'nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120', ],
+            'dokumen.IJAZAH_TERAKHIR' => [ 'nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120', ],
+            'dokumen.SK_PENGANGKATAN_PNS' => [ 'nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120', ],
+            'dokumen.SK_PENGANGKATAN_PPPK' => [ 'nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120', ],
+            'dokumen.KTP' => [ 'nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120', ],
         ];
     }
     /**
@@ -327,8 +146,10 @@ class UpdateEmployeeRequest extends FormRequest
             'kode_pppk.required' => 'Golongan PPPK wajib dipilih untuk pegawai PPPK.',
             'kode_pppk.exists' => 'Golongan PPPK tidak valid.',
             'tmt_pangkat_lama.required' => 'TMT pangkat lama wajib diisi untuk pegawai PNS.',
+            'tmt_pangkat_lama.after_or_equal' => 'TMT Pangkat lama harus sama atau setelah tanggal mulai bekerja.',
             // 'tmt_pangkat_baru.required' => 'TMT pangkat baru wajib diisi untuk pegawai PNS.',
             'tmt_kgb_lama.required' => 'TMT KGB lama wajib diisi.',
+            'tmt_kgb_lama.after_or_equal' => 'TMT KGB lama harus sama atau setelah tanggal mulai bekerja.',
             // 'tmt_kgb_baru.required' => 'TMT KGB baru wajib diisi.',
             // 'tanggal_pensiun.required' => 'Tanggal pensiun wajib diisi.',
             // 'tmt_pensiun.required' => 'TMT pensiun wajib diisi.',
@@ -373,17 +194,11 @@ class UpdateEmployeeRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'nik' => $this->filled('nik')
-                ? trim((string) $this->input('nik'))
-                : null,
+            'nik' => $this->filled('nik') ? trim((string) $this->input('nik')) : null,
             'nama' => trim((string) $this->input('nama', '')),
-            'email' => $this->filled('email')
-                ? strtolower(trim((string) $this->input('email')))
-                : null,
+            'email' => $this->filled('email') ? strtolower(trim((string) $this->input('email'))) : null,
             'no_hp' => $this->formatNoHp($this->input('no_hp')),
-            'alamat' => $this->filled('alamat')
-                ? trim((string) $this->input('alamat'))
-                : null,
+            'alamat' => $this->filled('alamat') ? trim((string) $this->input('alamat')) : null,
         ]);
     }
     public function attributes(): array
@@ -404,14 +219,8 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             function (Validator $validator): void {
                 foreach ($this->file('dokumen', []) as $jenis => $file) {
-                    if (
-                        $file instanceof \Illuminate\Http\UploadedFile
-                        && $file->getSize() === 0
-                    ) {
-                        $validator->errors()->add(
-                            'dokumen.' . $jenis,
-                            'File dokumen tidak boleh kosong.'
-                        );
+                    if ( $file instanceof \Illuminate\Http\UploadedFile && $file->getSize() === 0 ) {
+                        $validator->errors()->add( 'dokumen.' . $jenis, 'File dokumen tidak boleh kosong.' );
                     }
                 }
             },

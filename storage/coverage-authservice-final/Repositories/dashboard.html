@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for D:\XAMPP\htdocs\sigap\app\Repositories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/billboard.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">D:\XAMPP\htdocs\sigap\app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Repositories</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classesCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="CardRepository.php.html#6">App\Repositories\CardRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#13">App\Repositories\DashboardRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentRepository.php.html#6">App\Repositories\DepartmentRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#17">App\Repositories\EmployeeRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#9">App\Repositories\NotificationRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionRepository.php.html#6">App\Repositories\PositionRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkRepository.php.html#6">App\Repositories\PppkRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankRepository.php.html#6">App\Repositories\RankRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#8">App\Repositories\ReportRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryRepository.php.html#6">App\Repositories\SalaryRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#10">App\Repositories\SettingRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#9">App\Repositories\UserRepository</a></td><td class="text-right">2%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#6">App\Repositories\ActivityLogRepository</a></td><td class="text-right">5%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="DashboardRepository.php.html#13">App\Repositories\DashboardRepository</a></td><td class="text-right">0.0%</td><td class="text-right">57</td><td class="text-right">3306</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#9">App\Repositories\NotificationRepository</a></td><td class="text-right">0.0%</td><td class="text-right">53</td><td class="text-right">2862</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#17">App\Repositories\EmployeeRepository</a></td><td class="text-right">0.0%</td><td class="text-right">44</td><td class="text-right">1980</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#6">App\Repositories\ActivityLogRepository</a></td><td class="text-right">5.3%</td><td class="text-right">30</td><td class="text-right">853</td></tr>
+       <tr><td><a href="ReportRepository.php.html#8">App\Repositories\ReportRepository</a></td><td class="text-right">0.0%</td><td class="text-right">26</td><td class="text-right">702</td></tr>
+       <tr><td><a href="UserRepository.php.html#9">App\Repositories\UserRepository</a></td><td class="text-right">2.4%</td><td class="text-right">27</td><td class="text-right">693</td></tr>
+       <tr><td><a href="SettingRepository.php.html#10">App\Repositories\SettingRepository</a></td><td class="text-right">0.0%</td><td class="text-right">14</td><td class="text-right">210</td></tr>
+       <tr><td><a href="CardRepository.php.html#6">App\Repositories\CardRepository</a></td><td class="text-right">0.0%</td><td class="text-right">13</td><td class="text-right">182</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2 style="margin-top: 3rem;">Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodsCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ActivityLogRepository.php.html#13"><abbr title="App\Repositories\ActivityLogRepository::withRelations">withRelations</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#24"><abbr title="App\Repositories\ActivityLogRepository::likeOperator">likeOperator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#28"><abbr title="App\Repositories\ActivityLogRepository::byDepartment">byDepartment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#35"><abbr title="App\Repositories\ActivityLogRepository::applyPerubahanDataFilter">applyPerubahanDataFilter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#53"><abbr title="App\Repositories\ActivityLogRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#58"><abbr title="App\Repositories\ActivityLogRepository::getByUserId">getByUserId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#63"><abbr title="App\Repositories\ActivityLogRepository::findById">findById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#78"><abbr title="App\Repositories\ActivityLogRepository::getFiltered">getFiltered</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#134"><abbr title="App\Repositories\ActivityLogRepository::getDistinctActivities">getDistinctActivities</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#143"><abbr title="App\Repositories\ActivityLogRepository::countByDepartment">countByDepartment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#146"><abbr title="App\Repositories\ActivityLogRepository::countTodayByDepartment">countTodayByDepartment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#149"><abbr title="App\Repositories\ActivityLogRepository::countActiveUsersTodayByDepartment">countActiveUsersTodayByDepartment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#152"><abbr title="App\Repositories\ActivityLogRepository::countPerubahanDataByDepartment">countPerubahanDataByDepartment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#155"><abbr title="App\Repositories\ActivityLogRepository::countAll">countAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#159"><abbr title="App\Repositories\ActivityLogRepository::countToday">countToday</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#163"><abbr title="App\Repositories\ActivityLogRepository::countActiveUsersToday">countActiveUsersToday</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#167"><abbr title="App\Repositories\ActivityLogRepository::countPerubahanData">countPerubahanData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CardRepository.php.html#11"><abbr title="App\Repositories\CardRepository::employeeQuery">employeeQuery</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CardRepository.php.html#24"><abbr title="App\Repositories\CardRepository::getUpcoming">getUpcoming</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CardRepository.php.html#49"><abbr title="App\Repositories\CardRepository::getTypeInformation">getTypeInformation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#15"><abbr title="App\Repositories\DashboardRepository::unitKerja">unitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#19"><abbr title="App\Repositories\DashboardRepository::employeeQuery">employeeQuery</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#36"><abbr title="App\Repositories\DashboardRepository::pegawaiPensiun">pegawaiPensiun</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#40"><abbr title="App\Repositories\DashboardRepository::pegawaiAktif">pegawaiAktif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#44"><abbr title="App\Repositories\DashboardRepository::pegawaiNonaktif">pegawaiNonaktif</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#48"><abbr title="App\Repositories\DashboardRepository::totalPNS">totalPNS</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#52"><abbr title="App\Repositories\DashboardRepository::totalPPPK">totalPPPK</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#56"><abbr title="App\Repositories\DashboardRepository::naikPangkat">naikPangkat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#61"><abbr title="App\Repositories\DashboardRepository::kgb">kgb</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#66"><abbr title="App\Repositories\DashboardRepository::pensiun">pensiun</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#71"><abbr title="App\Repositories\DashboardRepository::aktivitas">aktivitas</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#83"><abbr title="App\Repositories\DashboardRepository::notifikasi">notifikasi</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#95"><abbr title="App\Repositories\DashboardRepository::chartJenisPegawai">chartJenisPegawai</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#105"><abbr title="App\Repositories\DashboardRepository::ChartJenisKelamin">ChartJenisKelamin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#112"><abbr title="App\Repositories\DashboardRepository::chartReminder">chartReminder</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#149"><abbr title="App\Repositories\DashboardRepository::chartPangkat">chartPangkat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#177"><abbr title="App\Repositories\DashboardRepository::chartGolonganPppk">chartGolonganPppk</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#203"><abbr title="App\Repositories\DashboardRepository::chartPendidikan">chartPendidikan</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#244"><abbr title="App\Repositories\DashboardRepository::chartStatus">chartStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#262"><abbr title="App\Repositories\DashboardRepository::chartMasaKerja">chartMasaKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#297"><abbr title="App\Repositories\DashboardRepository::chartUsia">chartUsia</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#326"><abbr title="App\Repositories\DashboardRepository::chartRiwayat">chartRiwayat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#406"><abbr title="App\Repositories\DashboardRepository::availableYears">availableYears</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#416"><abbr title="App\Repositories\DashboardRepository::getNotificationAge">getNotificationAge</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#448"><abbr title="App\Repositories\DashboardRepository::notifikasiPengguna">notifikasiPengguna</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#458"><abbr title="App\Repositories\DashboardRepository::aktivitasPengguna">aktivitasPengguna</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentRepository.php.html#8"><abbr title="App\Repositories\DepartmentRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentRepository.php.html#12"><abbr title="App\Repositories\DepartmentRepository::getByCode">getByCode</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentRepository.php.html#16"><abbr title="App\Repositories\DepartmentRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentRepository.php.html#20"><abbr title="App\Repositories\DepartmentRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#33"><abbr title="App\Repositories\EmployeeRepository::authorizeEmployeeManagement">authorizeEmployeeManagement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#44"><abbr title="App\Repositories\EmployeeRepository::getAdminUnit">getAdminUnit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#60"><abbr title="App\Repositories\EmployeeRepository::employeeQuery">employeeQuery</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#87"><abbr title="App\Repositories\EmployeeRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#95"><abbr title="App\Repositories\EmployeeRepository::getExportData">getExportData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#103"><abbr title="App\Repositories\EmployeeRepository::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#114"><abbr title="App\Repositories\EmployeeRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#129"><abbr title="App\Repositories\EmployeeRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#147"><abbr title="App\Repositories\EmployeeRepository::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#164"><abbr title="App\Repositories\EmployeeRepository::getMasterData">getMasterData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#193"><abbr title="App\Repositories\EmployeeRepository::updateOrCreate">updateOrCreate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#236"><abbr title="App\Repositories\EmployeeRepository::getRanksByEducation">getRanksByEducation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#14"><abbr title="App\Repositories\NotificationRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#24"><abbr title="App\Repositories\NotificationRepository::getByEmployee">getByEmployee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#30"><abbr title="App\Repositories\NotificationRepository::getByUnitKerja">getByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#39"><abbr title="App\Repositories\NotificationRepository::getMyNotificationById">getMyNotificationById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#45"><abbr title="App\Repositories\NotificationRepository::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#51"><abbr title="App\Repositories\NotificationRepository::getLatest">getLatest</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#61"><abbr title="App\Repositories\NotificationRepository::getLatestByUnitKerja">getLatestByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#70"><abbr title="App\Repositories\NotificationRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#77"><abbr title="App\Repositories\NotificationRepository::markAsRead">markAsRead</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#86"><abbr title="App\Repositories\NotificationRepository::markAllAsRead">markAllAsRead</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#96"><abbr title="App\Repositories\NotificationRepository::markAllAsReadByUnitKerja">markAllAsReadByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#107"><abbr title="App\Repositories\NotificationRepository::getByUnitKerjaNotification">getByUnitKerjaNotification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#117"><abbr title="App\Repositories\NotificationRepository::existsNotification">existsNotification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#123"><abbr title="App\Repositories\NotificationRepository::countUnread">countUnread</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#133"><abbr title="App\Repositories\NotificationRepository::countAll">countAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#143"><abbr title="App\Repositories\NotificationRepository::countByUnitKerja">countByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#153"><abbr title="App\Repositories\NotificationRepository::countUnreadByUnitKerja">countUnreadByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#163"><abbr title="App\Repositories\NotificationRepository::getFiltered">getFiltered</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#186"><abbr title="App\Repositories\NotificationRepository::getFilteredByUnitKerja">getFilteredByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#206"><abbr title="App\Repositories\NotificationRepository::getNextPangkat">getNextPangkat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#215"><abbr title="App\Repositories\NotificationRepository::getNextKGB">getNextKGB</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#224"><abbr title="App\Repositories\NotificationRepository::getNextRetirement">getNextRetirement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#232"><abbr title="App\Repositories\NotificationRepository::getNextPangkatByUnitKerja">getNextPangkatByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#244"><abbr title="App\Repositories\NotificationRepository::getNextKGBByUnitKerja">getNextKGBByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#256"><abbr title="App\Repositories\NotificationRepository::getNextRetirementByUnitKerja">getNextRetirementByUnitKerja</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#273"><abbr title="App\Repositories\NotificationRepository::findNotification">findNotification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#276"><abbr title="App\Repositories\NotificationRepository::getByNip">getByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#284"><abbr title="App\Repositories\NotificationRepository::countByNip">countByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#289"><abbr title="App\Repositories\NotificationRepository::countUnreadByNip">countUnreadByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#296"><abbr title="App\Repositories\NotificationRepository::getByNipNotification">getByNipNotification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#303"><abbr title="App\Repositories\NotificationRepository::markAllAsReadByNip">markAllAsReadByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#312"><abbr title="App\Repositories\NotificationRepository::getFilteredByNip">getFilteredByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#343"><abbr title="App\Repositories\NotificationRepository::getLatestByNip">getLatestByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#352"><abbr title="App\Repositories\NotificationRepository::getNextPangkatByNip">getNextPangkatByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#359"><abbr title="App\Repositories\NotificationRepository::getNextKGBByNip">getNextKGBByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#366"><abbr title="App\Repositories\NotificationRepository::getNextRetirementByNip">getNextRetirementByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionRepository.php.html#8"><abbr title="App\Repositories\PositionRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionRepository.php.html#12"><abbr title="App\Repositories\PositionRepository::getByCode">getByCode</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionRepository.php.html#16"><abbr title="App\Repositories\PositionRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionRepository.php.html#20"><abbr title="App\Repositories\PositionRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkRepository.php.html#8"><abbr title="App\Repositories\PppkRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkRepository.php.html#13"><abbr title="App\Repositories\PppkRepository::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkRepository.php.html#17"><abbr title="App\Repositories\PppkRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkRepository.php.html#21"><abbr title="App\Repositories\PppkRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankRepository.php.html#8"><abbr title="App\Repositories\RankRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankRepository.php.html#13"><abbr title="App\Repositories\RankRepository::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankRepository.php.html#17"><abbr title="App\Repositories\RankRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankRepository.php.html#21"><abbr title="App\Repositories\RankRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankRepository.php.html#26"><abbr title="App\Repositories\RankRepository::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#35"><abbr title="App\Repositories\ReportRepository::getLaporanKGB">getLaporanKGB</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#67"><abbr title="App\Repositories\ReportRepository::getLaporanKGBForUser">getLaporanKGBForUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#79"><abbr title="App\Repositories\ReportRepository::getExistingKgbHistory">getExistingKgbHistory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#119"><abbr title="App\Repositories\ReportRepository::getEmployeeForKgbPreview">getEmployeeForKgbPreview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#130"><abbr title="App\Repositories\ReportRepository::getCamat">getCamat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#146"><abbr title="App\Repositories\ReportRepository::getEmployeeByNip">getEmployeeByNip</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#157"><abbr title="App\Repositories\ReportRepository::getHistory">getHistory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#169"><abbr title="App\Repositories\ReportRepository::getHistoryById">getHistoryById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#180"><abbr title="App\Repositories\ReportRepository::getPreviousHistory">getPreviousHistory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#206"><abbr title="App\Repositories\ReportRepository::filterEmployeeByRole">filterEmployeeByRole</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportRepository.php.html#239"><abbr title="App\Repositories\ReportRepository::filterHistoryByRole">filterHistoryByRole</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryRepository.php.html#12"><abbr title="App\Repositories\SalaryRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryRepository.php.html#19"><abbr title="App\Repositories\SalaryRepository::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryRepository.php.html#24"><abbr title="App\Repositories\SalaryRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryRepository.php.html#28"><abbr title="App\Repositories\SalaryRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#12"><abbr title="App\Repositories\SettingRepository::findUserById">findUserById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#16"><abbr title="App\Repositories\SettingRepository::updateUser">updateUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#21"><abbr title="App\Repositories\SettingRepository::storePhoto">storePhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#25"><abbr title="App\Repositories\SettingRepository::deletePhoto">deletePhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#34"><abbr title="App\Repositories\SettingRepository::updateEmployeePhoto">updateEmployeePhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#42"><abbr title="App\Repositories\SettingRepository::updatePassword">updatePassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#49"><abbr title="App\Repositories\SettingRepository::logoutOtherDevices">logoutOtherDevices</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#53"><abbr title="App\Repositories\SettingRepository::regenerateRememberToken">regenerateRememberToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#57"><abbr title="App\Repositories\SettingRepository::deleteRememberToken">deleteRememberToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#61"><abbr title="App\Repositories\SettingRepository::getLastLogin">getLastLogin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingRepository.php.html#65"><abbr title="App\Repositories\SettingRepository::getActivities">getActivities</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#15"><abbr title="App\Repositories\UserRepository::getAuthorizedQuery">getAuthorizedQuery</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#35"><abbr title="App\Repositories\UserRepository::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#46"><abbr title="App\Repositories\UserRepository::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#59"><abbr title="App\Repositories\UserRepository::uploadPhoto">uploadPhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#78"><abbr title="App\Repositories\UserRepository::deletePhoto">deletePhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#91"><abbr title="App\Repositories\UserRepository::hasNewPhoto">hasNewPhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#99"><abbr title="App\Repositories\UserRepository::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#116"><abbr title="App\Repositories\UserRepository::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#144"><abbr title="App\Repositories\UserRepository::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#156"><abbr title="App\Repositories\UserRepository::isUnitUsedByPrivilegedRole">isUnitUsedByPrivilegedRole</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#171"><abbr title="App\Repositories\UserRepository::getAvailableDepartments">getAvailableDepartments</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="EmployeeRepository.php.html#236"><abbr title="App\Repositories\EmployeeRepository::getRanksByEducation">getRanksByEducation</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">11</td><td class="text-right">132</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#78"><abbr title="App\Repositories\ActivityLogRepository::getFiltered">getFiltered</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">9</td><td class="text-right">90</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#416"><abbr title="App\Repositories\DashboardRepository::getNotificationAge">getNotificationAge</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">7</td><td class="text-right">56</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#193"><abbr title="App\Repositories\EmployeeRepository::updateOrCreate">updateOrCreate</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">7</td><td class="text-right">56</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#163"><abbr title="App\Repositories\NotificationRepository::getFiltered">getFiltered</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="ReportRepository.php.html#206"><abbr title="App\Repositories\ReportRepository::filterEmployeeByRole">filterEmployeeByRole</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="ReportRepository.php.html#239"><abbr title="App\Repositories\ReportRepository::filterHistoryByRole">filterHistoryByRole</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="CardRepository.php.html#24"><abbr title="App\Repositories\CardRepository::getUpcoming">getUpcoming</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="CardRepository.php.html#49"><abbr title="App\Repositories\CardRepository::getTypeInformation">getTypeInformation</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#19"><abbr title="App\Repositories\DashboardRepository::employeeQuery">employeeQuery</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#149"><abbr title="App\Repositories\DashboardRepository::chartPangkat">chartPangkat</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#177"><abbr title="App\Repositories\DashboardRepository::chartGolonganPppk">chartGolonganPppk</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#262"><abbr title="App\Repositories\DashboardRepository::chartMasaKerja">chartMasaKerja</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#297"><abbr title="App\Repositories\DashboardRepository::chartUsia">chartUsia</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#60"><abbr title="App\Repositories\EmployeeRepository::employeeQuery">employeeQuery</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#186"><abbr title="App\Repositories\NotificationRepository::getFilteredByUnitKerja">getFilteredByUnitKerja</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#312"><abbr title="App\Repositories\NotificationRepository::getFilteredByNip">getFilteredByNip</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="UserRepository.php.html#116"><abbr title="App\Repositories\UserRepository::update">update</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#164"><abbr title="App\Repositories\EmployeeRepository::getMasterData">getMasterData</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="SettingRepository.php.html#25"><abbr title="App\Repositories\SettingRepository::deletePhoto">deletePhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserRepository.php.html#15"><abbr title="App\Repositories\UserRepository::getAuthorizedQuery">getAuthorizedQuery</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserRepository.php.html#78"><abbr title="App\Repositories\UserRepository::deletePhoto">deletePhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="CardRepository.php.html#11"><abbr title="App\Repositories\CardRepository::employeeQuery">employeeQuery</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#44"><abbr title="App\Repositories\EmployeeRepository::getAdminUnit">getAdminUnit</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#103"><abbr title="App\Repositories\EmployeeRepository::getById">getById</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#129"><abbr title="App\Repositories\EmployeeRepository::update">update</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="ReportRepository.php.html#35"><abbr title="App\Repositories\ReportRepository::getLaporanKGB">getLaporanKGB</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="ReportRepository.php.html#180"><abbr title="App\Repositories\ReportRepository::getPreviousHistory">getPreviousHistory</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserRepository.php.html#99"><abbr title="App\Repositories\UserRepository::create">create</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#24"><abbr title="App\Repositories\ActivityLogRepository::likeOperator">likeOperator</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#63"><abbr title="App\Repositories\ActivityLogRepository::findById">findById</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ActivityLogRepository.php.html#134"><abbr title="App\Repositories\ActivityLogRepository::getDistinctActivities">getDistinctActivities</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#71"><abbr title="App\Repositories\DashboardRepository::aktivitas">aktivitas</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#83"><abbr title="App\Repositories\DashboardRepository::notifikasi">notifikasi</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#112"><abbr title="App\Repositories\DashboardRepository::chartReminder">chartReminder</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#326"><abbr title="App\Repositories\DashboardRepository::chartRiwayat">chartRiwayat</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DashboardRepository.php.html#448"><abbr title="App\Repositories\DashboardRepository::notifikasiPengguna">notifikasiPengguna</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#33"><abbr title="App\Repositories\EmployeeRepository::authorizeEmployeeManagement">authorizeEmployeeManagement</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#114"><abbr title="App\Repositories\EmployeeRepository::create">create</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="EmployeeRepository.php.html#147"><abbr title="App\Repositories\EmployeeRepository::delete">delete</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#51"><abbr title="App\Repositories\NotificationRepository::getLatest">getLatest</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#86"><abbr title="App\Repositories\NotificationRepository::markAllAsRead">markAllAsRead</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#123"><abbr title="App\Repositories\NotificationRepository::countUnread">countUnread</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationRepository.php.html#133"><abbr title="App\Repositories\NotificationRepository::countAll">countAll</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReportRepository.php.html#67"><abbr title="App\Repositories\ReportRepository::getLaporanKGBForUser">getLaporanKGBForUser</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserRepository.php.html#59"><abbr title="App\Repositories\UserRepository::uploadPhoto">uploadPhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserRepository.php.html#91"><abbr title="App\Repositories\UserRepository::hasNewPhoto">hasNewPhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserRepository.php.html#144"><abbr title="App\Repositories\UserRepository::delete">delete</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 12.5.7</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.36</a> and <a href="https://phpunit.de/">PHPUnit 12.5.33</a> at Sun Nov 15 11:28:21 WIB 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/billboard.pkgd.min.js?v=12.5.7" type="text/javascript"></script>
+  <script type="application/json" id="complexity_class">[[0,13,"CardRepository.php.html#6","App\\Repositories\\CardRepository","182"],[0,57,"DashboardRepository.php.html#13","App\\Repositories\\DashboardRepository","3306"],[0,4,"DepartmentRepository.php.html#6","App\\Repositories\\DepartmentRepository","20"],[0,44,"EmployeeRepository.php.html#17","App\\Repositories\\EmployeeRepository","1980"],[0,53,"NotificationRepository.php.html#9","App\\Repositories\\NotificationRepository","2862"],[0,4,"PositionRepository.php.html#6","App\\Repositories\\PositionRepository","20"],[0,4,"PppkRepository.php.html#6","App\\Repositories\\PppkRepository","20"],[0,5,"RankRepository.php.html#6","App\\Repositories\\RankRepository","30"],[0,26,"ReportRepository.php.html#8","App\\Repositories\\ReportRepository","702"],[0,4,"SalaryRepository.php.html#6","App\\Repositories\\SalaryRepository","20"],[0,14,"SettingRepository.php.html#10","App\\Repositories\\SettingRepository","210"],[2.380952380952381,27,"UserRepository.php.html#9","App\\Repositories\\UserRepository","693.55"],[5.263157894736842,30,"ActivityLogRepository.php.html#6","App\\Repositories\\ActivityLogRepository","853.99"],[100,5,"AuthRepository.php.html#5","App\\Repositories\\AuthRepository","5"]]</script>
+  <script type="application/json" id="complexity_method">[[0,1,"ActivityLogRepository.php.html#13","App\\Repositories\\ActivityLogRepository::withRelations","2"],[0,2,"ActivityLogRepository.php.html#24","App\\Repositories\\ActivityLogRepository::likeOperator","6"],[0,1,"ActivityLogRepository.php.html#28","App\\Repositories\\ActivityLogRepository::byDepartment","2"],[0,1,"ActivityLogRepository.php.html#35","App\\Repositories\\ActivityLogRepository::applyPerubahanDataFilter","2"],[0,1,"ActivityLogRepository.php.html#53","App\\Repositories\\ActivityLogRepository::getAll","2"],[0,1,"ActivityLogRepository.php.html#58","App\\Repositories\\ActivityLogRepository::getByUserId","2"],[0,2,"ActivityLogRepository.php.html#63","App\\Repositories\\ActivityLogRepository::findById","6"],[0,9,"ActivityLogRepository.php.html#78","App\\Repositories\\ActivityLogRepository::getFiltered","90"],[0,2,"ActivityLogRepository.php.html#134","App\\Repositories\\ActivityLogRepository::getDistinctActivities","6"],[0,1,"ActivityLogRepository.php.html#143","App\\Repositories\\ActivityLogRepository::countByDepartment","2"],[0,1,"ActivityLogRepository.php.html#146","App\\Repositories\\ActivityLogRepository::countTodayByDepartment","2"],[0,1,"ActivityLogRepository.php.html#149","App\\Repositories\\ActivityLogRepository::countActiveUsersTodayByDepartment","2"],[0,1,"ActivityLogRepository.php.html#152","App\\Repositories\\ActivityLogRepository::countPerubahanDataByDepartment","2"],[0,1,"ActivityLogRepository.php.html#155","App\\Repositories\\ActivityLogRepository::countAll","2"],[0,1,"ActivityLogRepository.php.html#159","App\\Repositories\\ActivityLogRepository::countToday","2"],[0,1,"ActivityLogRepository.php.html#163","App\\Repositories\\ActivityLogRepository::countActiveUsersToday","2"],[0,1,"ActivityLogRepository.php.html#167","App\\Repositories\\ActivityLogRepository::countPerubahanData","2"],[0,3,"CardRepository.php.html#11","App\\Repositories\\CardRepository::employeeQuery","12"],[0,5,"CardRepository.php.html#24","App\\Repositories\\CardRepository::getUpcoming","30"],[0,5,"CardRepository.php.html#49","App\\Repositories\\CardRepository::getTypeInformation","30"],[0,1,"DashboardRepository.php.html#15","App\\Repositories\\DashboardRepository::unitKerja","2"],[0,5,"DashboardRepository.php.html#19","App\\Repositories\\DashboardRepository::employeeQuery","30"],[0,1,"DashboardRepository.php.html#36","App\\Repositories\\DashboardRepository::pegawaiPensiun","2"],[0,1,"DashboardRepository.php.html#40","App\\Repositories\\DashboardRepository::pegawaiAktif","2"],[0,1,"DashboardRepository.php.html#44","App\\Repositories\\DashboardRepository::pegawaiNonaktif","2"],[0,1,"DashboardRepository.php.html#48","App\\Repositories\\DashboardRepository::totalPNS","2"],[0,1,"DashboardRepository.php.html#52","App\\Repositories\\DashboardRepository::totalPPPK","2"],[0,1,"DashboardRepository.php.html#56","App\\Repositories\\DashboardRepository::naikPangkat","2"],[0,1,"DashboardRepository.php.html#61","App\\Repositories\\DashboardRepository::kgb","2"],[0,1,"DashboardRepository.php.html#66","App\\Repositories\\DashboardRepository::pensiun","2"],[0,2,"DashboardRepository.php.html#71","App\\Repositories\\DashboardRepository::aktivitas","6"],[0,2,"DashboardRepository.php.html#83","App\\Repositories\\DashboardRepository::notifikasi","6"],[0,1,"DashboardRepository.php.html#95","App\\Repositories\\DashboardRepository::chartJenisPegawai","2"],[0,1,"DashboardRepository.php.html#105","App\\Repositories\\DashboardRepository::ChartJenisKelamin","2"],[0,2,"DashboardRepository.php.html#112","App\\Repositories\\DashboardRepository::chartReminder","6"],[0,5,"DashboardRepository.php.html#149","App\\Repositories\\DashboardRepository::chartPangkat","30"],[0,5,"DashboardRepository.php.html#177","App\\Repositories\\DashboardRepository::chartGolonganPppk","30"],[0,1,"DashboardRepository.php.html#203","App\\Repositories\\DashboardRepository::chartPendidikan","2"],[0,1,"DashboardRepository.php.html#244","App\\Repositories\\DashboardRepository::chartStatus","2"],[0,5,"DashboardRepository.php.html#262","App\\Repositories\\DashboardRepository::chartMasaKerja","30"],[0,5,"DashboardRepository.php.html#297","App\\Repositories\\DashboardRepository::chartUsia","30"],[0,2,"DashboardRepository.php.html#326","App\\Repositories\\DashboardRepository::chartRiwayat","6"],[0,1,"DashboardRepository.php.html#406","App\\Repositories\\DashboardRepository::availableYears","2"],[0,7,"DashboardRepository.php.html#416","App\\Repositories\\DashboardRepository::getNotificationAge","56"],[0,2,"DashboardRepository.php.html#448","App\\Repositories\\DashboardRepository::notifikasiPengguna","6"],[0,1,"DashboardRepository.php.html#458","App\\Repositories\\DashboardRepository::aktivitasPengguna","2"],[0,1,"DepartmentRepository.php.html#8","App\\Repositories\\DepartmentRepository::getAll","2"],[0,1,"DepartmentRepository.php.html#12","App\\Repositories\\DepartmentRepository::getByCode","2"],[0,1,"DepartmentRepository.php.html#16","App\\Repositories\\DepartmentRepository::create","2"],[0,1,"DepartmentRepository.php.html#20","App\\Repositories\\DepartmentRepository::update","2"],[0,2,"EmployeeRepository.php.html#33","App\\Repositories\\EmployeeRepository::authorizeEmployeeManagement","6"],[0,3,"EmployeeRepository.php.html#44","App\\Repositories\\EmployeeRepository::getAdminUnit","12"],[0,5,"EmployeeRepository.php.html#60","App\\Repositories\\EmployeeRepository::employeeQuery","30"],[0,1,"EmployeeRepository.php.html#87","App\\Repositories\\EmployeeRepository::getAll","2"],[0,1,"EmployeeRepository.php.html#95","App\\Repositories\\EmployeeRepository::getExportData","2"],[0,3,"EmployeeRepository.php.html#103","App\\Repositories\\EmployeeRepository::getById","12"],[0,2,"EmployeeRepository.php.html#114","App\\Repositories\\EmployeeRepository::create","6"],[0,3,"EmployeeRepository.php.html#129","App\\Repositories\\EmployeeRepository::update","12"],[0,2,"EmployeeRepository.php.html#147","App\\Repositories\\EmployeeRepository::delete","6"],[0,4,"EmployeeRepository.php.html#164","App\\Repositories\\EmployeeRepository::getMasterData","20"],[0,7,"EmployeeRepository.php.html#193","App\\Repositories\\EmployeeRepository::updateOrCreate","56"],[0,11,"EmployeeRepository.php.html#236","App\\Repositories\\EmployeeRepository::getRanksByEducation","132"],[0,1,"NotificationRepository.php.html#14","App\\Repositories\\NotificationRepository::getAll","2"],[0,1,"NotificationRepository.php.html#24","App\\Repositories\\NotificationRepository::getByEmployee","2"],[0,1,"NotificationRepository.php.html#30","App\\Repositories\\NotificationRepository::getByUnitKerja","2"],[0,1,"NotificationRepository.php.html#39","App\\Repositories\\NotificationRepository::getMyNotificationById","2"],[0,1,"NotificationRepository.php.html#45","App\\Repositories\\NotificationRepository::getById","2"],[0,2,"NotificationRepository.php.html#51","App\\Repositories\\NotificationRepository::getLatest","6"],[0,1,"NotificationRepository.php.html#61","App\\Repositories\\NotificationRepository::getLatestByUnitKerja","2"],[0,1,"NotificationRepository.php.html#70","App\\Repositories\\NotificationRepository::create","2"],[0,1,"NotificationRepository.php.html#77","App\\Repositories\\NotificationRepository::markAsRead","2"],[0,2,"NotificationRepository.php.html#86","App\\Repositories\\NotificationRepository::markAllAsRead","6"],[0,1,"NotificationRepository.php.html#96","App\\Repositories\\NotificationRepository::markAllAsReadByUnitKerja","2"],[0,1,"NotificationRepository.php.html#107","App\\Repositories\\NotificationRepository::getByUnitKerjaNotification","2"],[0,1,"NotificationRepository.php.html#117","App\\Repositories\\NotificationRepository::existsNotification","2"],[0,2,"NotificationRepository.php.html#123","App\\Repositories\\NotificationRepository::countUnread","6"],[0,2,"NotificationRepository.php.html#133","App\\Repositories\\NotificationRepository::countAll","6"],[0,1,"NotificationRepository.php.html#143","App\\Repositories\\NotificationRepository::countByUnitKerja","2"],[0,1,"NotificationRepository.php.html#153","App\\Repositories\\NotificationRepository::countUnreadByUnitKerja","2"],[0,6,"NotificationRepository.php.html#163","App\\Repositories\\NotificationRepository::getFiltered","42"],[0,5,"NotificationRepository.php.html#186","App\\Repositories\\NotificationRepository::getFilteredByUnitKerja","30"],[0,1,"NotificationRepository.php.html#206","App\\Repositories\\NotificationRepository::getNextPangkat","2"],[0,1,"NotificationRepository.php.html#215","App\\Repositories\\NotificationRepository::getNextKGB","2"],[0,1,"NotificationRepository.php.html#224","App\\Repositories\\NotificationRepository::getNextRetirement","2"],[0,1,"NotificationRepository.php.html#232","App\\Repositories\\NotificationRepository::getNextPangkatByUnitKerja","2"],[0,1,"NotificationRepository.php.html#244","App\\Repositories\\NotificationRepository::getNextKGBByUnitKerja","2"],[0,1,"NotificationRepository.php.html#256","App\\Repositories\\NotificationRepository::getNextRetirementByUnitKerja","2"],[0,1,"NotificationRepository.php.html#273","App\\Repositories\\NotificationRepository::findNotification","2"],[0,1,"NotificationRepository.php.html#276","App\\Repositories\\NotificationRepository::getByNip","2"],[0,1,"NotificationRepository.php.html#284","App\\Repositories\\NotificationRepository::countByNip","2"],[0,1,"NotificationRepository.php.html#289","App\\Repositories\\NotificationRepository::countUnreadByNip","2"],[0,1,"NotificationRepository.php.html#296","App\\Repositories\\NotificationRepository::getByNipNotification","2"],[0,1,"NotificationRepository.php.html#303","App\\Repositories\\NotificationRepository::markAllAsReadByNip","2"],[0,5,"NotificationRepository.php.html#312","App\\Repositories\\NotificationRepository::getFilteredByNip","30"],[0,1,"NotificationRepository.php.html#343","App\\Repositories\\NotificationRepository::getLatestByNip","2"],[0,1,"NotificationRepository.php.html#352","App\\Repositories\\NotificationRepository::getNextPangkatByNip","2"],[0,1,"NotificationRepository.php.html#359","App\\Repositories\\NotificationRepository::getNextKGBByNip","2"],[0,1,"NotificationRepository.php.html#366","App\\Repositories\\NotificationRepository::getNextRetirementByNip","2"],[0,1,"PositionRepository.php.html#8","App\\Repositories\\PositionRepository::getAll","2"],[0,1,"PositionRepository.php.html#12","App\\Repositories\\PositionRepository::getByCode","2"],[0,1,"PositionRepository.php.html#16","App\\Repositories\\PositionRepository::create","2"],[0,1,"PositionRepository.php.html#20","App\\Repositories\\PositionRepository::update","2"],[0,1,"PppkRepository.php.html#8","App\\Repositories\\PppkRepository::getAll","2"],[0,1,"PppkRepository.php.html#13","App\\Repositories\\PppkRepository::getById","2"],[0,1,"PppkRepository.php.html#17","App\\Repositories\\PppkRepository::create","2"],[0,1,"PppkRepository.php.html#21","App\\Repositories\\PppkRepository::update","2"],[0,1,"RankRepository.php.html#8","App\\Repositories\\RankRepository::getAll","2"],[0,1,"RankRepository.php.html#13","App\\Repositories\\RankRepository::getById","2"],[0,1,"RankRepository.php.html#17","App\\Repositories\\RankRepository::create","2"],[0,1,"RankRepository.php.html#21","App\\Repositories\\RankRepository::update","2"],[0,1,"RankRepository.php.html#26","App\\Repositories\\RankRepository::delete","2"],[0,3,"ReportRepository.php.html#35","App\\Repositories\\ReportRepository::getLaporanKGB","12"],[0,2,"ReportRepository.php.html#67","App\\Repositories\\ReportRepository::getLaporanKGBForUser","6"],[0,1,"ReportRepository.php.html#79","App\\Repositories\\ReportRepository::getExistingKgbHistory","2"],[0,1,"ReportRepository.php.html#119","App\\Repositories\\ReportRepository::getEmployeeForKgbPreview","2"],[0,1,"ReportRepository.php.html#130","App\\Repositories\\ReportRepository::getCamat","2"],[0,1,"ReportRepository.php.html#146","App\\Repositories\\ReportRepository::getEmployeeByNip","2"],[0,1,"ReportRepository.php.html#157","App\\Repositories\\ReportRepository::getHistory","2"],[0,1,"ReportRepository.php.html#169","App\\Repositories\\ReportRepository::getHistoryById","2"],[0,3,"ReportRepository.php.html#180","App\\Repositories\\ReportRepository::getPreviousHistory","12"],[0,6,"ReportRepository.php.html#206","App\\Repositories\\ReportRepository::filterEmployeeByRole","42"],[0,6,"ReportRepository.php.html#239","App\\Repositories\\ReportRepository::filterHistoryByRole","42"],[0,1,"SalaryRepository.php.html#12","App\\Repositories\\SalaryRepository::getAll","2"],[0,1,"SalaryRepository.php.html#19","App\\Repositories\\SalaryRepository::getById","2"],[0,1,"SalaryRepository.php.html#24","App\\Repositories\\SalaryRepository::create","2"],[0,1,"SalaryRepository.php.html#28","App\\Repositories\\SalaryRepository::update","2"],[0,1,"SettingRepository.php.html#12","App\\Repositories\\SettingRepository::findUserById","2"],[0,1,"SettingRepository.php.html#16","App\\Repositories\\SettingRepository::updateUser","2"],[0,1,"SettingRepository.php.html#21","App\\Repositories\\SettingRepository::storePhoto","2"],[0,4,"SettingRepository.php.html#25","App\\Repositories\\SettingRepository::deletePhoto","20"],[0,1,"SettingRepository.php.html#34","App\\Repositories\\SettingRepository::updateEmployeePhoto","2"],[0,1,"SettingRepository.php.html#42","App\\Repositories\\SettingRepository::updatePassword","2"],[0,1,"SettingRepository.php.html#49","App\\Repositories\\SettingRepository::logoutOtherDevices","2"],[0,1,"SettingRepository.php.html#53","App\\Repositories\\SettingRepository::regenerateRememberToken","2"],[0,1,"SettingRepository.php.html#57","App\\Repositories\\SettingRepository::deleteRememberToken","2"],[0,1,"SettingRepository.php.html#61","App\\Repositories\\SettingRepository::getLastLogin","2"],[0,1,"SettingRepository.php.html#65","App\\Repositories\\SettingRepository::getActivities","2"],[0,4,"UserRepository.php.html#15","App\\Repositories\\UserRepository::getAuthorizedQuery","20"],[0,1,"UserRepository.php.html#35","App\\Repositories\\UserRepository::getAll","2"],[0,1,"UserRepository.php.html#46","App\\Repositories\\UserRepository::getById","2"],[0,2,"UserRepository.php.html#59","App\\Repositories\\UserRepository::uploadPhoto","6"],[0,4,"UserRepository.php.html#78","App\\Repositories\\UserRepository::deletePhoto","20"],[0,2,"UserRepository.php.html#91","App\\Repositories\\UserRepository::hasNewPhoto","6"],[0,3,"UserRepository.php.html#99","App\\Repositories\\UserRepository::create","12"],[0,5,"UserRepository.php.html#116","App\\Repositories\\UserRepository::update","30"],[0,2,"UserRepository.php.html#144","App\\Repositories\\UserRepository::delete","6"],[0,1,"UserRepository.php.html#156","App\\Repositories\\UserRepository::isUnitUsedByPrivilegedRole","2"],[0,1,"UserRepository.php.html#171","App\\Repositories\\UserRepository::getAvailableDepartments","2"],[100,1,"ActivityLogRepository.php.html#9","App\\Repositories\\ActivityLogRepository::__construct","1"],[100,1,"ActivityLogRepository.php.html#74","App\\Repositories\\ActivityLogRepository::create","1"],[100,1,"AuthRepository.php.html#10","App\\Repositories\\AuthRepository::getUserById","1"],[100,1,"AuthRepository.php.html#17","App\\Repositories\\AuthRepository::getDeviceByFingerprint","1"],[100,1,"AuthRepository.php.html#28","App\\Repositories\\AuthRepository::countUserDevices","1"],[100,1,"AuthRepository.php.html#35","App\\Repositories\\AuthRepository::updateOrCreateDevice","1"],[100,1,"AuthRepository.php.html#51","App\\Repositories\\AuthRepository::deleteDeviceBySession","1"],[100,1,"UserRepository.php.html#52","App\\Repositories\\UserRepository::getByUsername","1"]]</script>
+  <script type="text/javascript" defer>
+  const barLabels = [
+    '0%',
+    '0-10%',
+    '10-20%',
+    '20-30%',
+    '30-40%',
+    '40-50%',
+    '50-60%',
+    '60-70%',
+    '70-80%',
+    '80-90%',
+    '90-100%',
+    '100%'
+  ];
+  const barConfig = (name, fullName, values) => ({
+    axis: {
+      x: {
+        type: "category",
+        categories: barLabels,
+      },
+      y: {
+        label: {
+          text: `#${name}`,
+          position: 'outer-top',
+        },
+      },
+    },
+    bindto: `#${name}CoverageDistribution`,
+    data: {
+      columns: [
+        [fullName].concat(values),
+      ],
+      colors: {
+        [fullName]: "rgba(69, 114, 167, 0.75)",
+      },
+      type: "bar",
+    },
+    bar: {
+      width: {
+        ratio: 0.9,
+      },
+    },
+    grid: {
+      focus: {
+        show: false,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">Coverage ${barLabels[data[0].x]}</th></tr>
+            <tr><td class="value">${data[0].value} ${name}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  bb.generate(
+    barConfig('classes', "Class Coverage", [11,2,0,0,0,0,0,0,0,0,0,1])
+  );
+  bb.generate(
+    barConfig('methods', "Method Coverage", [148,0,0,0,0,0,0,0,0,0,0,8])
+  );
+
+  const scatterConfig = (name, complexityData) => ({
+    axis: {
+      x: {
+        label: {
+          text: 'Code Coverage (in percent)',
+          position: 'outer-right',
+        },
+        tick: {
+          values: [0, 20, 40, 60, 80, 100],
+        },
+      },
+      y: {
+        label: {
+          text: 'Cyclomatic Complexity',
+          position: 'outer-top',
+        },
+        min: 0,
+        padding: {
+          bottom: 0,
+          top: 5,
+        },
+      },
+    },
+    bindto: `#${name}Complexity`,
+    data: {
+      columns: [
+        ["complexity_x"].concat(complexityData.map(d => d[0])),
+        ["complexity"].concat(complexityData.map(d => d[1])),
+      ],
+      onclick: function(data, element) {
+        window.location = complexityData[data.index][2];
+      },
+      type: "scatter",
+      xs: {
+        "complexity": "complexity_x",
+      },
+    },
+    grid: {
+      focus: {
+        show: true,
+        y: true,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        const coverage = Math.round(data[0].x);
+        const complexity = data[0].value;
+        const targetName = complexityData[data[0].index][3];
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">${targetName}</th></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Coverage</td><td class="name">${coverage}%</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Complexity</td><td class="value">${complexity}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  const classComplexityData = JSON.parse(document.getElementById('complexity_class').textContent);
+  bb.generate(
+    scatterConfig("class", classComplexityData)
+  );
+  const methodComplexityData = JSON.parse(document.getElementById('complexity_method').textContent);
+  bb.generate(
+    scatterConfig("method", methodComplexityData),
+  );
+  </script>
+ </body>
+</html>

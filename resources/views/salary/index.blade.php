@@ -60,6 +60,7 @@
                             <th class="px-6 py-4 text-left">Pangkat & Golongan</th>
                             <th class="px-6 py-4 text-left">Masa Kerja</th>
                             <th class="px-6 py-4 text-left">Gaji Pokok</th>
+                            <th class="px-6 py-4 text-left">Status</th>
                             @if ($edit)
                                 <th class="px-6 py-4 text-center">Aksi</th>
                             @endif
@@ -79,6 +80,21 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ 'Rp ' . number_format($salary->gaji_pokok, 0, ',', '.') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if ($salary->status)
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                            <i class="fa-solid fa-circle-check mr-1"></i>
+                                            Aktif
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                            <i class="fa-solid fa-circle-xmark mr-1"></i>
+                                            Tidak Aktif
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4" data-ignore="true">
                                     <div class="flex items-center justify-start  gap-2">

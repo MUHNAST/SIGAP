@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for D:\XAMPP\htdocs\sigap\app\Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/billboard.min.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=12.5.7" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">D:\XAMPP\htdocs\sigap\app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Services</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classesCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ActivityLogService.php.html#6">App\Services\ActivityLogService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#14">App\Services\AuthService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CardService.php.html#8">App\Services\CardService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardService.php.html#9">App\Services\DashboardService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentService.php.html#8">App\Services\DepartmentService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#29">App\Services\EmployeeService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeUserSyncService.php.html#8">App\Services\EmployeeUserSyncService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionService.php.html#8">App\Services\PositionService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkService.php.html#8">App\Services\PppkService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankService.php.html#8">App\Services\RankService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#12">App\Services\ReportService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryService.php.html#6">App\Services\SalaryService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#11">App\Services\SettingService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#8">App\Services\UserService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#9">App\Services\WhatsAppService</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#13">App\Services\NotificationService</a></td><td class="text-right">60%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="EmployeeService.php.html#29">App\Services\EmployeeService</a></td><td class="text-right">0.0%</td><td class="text-right">143</td><td class="text-right">20592</td></tr>
+       <tr><td><a href="NotificationService.php.html#13">App\Services\NotificationService</a></td><td class="text-right">60.8%</td><td class="text-right">98</td><td class="text-right">7044</td></tr>
+       <tr><td><a href="ReportService.php.html#12">App\Services\ReportService</a></td><td class="text-right">0.0%</td><td class="text-right">55</td><td class="text-right">3080</td></tr>
+       <tr><td><a href="UserService.php.html#8">App\Services\UserService</a></td><td class="text-right">0.0%</td><td class="text-right">32</td><td class="text-right">1056</td></tr>
+       <tr><td><a href="SettingService.php.html#11">App\Services\SettingService</a></td><td class="text-right">0.0%</td><td class="text-right">31</td><td class="text-right">992</td></tr>
+       <tr><td><a href="AuthService.php.html#14">App\Services\AuthService</a></td><td class="text-right">0.0%</td><td class="text-right">27</td><td class="text-right">756</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#9">App\Services\WhatsAppService</a></td><td class="text-right">0.0%</td><td class="text-right">27</td><td class="text-right">756</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#6">App\Services\ActivityLogService</a></td><td class="text-right">0.0%</td><td class="text-right">25</td><td class="text-right">650</td></tr>
+       <tr><td><a href="DashboardService.php.html#9">App\Services\DashboardService</a></td><td class="text-right">0.0%</td><td class="text-right">17</td><td class="text-right">306</td></tr>
+       <tr><td><a href="EmployeeUserSyncService.php.html#8">App\Services\EmployeeUserSyncService</a></td><td class="text-right">0.0%</td><td class="text-right">13</td><td class="text-right">182</td></tr>
+       <tr><td><a href="SalaryService.php.html#6">App\Services\SalaryService</a></td><td class="text-right">0.0%</td><td class="text-right">8</td><td class="text-right">72</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2 style="margin-top: 3rem;">Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodsCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ActivityLogService.php.html#9"><abbr title="App\Services\ActivityLogService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#14"><abbr title="App\Services\ActivityLogService::authenticatedUser">authenticatedUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#20"><abbr title="App\Services\ActivityLogService::authorizeUser">authorizeUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#26"><abbr title="App\Services\ActivityLogService::unitKerjaId">unitKerjaId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#35"><abbr title="App\Services\ActivityLogService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#47"><abbr title="App\Services\ActivityLogService::getByUserId">getByUserId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#58"><abbr title="App\Services\ActivityLogService::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#70"><abbr title="App\Services\ActivityLogService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#74"><abbr title="App\Services\ActivityLogService::getFiltered">getFiltered</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#109"><abbr title="App\Services\ActivityLogService::getDistinctActivities">getDistinctActivities</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#137"><abbr title="App\Services\ActivityLogService::getStatistics">getStatistics</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#156"><abbr title="App\Services\ActivityLogService::canAccessUser">canAccessUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#169"><abbr title="App\Services\ActivityLogService::log">log</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#21"><abbr title="App\Services\AuthService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#32"><abbr title="App\Services\AuthService::login">login</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#85"><abbr title="App\Services\AuthService::sendEmailOtp">sendEmailOtp</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#135"><abbr title="App\Services\AuthService::otpCacheKey">otpCacheKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#145"><abbr title="App\Services\AuthService::otpResendKey">otpResendKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#155"><abbr title="App\Services\AuthService::emailOtpResendWait">emailOtpResendWait</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#166"><abbr title="App\Services\AuthService::validateDeviceLimit">validateDeviceLimit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#187"><abbr title="App\Services\AuthService::completeLogin">completeLogin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#215"><abbr title="App\Services\AuthService::clearTwoFactorChallenge">clearTwoFactorChallenge</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AuthService.php.html#234"><abbr title="App\Services\AuthService::logout">logout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CardService.php.html#10"><abbr title="App\Services\CardService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="CardService.php.html#17"><abbr title="App\Services\CardService::getUpcoming">getUpcoming</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardService.php.html#11"><abbr title="App\Services\DashboardService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardService.php.html#14"><abbr title="App\Services\DashboardService::getAdminDashboardData">getAdminDashboardData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardService.php.html#44"><abbr title="App\Services\DashboardService::getPublicDashboardData">getPublicDashboardData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardService.php.html#93"><abbr title="App\Services\DashboardService::getUserDashboardData">getUserDashboardData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DashboardService.php.html#144"><abbr title="App\Services\DashboardService::formatSchedule">formatSchedule</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentService.php.html#10"><abbr title="App\Services\DepartmentService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentService.php.html#14"><abbr title="App\Services\DepartmentService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentService.php.html#18"><abbr title="App\Services\DepartmentService::getByCode">getByCode</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentService.php.html#22"><abbr title="App\Services\DepartmentService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DepartmentService.php.html#25"><abbr title="App\Services\DepartmentService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#55"><abbr title="App\Services\EmployeeService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#64"><abbr title="App\Services\EmployeeService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#68"><abbr title="App\Services\EmployeeService::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#74"><abbr title="App\Services\EmployeeService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#117"><abbr title="App\Services\EmployeeService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#315"><abbr title="App\Services\EmployeeService::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#334"><abbr title="App\Services\EmployeeService::normalizePhone">normalizePhone</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#351"><abbr title="App\Services\EmployeeService::getRanksByEducation">getRanksByEducation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#354"><abbr title="App\Services\EmployeeService::attachScheduleStatus">attachScheduleStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#411"><abbr title="App\Services\EmployeeService::prepareEmployeeData">prepareEmployeeData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#479"><abbr title="App\Services\EmployeeService::calculateRetirementData">calculateRetirementData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#530"><abbr title="App\Services\EmployeeService::calculateServicePeriod">calculateServicePeriod</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#567"><abbr title="App\Services\EmployeeService::handlePhoto">handlePhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#579"><abbr title="App\Services\EmployeeService::getOldPhoto">getOldPhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#585"><abbr title="App\Services\EmployeeService::deleteOldPhoto">deleteOldPhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#592"><abbr title="App\Services\EmployeeService::deletePhoto">deletePhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#604"><abbr title="App\Services\EmployeeService::saveDocuments">saveDocuments</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#680"><abbr title="App\Services\EmployeeService::deleteStoredDocuments">deleteStoredDocuments</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#694"><abbr title="App\Services\EmployeeService::getMasterData">getMasterData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#698"><abbr title="App\Services\EmployeeService::export">export</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#773"><abbr title="App\Services\EmployeeService::import">import</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#796"><abbr title="App\Services\EmployeeService::downloadTemplate">downloadTemplate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#805"><abbr title="App\Services\EmployeeService::syncTmt">syncTmt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1042"><abbr title="App\Services\EmployeeService::adjustServicePeriodAfterPromotion">adjustServicePeriodAfterPromotion</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1107"><abbr title="App\Services\EmployeeService::authorizeEmployee">authorizeEmployee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1137"><abbr title="App\Services\EmployeeService::syncEmployeeUser">syncEmployeeUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1144"><abbr title="App\Services\EmployeeService::authorizeEmployeeManagement">authorizeEmployeeManagement</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1162"><abbr title="App\Services\EmployeeService::syncImportedEmployeeUser">syncImportedEmployeeUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="EmployeeUserSyncService.php.html#10"><abbr title="App\Services\EmployeeUserSyncService::sync">sync</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#255"><abbr title="App\Services\NotificationService::generateNotification">generateNotification</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#264"><abbr title="App\Services\NotificationService::generateNotifications">generateNotifications</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#378"><abbr title="App\Services\NotificationService::notifyKgbProcessed">notifyKgbProcessed</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#556"><abbr title="App\Services\NotificationService::resendPendingNotifications">resendPendingNotifications</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#579"><abbr title="App\Services\NotificationService::sendToSuperAdmin">sendToSuperAdmin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#611"><abbr title="App\Services\NotificationService::getSuperAdmin">getSuperAdmin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#618"><abbr title="App\Services\NotificationService::getNextWhatsappDelay">getNextWhatsappDelay</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#635"><abbr title="App\Services\NotificationService::getNextEmailDelay">getNextEmailDelay</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionService.php.html#11"><abbr title="App\Services\PositionService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionService.php.html#15"><abbr title="App\Services\PositionService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionService.php.html#19"><abbr title="App\Services\PositionService::getByCode">getByCode</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionService.php.html#23"><abbr title="App\Services\PositionService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PositionService.php.html#26"><abbr title="App\Services\PositionService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkService.php.html#11"><abbr title="App\Services\PppkService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkService.php.html#15"><abbr title="App\Services\PppkService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkService.php.html#19"><abbr title="App\Services\PppkService::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkService.php.html#23"><abbr title="App\Services\PppkService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PppkService.php.html#27"><abbr title="App\Services\PppkService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankService.php.html#11"><abbr title="App\Services\RankService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankService.php.html#15"><abbr title="App\Services\RankService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankService.php.html#19"><abbr title="App\Services\RankService::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankService.php.html#23"><abbr title="App\Services\RankService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RankService.php.html#27"><abbr title="App\Services\RankService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#15"><abbr title="App\Services\ReportService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#19"><abbr title="App\Services\ReportService::authenticatedUser">authenticatedUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#25"><abbr title="App\Services\ReportService::getLaporanKGB">getLaporanKGB</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#33"><abbr title="App\Services\ReportService::getEmployeeForKgbPreview">getEmployeeForKgbPreview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#44"><abbr title="App\Services\ReportService::ensureKgbPreviewAvailable">ensureKgbPreviewAvailable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#85"><abbr title="App\Services\ReportService::getEmployee">getEmployee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#94"><abbr title="App\Services\ReportService::rupiahToInt">rupiahToInt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#98"><abbr title="App\Services\ReportService::getHistory">getHistory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#103"><abbr title="App\Services\ReportService::getHistoryById">getHistoryById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#116"><abbr title="App\Services\ReportService::getCamat">getCamat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#121"><abbr title="App\Services\ReportService::prepareKgbInformation">prepareKgbInformation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#385"><abbr title="App\Services\ReportService::prepareSuratData">prepareSuratData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#492"><abbr title="App\Services\ReportService::printKgb">printKgb</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#652"><abbr title="App\Services\ReportService::getExistingKgbHistory">getExistingKgbHistory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#670"><abbr title="App\Services\ReportService::getPreviousHistory">getPreviousHistory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#692"><abbr title="App\Services\ReportService::authenticatedEmployeeUser">authenticatedEmployeeUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#708"><abbr title="App\Services\ReportService::ensureOwnEmployee">ensureOwnEmployee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#719"><abbr title="App\Services\ReportService::getLaporanKGBForUser">getLaporanKGBForUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#730"><abbr title="App\Services\ReportService::getEmployeeForUserKgbPreview">getEmployeeForUserKgbPreview</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#741"><abbr title="App\Services\ReportService::ensureUserKgbPreviewAvailable">ensureUserKgbPreviewAvailable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReportService.php.html#755"><abbr title="App\Services\ReportService::printKgbForUser">printKgbForUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryService.php.html#8"><abbr title="App\Services\SalaryService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryService.php.html#11"><abbr title="App\Services\SalaryService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryService.php.html#14"><abbr title="App\Services\SalaryService::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryService.php.html#17"><abbr title="App\Services\SalaryService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryService.php.html#22"><abbr title="App\Services\SalaryService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SalaryService.php.html#30"><abbr title="App\Services\SalaryService::validateSalary">validateSalary</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#13"><abbr title="App\Services\SettingService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#17"><abbr title="App\Services\SettingService::getLastLogin">getLastLogin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#21"><abbr title="App\Services\SettingService::getActivities">getActivities</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#25"><abbr title="App\Services\SettingService::updateProfile">updateProfile</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#31"><abbr title="App\Services\SettingService::updatePhoto">updatePhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#73"><abbr title="App\Services\SettingService::resetPhoto">resetPhoto</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#100"><abbr title="App\Services\SettingService::updatePassword">updatePassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#119"><abbr title="App\Services\SettingService::updateEmployee">updateEmployee</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#123"><abbr title="App\Services\SettingService::getMasterData">getMasterData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#127"><abbr title="App\Services\SettingService::logoutDevices">logoutDevices</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#142"><abbr title="App\Services\SettingService::enableTwoFactor">enableTwoFactor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="SettingService.php.html#173"><abbr title="App\Services\SettingService::disableTwoFactor">disableTwoFactor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#11"><abbr title="App\Services\UserService::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#17"><abbr title="App\Services\UserService::getActor">getActor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#30"><abbr title="App\Services\UserService::authorizePermission">authorizePermission</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#51"><abbr title="App\Services\UserService::authorizeUserAccess">authorizeUserAccess</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#76"><abbr title="App\Services\UserService::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#84"><abbr title="App\Services\UserService::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#89"><abbr title="App\Services\UserService::findUser">findUser</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#98"><abbr title="App\Services\UserService::getAvailableDepartment">getAvailableDepartment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#117"><abbr title="App\Services\UserService::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#141"><abbr title="App\Services\UserService::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#162"><abbr title="App\Services\UserService::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserService.php.html#190"><abbr title="App\Services\UserService::resetPassword">resetPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#12"><abbr title="App\Services\WhatsAppService::send">send</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#36"><abbr title="App\Services\WhatsAppService::sendOrFail">sendOrFail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#284"><abbr title="App\Services\WhatsAppService::normalizePhone">normalizePhone</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="NotificationService.php.html#504"><abbr title="App\Services\NotificationService::dispatchNotification">dispatchNotification</abbr></a></td><td class="text-right">47%</td></tr>
+       <tr><td><a href="NotificationService.php.html#323"><abbr title="App\Services\NotificationService::generateKGB">generateKGB</abbr></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="NotificationService.php.html#465"><abbr title="App\Services\NotificationService::createNotification">createNotification</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="NotificationService.php.html#87"><abbr title="App\Services\NotificationService::markAsRead">markAsRead</abbr></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="NotificationService.php.html#351"><abbr title="App\Services\NotificationService::generatePensiun">generatePensiun</abbr></a></td><td class="text-right">71%</td></tr>
+       <tr><td><a href="NotificationService.php.html#133"><abbr title="App\Services\NotificationService::getFiltered">getFiltered</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="NotificationService.php.html#277"><abbr title="App\Services\NotificationService::generatePangkat">generatePangkat</abbr></a></td><td class="text-right">82%</td></tr>
+       <tr><td><a href="NotificationService.php.html#30"><abbr title="App\Services\NotificationService::getNotifications">getNotifications</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="NotificationService.php.html#47"><abbr title="App\Services\NotificationService::getStatistics">getStatistics</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="NotificationService.php.html#115"><abbr title="App\Services\NotificationService::markAllAsRead">markAllAsRead</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="NotificationService.php.html#200"><abbr title="App\Services\NotificationService::getSummary">getSummary</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="NotificationService.php.html#232"><abbr title="App\Services\NotificationService::getLatestNotifications">getLatestNotifications</abbr></a></td><td class="text-right">85%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="EmployeeService.php.html#117"><abbr title="App\Services\EmployeeService::update">update</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">23</td><td class="text-right">552</td></tr>
+       <tr><td><a href="EmployeeService.php.html#805"><abbr title="App\Services\EmployeeService::syncTmt">syncTmt</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">23</td><td class="text-right">552</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#36"><abbr title="App\Services\WhatsAppService::sendOrFail">sendOrFail</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">18</td><td class="text-right">342</td></tr>
+       <tr><td><a href="ReportService.php.html#121"><abbr title="App\Services\ReportService::prepareKgbInformation">prepareKgbInformation</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">14</td><td class="text-right">210</td></tr>
+       <tr><td><a href="EmployeeUserSyncService.php.html#10"><abbr title="App\Services\EmployeeUserSyncService::sync">sync</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">13</td><td class="text-right">182</td></tr>
+       <tr><td><a href="NotificationService.php.html#504"><abbr title="App\Services\NotificationService::dispatchNotification">dispatchNotification</abbr></a></td><td class="text-right">47.6%</td><td class="text-right">13</td><td class="text-right">180</td></tr>
+       <tr><td><a href="ReportService.php.html#385"><abbr title="App\Services\ReportService::prepareSuratData">prepareSuratData</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">11</td><td class="text-right">132</td></tr>
+       <tr><td><a href="EmployeeService.php.html#604"><abbr title="App\Services\EmployeeService::saveDocuments">saveDocuments</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">10</td><td class="text-right">110</td></tr>
+       <tr><td><a href="AuthService.php.html#32"><abbr title="App\Services\AuthService::login">login</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">9</td><td class="text-right">90</td></tr>
+       <tr><td><a href="DashboardService.php.html#93"><abbr title="App\Services\DashboardService::getUserDashboardData">getUserDashboardData</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">9</td><td class="text-right">90</td></tr>
+       <tr><td><a href="EmployeeService.php.html#354"><abbr title="App\Services\EmployeeService::attachScheduleStatus">attachScheduleStatus</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">9</td><td class="text-right">90</td></tr>
+       <tr><td><a href="ReportService.php.html#492"><abbr title="App\Services\ReportService::printKgb">printKgb</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">9</td><td class="text-right">90</td></tr>
+       <tr><td><a href="EmployeeService.php.html#411"><abbr title="App\Services\EmployeeService::prepareEmployeeData">prepareEmployeeData</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">8</td><td class="text-right">72</td></tr>
+       <tr><td><a href="EmployeeService.php.html#698"><abbr title="App\Services\EmployeeService::export">export</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">7</td><td class="text-right">56</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1042"><abbr title="App\Services\EmployeeService::adjustServicePeriodAfterPromotion">adjustServicePeriodAfterPromotion</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">7</td><td class="text-right">56</td></tr>
+       <tr><td><a href="SettingService.php.html#31"><abbr title="App\Services\SettingService::updatePhoto">updatePhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">7</td><td class="text-right">56</td></tr>
+       <tr><td><a href="NotificationService.php.html#277"><abbr title="App\Services\NotificationService::generatePangkat">generatePangkat</abbr></a></td><td class="text-right">82.4%</td><td class="text-right">9</td><td class="text-right">53</td></tr>
+       <tr><td><a href="EmployeeService.php.html#567"><abbr title="App\Services\EmployeeService::handlePhoto">handlePhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="EmployeeService.php.html#680"><abbr title="App\Services\EmployeeService::deleteStoredDocuments">deleteStoredDocuments</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1107"><abbr title="App\Services\EmployeeService::authorizeEmployee">authorizeEmployee</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="NotificationService.php.html#579"><abbr title="App\Services\NotificationService::sendToSuperAdmin">sendToSuperAdmin</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="UserService.php.html#51"><abbr title="App\Services\UserService::authorizeUserAccess">authorizeUserAccess</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#284"><abbr title="App\Services\WhatsAppService::normalizePhone">normalizePhone</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#109"><abbr title="App\Services\ActivityLogService::getDistinctActivities">getDistinctActivities</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="AuthService.php.html#85"><abbr title="App\Services\AuthService::sendEmailOtp">sendEmailOtp</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="DashboardService.php.html#144"><abbr title="App\Services\DashboardService::formatSchedule">formatSchedule</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="EmployeeService.php.html#479"><abbr title="App\Services\EmployeeService::calculateRetirementData">calculateRetirementData</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="NotificationService.php.html#378"><abbr title="App\Services\NotificationService::notifyKgbProcessed">notifyKgbProcessed</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="SettingService.php.html#142"><abbr title="App\Services\SettingService::enableTwoFactor">enableTwoFactor</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="EmployeeService.php.html#334"><abbr title="App\Services\EmployeeService::normalizePhone">normalizePhone</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="EmployeeService.php.html#796"><abbr title="App\Services\EmployeeService::downloadTemplate">downloadTemplate</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="SettingService.php.html#73"><abbr title="App\Services\SettingService::resetPhoto">resetPhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="SettingService.php.html#173"><abbr title="App\Services\SettingService::disableTwoFactor">disableTwoFactor</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserService.php.html#30"><abbr title="App\Services\UserService::authorizePermission">authorizePermission</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserService.php.html#98"><abbr title="App\Services\UserService::getAvailableDepartment">getAvailableDepartment</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserService.php.html#117"><abbr title="App\Services\UserService::delete">delete</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="UserService.php.html#162"><abbr title="App\Services\UserService::update">update</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#156"><abbr title="App\Services\ActivityLogService::canAccessUser">canAccessUser</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="AuthService.php.html#166"><abbr title="App\Services\AuthService::validateDeviceLimit">validateDeviceLimit</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="AuthService.php.html#215"><abbr title="App\Services\AuthService::clearTwoFactorChallenge">clearTwoFactorChallenge</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmployeeService.php.html#74"><abbr title="App\Services\EmployeeService::create">create</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmployeeService.php.html#530"><abbr title="App\Services\EmployeeService::calculateServicePeriod">calculateServicePeriod</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmployeeService.php.html#585"><abbr title="App\Services\EmployeeService::deleteOldPhoto">deleteOldPhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="EmployeeService.php.html#592"><abbr title="App\Services\EmployeeService::deletePhoto">deletePhoto</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="SalaryService.php.html#30"><abbr title="App\Services\SalaryService::validateSalary">validateSalary</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="SettingService.php.html#100"><abbr title="App\Services\SettingService::updatePassword">updatePassword</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserService.php.html#141"><abbr title="App\Services\UserService::create">create</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="WhatsAppService.php.html#12"><abbr title="App\Services\WhatsAppService::send">send</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="NotificationService.php.html#133"><abbr title="App\Services\NotificationService::getFiltered">getFiltered</abbr></a></td><td class="text-right">77.8%</td><td class="text-right">5</td><td class="text-right">11</td></tr>
+       <tr><td><a href="NotificationService.php.html#323"><abbr title="App\Services\NotificationService::generateKGB">generateKGB</abbr></a></td><td class="text-right">57.1%</td><td class="text-right">4</td><td class="text-right">10</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#20"><abbr title="App\Services\ActivityLogService::authorizeUser">authorizeUser</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#35"><abbr title="App\Services\ActivityLogService::getAll">getAll</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#47"><abbr title="App\Services\ActivityLogService::getByUserId">getByUserId</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#58"><abbr title="App\Services\ActivityLogService::getById">getById</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#74"><abbr title="App\Services\ActivityLogService::getFiltered">getFiltered</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ActivityLogService.php.html#137"><abbr title="App\Services\ActivityLogService::getStatistics">getStatistics</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="AuthService.php.html#187"><abbr title="App\Services\AuthService::completeLogin">completeLogin</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="EmployeeService.php.html#315"><abbr title="App\Services\EmployeeService::delete">delete</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="EmployeeService.php.html#1144"><abbr title="App\Services\EmployeeService::authorizeEmployeeManagement">authorizeEmployeeManagement</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#255"><abbr title="App\Services\NotificationService::generateNotification">generateNotification</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#264"><abbr title="App\Services\NotificationService::generateNotifications">generateNotifications</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#351"><abbr title="App\Services\NotificationService::generatePensiun">generatePensiun</abbr></a></td><td class="text-right">71.4%</td><td class="text-right">4</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#556"><abbr title="App\Services\NotificationService::resendPendingNotifications">resendPendingNotifications</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#611"><abbr title="App\Services\NotificationService::getSuperAdmin">getSuperAdmin</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#618"><abbr title="App\Services\NotificationService::getNextWhatsappDelay">getNextWhatsappDelay</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#635"><abbr title="App\Services\NotificationService::getNextEmailDelay">getNextEmailDelay</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReportService.php.html#44"><abbr title="App\Services\ReportService::ensureKgbPreviewAvailable">ensureKgbPreviewAvailable</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReportService.php.html#652"><abbr title="App\Services\ReportService::getExistingKgbHistory">getExistingKgbHistory</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="ReportService.php.html#670"><abbr title="App\Services\ReportService::getPreviousHistory">getPreviousHistory</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="SettingService.php.html#127"><abbr title="App\Services\SettingService::logoutDevices">logoutDevices</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="UserService.php.html#17"><abbr title="App\Services\UserService::getActor">getActor</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="NotificationService.php.html#87"><abbr title="App\Services\NotificationService::markAsRead">markAsRead</abbr></a></td><td class="text-right">71.4%</td><td class="text-right">4</td><td class="text-right">5</td></tr>
+       <tr><td><a href="NotificationService.php.html#30"><abbr title="App\Services\NotificationService::getNotifications">getNotifications</abbr></a></td><td class="text-right">85.7%</td><td class="text-right">4</td><td class="text-right">4</td></tr>
+       <tr><td><a href="NotificationService.php.html#47"><abbr title="App\Services\NotificationService::getStatistics">getStatistics</abbr></a></td><td class="text-right">85.7%</td><td class="text-right">4</td><td class="text-right">4</td></tr>
+       <tr><td><a href="NotificationService.php.html#115"><abbr title="App\Services\NotificationService::markAllAsRead">markAllAsRead</abbr></a></td><td class="text-right">85.7%</td><td class="text-right">4</td><td class="text-right">4</td></tr>
+       <tr><td><a href="NotificationService.php.html#200"><abbr title="App\Services\NotificationService::getSummary">getSummary</abbr></a></td><td class="text-right">85.7%</td><td class="text-right">4</td><td class="text-right">4</td></tr>
+       <tr><td><a href="NotificationService.php.html#232"><abbr title="App\Services\NotificationService::getLatestNotifications">getLatestNotifications</abbr></a></td><td class="text-right">85.7%</td><td class="text-right">4</td><td class="text-right">4</td></tr>
+       <tr><td><a href="NotificationService.php.html#465"><abbr title="App\Services\NotificationService::createNotification">createNotification</abbr></a></td><td class="text-right">66.7%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 12.5.7</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.36</a> and <a href="https://phpunit.de/">PHPUnit 12.5.33</a> at Sun Nov 15 4:39:12 WIB 2026.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/billboard.pkgd.min.js?v=12.5.7" type="text/javascript"></script>
+  <script type="application/json" id="complexity_class">[[0,25,"ActivityLogService.php.html#6","App\\Services\\ActivityLogService","650"],[0,27,"AuthService.php.html#14","App\\Services\\AuthService","756"],[0,2,"CardService.php.html#8","App\\Services\\CardService","6"],[0,17,"DashboardService.php.html#9","App\\Services\\DashboardService","306"],[0,5,"DepartmentService.php.html#8","App\\Services\\DepartmentService","30"],[0,143,"EmployeeService.php.html#29","App\\Services\\EmployeeService","20592"],[0,13,"EmployeeUserSyncService.php.html#8","App\\Services\\EmployeeUserSyncService","182"],[0,5,"PositionService.php.html#8","App\\Services\\PositionService","30"],[0,5,"PppkService.php.html#8","App\\Services\\PppkService","30"],[0,5,"RankService.php.html#8","App\\Services\\RankService","30"],[0,55,"ReportService.php.html#12","App\\Services\\ReportService","3080"],[0,8,"SalaryService.php.html#6","App\\Services\\SalaryService","72"],[0,31,"SettingService.php.html#11","App\\Services\\SettingService","992"],[0,32,"UserService.php.html#8","App\\Services\\UserService","1056"],[0,27,"WhatsAppService.php.html#9","App\\Services\\WhatsAppService","756"],[60.75949367088608,98,"NotificationService.php.html#13","App\\Services\\NotificationService","7044.33"]]</script>
+  <script type="application/json" id="complexity_method">[[0,1,"ActivityLogService.php.html#9","App\\Services\\ActivityLogService::__construct","2"],[0,1,"ActivityLogService.php.html#14","App\\Services\\ActivityLogService::authenticatedUser","2"],[0,2,"ActivityLogService.php.html#20","App\\Services\\ActivityLogService::authorizeUser","6"],[0,1,"ActivityLogService.php.html#26","App\\Services\\ActivityLogService::unitKerjaId","2"],[0,2,"ActivityLogService.php.html#35","App\\Services\\ActivityLogService::getAll","6"],[0,2,"ActivityLogService.php.html#47","App\\Services\\ActivityLogService::getByUserId","6"],[0,2,"ActivityLogService.php.html#58","App\\Services\\ActivityLogService::getById","6"],[0,1,"ActivityLogService.php.html#70","App\\Services\\ActivityLogService::create","2"],[0,2,"ActivityLogService.php.html#74","App\\Services\\ActivityLogService::getFiltered","6"],[0,5,"ActivityLogService.php.html#109","App\\Services\\ActivityLogService::getDistinctActivities","30"],[0,2,"ActivityLogService.php.html#137","App\\Services\\ActivityLogService::getStatistics","6"],[0,3,"ActivityLogService.php.html#156","App\\Services\\ActivityLogService::canAccessUser","12"],[0,1,"ActivityLogService.php.html#169","App\\Services\\ActivityLogService::log","2"],[0,1,"AuthService.php.html#21","App\\Services\\AuthService::__construct","2"],[0,9,"AuthService.php.html#32","App\\Services\\AuthService::login","90"],[0,5,"AuthService.php.html#85","App\\Services\\AuthService::sendEmailOtp","30"],[0,1,"AuthService.php.html#135","App\\Services\\AuthService::otpCacheKey","2"],[0,1,"AuthService.php.html#145","App\\Services\\AuthService::otpResendKey","2"],[0,1,"AuthService.php.html#155","App\\Services\\AuthService::emailOtpResendWait","2"],[0,3,"AuthService.php.html#166","App\\Services\\AuthService::validateDeviceLimit","12"],[0,2,"AuthService.php.html#187","App\\Services\\AuthService::completeLogin","6"],[0,3,"AuthService.php.html#215","App\\Services\\AuthService::clearTwoFactorChallenge","12"],[0,1,"AuthService.php.html#234","App\\Services\\AuthService::logout","2"],[0,1,"CardService.php.html#10","App\\Services\\CardService::__construct","2"],[0,1,"CardService.php.html#17","App\\Services\\CardService::getUpcoming","2"],[0,1,"DashboardService.php.html#11","App\\Services\\DashboardService::__construct","2"],[0,1,"DashboardService.php.html#14","App\\Services\\DashboardService::getAdminDashboardData","2"],[0,1,"DashboardService.php.html#44","App\\Services\\DashboardService::getPublicDashboardData","2"],[0,9,"DashboardService.php.html#93","App\\Services\\DashboardService::getUserDashboardData","90"],[0,5,"DashboardService.php.html#144","App\\Services\\DashboardService::formatSchedule","30"],[0,1,"DepartmentService.php.html#10","App\\Services\\DepartmentService::__construct","2"],[0,1,"DepartmentService.php.html#14","App\\Services\\DepartmentService::getAll","2"],[0,1,"DepartmentService.php.html#18","App\\Services\\DepartmentService::getByCode","2"],[0,1,"DepartmentService.php.html#22","App\\Services\\DepartmentService::create","2"],[0,1,"DepartmentService.php.html#25","App\\Services\\DepartmentService::update","2"],[0,1,"EmployeeService.php.html#55","App\\Services\\EmployeeService::__construct","2"],[0,1,"EmployeeService.php.html#64","App\\Services\\EmployeeService::getAll","2"],[0,1,"EmployeeService.php.html#68","App\\Services\\EmployeeService::getById","2"],[0,3,"EmployeeService.php.html#74","App\\Services\\EmployeeService::create","12"],[0,23,"EmployeeService.php.html#117","App\\Services\\EmployeeService::update","552"],[0,2,"EmployeeService.php.html#315","App\\Services\\EmployeeService::delete","6"],[0,4,"EmployeeService.php.html#334","App\\Services\\EmployeeService::normalizePhone","20"],[0,1,"EmployeeService.php.html#351","App\\Services\\EmployeeService::getRanksByEducation","2"],[0,9,"EmployeeService.php.html#354","App\\Services\\EmployeeService::attachScheduleStatus","90"],[0,8,"EmployeeService.php.html#411","App\\Services\\EmployeeService::prepareEmployeeData","72"],[0,5,"EmployeeService.php.html#479","App\\Services\\EmployeeService::calculateRetirementData","30"],[0,3,"EmployeeService.php.html#530","App\\Services\\EmployeeService::calculateServicePeriod","12"],[0,6,"EmployeeService.php.html#567","App\\Services\\EmployeeService::handlePhoto","42"],[0,1,"EmployeeService.php.html#579","App\\Services\\EmployeeService::getOldPhoto","2"],[0,3,"EmployeeService.php.html#585","App\\Services\\EmployeeService::deleteOldPhoto","12"],[0,3,"EmployeeService.php.html#592","App\\Services\\EmployeeService::deletePhoto","12"],[0,10,"EmployeeService.php.html#604","App\\Services\\EmployeeService::saveDocuments","110"],[0,6,"EmployeeService.php.html#680","App\\Services\\EmployeeService::deleteStoredDocuments","42"],[0,1,"EmployeeService.php.html#694","App\\Services\\EmployeeService::getMasterData","2"],[0,7,"EmployeeService.php.html#698","App\\Services\\EmployeeService::export","56"],[0,1,"EmployeeService.php.html#773","App\\Services\\EmployeeService::import","2"],[0,4,"EmployeeService.php.html#796","App\\Services\\EmployeeService::downloadTemplate","20"],[0,23,"EmployeeService.php.html#805","App\\Services\\EmployeeService::syncTmt","552"],[0,7,"EmployeeService.php.html#1042","App\\Services\\EmployeeService::adjustServicePeriodAfterPromotion","56"],[0,6,"EmployeeService.php.html#1107","App\\Services\\EmployeeService::authorizeEmployee","42"],[0,1,"EmployeeService.php.html#1137","App\\Services\\EmployeeService::syncEmployeeUser","2"],[0,2,"EmployeeService.php.html#1144","App\\Services\\EmployeeService::authorizeEmployeeManagement","6"],[0,1,"EmployeeService.php.html#1162","App\\Services\\EmployeeService::syncImportedEmployeeUser","2"],[0,13,"EmployeeUserSyncService.php.html#10","App\\Services\\EmployeeUserSyncService::sync","182"],[0,2,"NotificationService.php.html#255","App\\Services\\NotificationService::generateNotification","6"],[0,2,"NotificationService.php.html#264","App\\Services\\NotificationService::generateNotifications","6"],[0,5,"NotificationService.php.html#378","App\\Services\\NotificationService::notifyKgbProcessed","30"],[0,2,"NotificationService.php.html#556","App\\Services\\NotificationService::resendPendingNotifications","6"],[0,6,"NotificationService.php.html#579","App\\Services\\NotificationService::sendToSuperAdmin","42"],[0,2,"NotificationService.php.html#611","App\\Services\\NotificationService::getSuperAdmin","6"],[0,2,"NotificationService.php.html#618","App\\Services\\NotificationService::getNextWhatsappDelay","6"],[0,2,"NotificationService.php.html#635","App\\Services\\NotificationService::getNextEmailDelay","6"],[0,1,"PositionService.php.html#11","App\\Services\\PositionService::__construct","2"],[0,1,"PositionService.php.html#15","App\\Services\\PositionService::getAll","2"],[0,1,"PositionService.php.html#19","App\\Services\\PositionService::getByCode","2"],[0,1,"PositionService.php.html#23","App\\Services\\PositionService::create","2"],[0,1,"PositionService.php.html#26","App\\Services\\PositionService::update","2"],[0,1,"PppkService.php.html#11","App\\Services\\PppkService::__construct","2"],[0,1,"PppkService.php.html#15","App\\Services\\PppkService::getAll","2"],[0,1,"PppkService.php.html#19","App\\Services\\PppkService::getById","2"],[0,1,"PppkService.php.html#23","App\\Services\\PppkService::create","2"],[0,1,"PppkService.php.html#27","App\\Services\\PppkService::update","2"],[0,1,"RankService.php.html#11","App\\Services\\RankService::__construct","2"],[0,1,"RankService.php.html#15","App\\Services\\RankService::getAll","2"],[0,1,"RankService.php.html#19","App\\Services\\RankService::getById","2"],[0,1,"RankService.php.html#23","App\\Services\\RankService::create","2"],[0,1,"RankService.php.html#27","App\\Services\\RankService::update","2"],[0,1,"ReportService.php.html#15","App\\Services\\ReportService::__construct","2"],[0,1,"ReportService.php.html#19","App\\Services\\ReportService::authenticatedUser","2"],[0,1,"ReportService.php.html#25","App\\Services\\ReportService::getLaporanKGB","2"],[0,1,"ReportService.php.html#33","App\\Services\\ReportService::getEmployeeForKgbPreview","2"],[0,2,"ReportService.php.html#44","App\\Services\\ReportService::ensureKgbPreviewAvailable","6"],[0,1,"ReportService.php.html#85","App\\Services\\ReportService::getEmployee","2"],[0,1,"ReportService.php.html#94","App\\Services\\ReportService::rupiahToInt","2"],[0,1,"ReportService.php.html#98","App\\Services\\ReportService::getHistory","2"],[0,1,"ReportService.php.html#103","App\\Services\\ReportService::getHistoryById","2"],[0,1,"ReportService.php.html#116","App\\Services\\ReportService::getCamat","2"],[0,14,"ReportService.php.html#121","App\\Services\\ReportService::prepareKgbInformation","210"],[0,11,"ReportService.php.html#385","App\\Services\\ReportService::prepareSuratData","132"],[0,9,"ReportService.php.html#492","App\\Services\\ReportService::printKgb","90"],[0,2,"ReportService.php.html#652","App\\Services\\ReportService::getExistingKgbHistory","6"],[0,2,"ReportService.php.html#670","App\\Services\\ReportService::getPreviousHistory","6"],[0,1,"ReportService.php.html#692","App\\Services\\ReportService::authenticatedEmployeeUser","2"],[0,1,"ReportService.php.html#708","App\\Services\\ReportService::ensureOwnEmployee","2"],[0,1,"ReportService.php.html#719","App\\Services\\ReportService::getLaporanKGBForUser","2"],[0,1,"ReportService.php.html#730","App\\Services\\ReportService::getEmployeeForUserKgbPreview","2"],[0,1,"ReportService.php.html#741","App\\Services\\ReportService::ensureUserKgbPreviewAvailable","2"],[0,1,"ReportService.php.html#755","App\\Services\\ReportService::printKgbForUser","2"],[0,1,"SalaryService.php.html#8","App\\Services\\SalaryService::__construct","2"],[0,1,"SalaryService.php.html#11","App\\Services\\SalaryService::getAll","2"],[0,1,"SalaryService.php.html#14","App\\Services\\SalaryService::getById","2"],[0,1,"SalaryService.php.html#17","App\\Services\\SalaryService::create","2"],[0,1,"SalaryService.php.html#22","App\\Services\\SalaryService::update","2"],[0,3,"SalaryService.php.html#30","App\\Services\\SalaryService::validateSalary","12"],[0,1,"SettingService.php.html#13","App\\Services\\SettingService::__construct","2"],[0,1,"SettingService.php.html#17","App\\Services\\SettingService::getLastLogin","2"],[0,1,"SettingService.php.html#21","App\\Services\\SettingService::getActivities","2"],[0,1,"SettingService.php.html#25","App\\Services\\SettingService::updateProfile","2"],[0,7,"SettingService.php.html#31","App\\Services\\SettingService::updatePhoto","56"],[0,4,"SettingService.php.html#73","App\\Services\\SettingService::resetPhoto","20"],[0,3,"SettingService.php.html#100","App\\Services\\SettingService::updatePassword","12"],[0,1,"SettingService.php.html#119","App\\Services\\SettingService::updateEmployee","2"],[0,1,"SettingService.php.html#123","App\\Services\\SettingService::getMasterData","2"],[0,2,"SettingService.php.html#127","App\\Services\\SettingService::logoutDevices","6"],[0,5,"SettingService.php.html#142","App\\Services\\SettingService::enableTwoFactor","30"],[0,4,"SettingService.php.html#173","App\\Services\\SettingService::disableTwoFactor","20"],[0,1,"UserService.php.html#11","App\\Services\\UserService::__construct","2"],[0,2,"UserService.php.html#17","App\\Services\\UserService::getActor","6"],[0,4,"UserService.php.html#30","App\\Services\\UserService::authorizePermission","20"],[0,6,"UserService.php.html#51","App\\Services\\UserService::authorizeUserAccess","42"],[0,1,"UserService.php.html#76","App\\Services\\UserService::getAll","2"],[0,1,"UserService.php.html#84","App\\Services\\UserService::getById","2"],[0,1,"UserService.php.html#89","App\\Services\\UserService::findUser","2"],[0,4,"UserService.php.html#98","App\\Services\\UserService::getAvailableDepartment","20"],[0,4,"UserService.php.html#117","App\\Services\\UserService::delete","20"],[0,3,"UserService.php.html#141","App\\Services\\UserService::create","12"],[0,4,"UserService.php.html#162","App\\Services\\UserService::update","20"],[0,1,"UserService.php.html#190","App\\Services\\UserService::resetPassword","2"],[0,3,"WhatsAppService.php.html#12","App\\Services\\WhatsAppService::send","12"],[0,18,"WhatsAppService.php.html#36","App\\Services\\WhatsAppService::sendOrFail","342"],[0,6,"WhatsAppService.php.html#284","App\\Services\\WhatsAppService::normalizePhone","42"],[47.61904761904761,13,"NotificationService.php.html#504","App\\Services\\NotificationService::dispatchNotification","180.09"],[57.14285714285714,4,"NotificationService.php.html#323","App\\Services\\NotificationService::generateKGB","10.75"],[66.66666666666666,2,"NotificationService.php.html#465","App\\Services\\NotificationService::createNotification","2.50"],[71.42857142857143,4,"NotificationService.php.html#87","App\\Services\\NotificationService::markAsRead","5.50"],[71.42857142857143,4,"NotificationService.php.html#351","App\\Services\\NotificationService::generatePensiun","6.00"],[77.77777777777779,5,"NotificationService.php.html#133","App\\Services\\NotificationService::getFiltered","11.10"],[82.35294117647058,9,"NotificationService.php.html#277","App\\Services\\NotificationService::generatePangkat","53.36"],[85.71428571428571,4,"NotificationService.php.html#30","App\\Services\\NotificationService::getNotifications","4.25"],[85.71428571428571,4,"NotificationService.php.html#47","App\\Services\\NotificationService::getStatistics","4.25"],[85.71428571428571,4,"NotificationService.php.html#115","App\\Services\\NotificationService::markAllAsRead","4.25"],[85.71428571428571,4,"NotificationService.php.html#200","App\\Services\\NotificationService::getSummary","4.25"],[85.71428571428571,4,"NotificationService.php.html#232","App\\Services\\NotificationService::getLatestNotifications","4.25"],[100,1,"NotificationService.php.html#21","App\\Services\\NotificationService::__construct","1"],[100,1,"NotificationService.php.html#72","App\\Services\\NotificationService::log","1"],[100,2,"NotificationService.php.html#158","App\\Services\\NotificationService::getNextPangkat","2"],[100,2,"NotificationService.php.html#172","App\\Services\\NotificationService::getNextKGB","2"],[100,2,"NotificationService.php.html#186","App\\Services\\NotificationService::getRetirement","2"],[100,1,"NotificationService.php.html#228","App\\Services\\NotificationService::getHistory","1"],[100,1,"NotificationService.php.html#652","App\\Services\\NotificationService::getAuthenticatedUser","1"],[100,2,"NotificationService.php.html#656","App\\Services\\NotificationService::getUserNip","2.50"],[100,2,"NotificationService.php.html#665","App\\Services\\NotificationService::getAdminUnit","2.50"]]</script>
+  <script type="text/javascript" defer>
+  const barLabels = [
+    '0%',
+    '0-10%',
+    '10-20%',
+    '20-30%',
+    '30-40%',
+    '40-50%',
+    '50-60%',
+    '60-70%',
+    '70-80%',
+    '80-90%',
+    '90-100%',
+    '100%'
+  ];
+  const barConfig = (name, fullName, values) => ({
+    axis: {
+      x: {
+        type: "category",
+        categories: barLabels,
+      },
+      y: {
+        label: {
+          text: `#${name}`,
+          position: 'outer-top',
+        },
+      },
+    },
+    bindto: `#${name}CoverageDistribution`,
+    data: {
+      columns: [
+        [fullName].concat(values),
+      ],
+      colors: {
+        [fullName]: "rgba(69, 114, 167, 0.75)",
+      },
+      type: "bar",
+    },
+    bar: {
+      width: {
+        ratio: 0.9,
+      },
+    },
+    grid: {
+      focus: {
+        show: false,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">Coverage ${barLabels[data[0].x]}</th></tr>
+            <tr><td class="value">${data[0].value} ${name}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  bb.generate(
+    barConfig('classes', "Class Coverage", [15,0,0,0,0,0,0,1,0,0,0,0])
+  );
+  bb.generate(
+    barConfig('methods', "Method Coverage", [141,0,0,0,0,1,1,1,3,6,0,9])
+  );
+
+  const scatterConfig = (name, complexityData) => ({
+    axis: {
+      x: {
+        label: {
+          text: 'Code Coverage (in percent)',
+          position: 'outer-right',
+        },
+        tick: {
+          values: [0, 20, 40, 60, 80, 100],
+        },
+      },
+      y: {
+        label: {
+          text: 'Cyclomatic Complexity',
+          position: 'outer-top',
+        },
+        min: 0,
+        padding: {
+          bottom: 0,
+          top: 5,
+        },
+      },
+    },
+    bindto: `#${name}Complexity`,
+    data: {
+      columns: [
+        ["complexity_x"].concat(complexityData.map(d => d[0])),
+        ["complexity"].concat(complexityData.map(d => d[1])),
+      ],
+      onclick: function(data, element) {
+        window.location = complexityData[data.index][2];
+      },
+      type: "scatter",
+      xs: {
+        "complexity": "complexity_x",
+      },
+    },
+    grid: {
+      focus: {
+        show: true,
+        y: true,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        const coverage = Math.round(data[0].x);
+        const complexity = data[0].value;
+        const targetName = complexityData[data[0].index][3];
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">${targetName}</th></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Coverage</td><td class="name">${coverage}%</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Complexity</td><td class="value">${complexity}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  const classComplexityData = JSON.parse(document.getElementById('complexity_class').textContent);
+  bb.generate(
+    scatterConfig("class", classComplexityData)
+  );
+  const methodComplexityData = JSON.parse(document.getElementById('complexity_method').textContent);
+  bb.generate(
+    scatterConfig("method", methodComplexityData),
+  );
+  </script>
+ </body>
+</html>

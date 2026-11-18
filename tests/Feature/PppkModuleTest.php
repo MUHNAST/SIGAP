@@ -30,18 +30,21 @@ class PppkModuleTest extends TestCase
             'kode' => 'III',
             'nama' => 'Golongan III',
             'urutan_golongan' => 3,
+            'status' => true,
         ])->assertRedirect(route('pppk.index'));
 
         $this->put(route('pppk.update', 'III'), [
             'kode' => 'III',
             'nama' => 'Golongan III',
             'urutan_golongan' => 3,
+            'status' => true,
         ])->assertRedirect(route('pppk.index'));
 
         $this->put(route('pppk.update', 'III'), [
             'kode' => 'IV',
             'nama' => 'Golongan IV',
             'urutan_golongan' => 4,
+            'status' => true,
         ])->assertRedirect(route('pppk.index'));
 
         $this->assertDatabaseHas('pppk', [
@@ -61,18 +64,21 @@ class PppkModuleTest extends TestCase
             'kode' => 'I',
             'nama' => 'Golongan Lain',
             'urutan_golongan' => 18,
+            'status' => true,
         ])->assertSessionHasErrors('kode');
 
         $this->post(route('pppk.store'), [
             'kode' => 'I',
             'nama' => 'Golongan Baru',
             'urutan_golongan' => 1,
+            'status' => true,
         ])->assertSessionHasErrors(['kode', 'urutan_golongan']);
 
         $this->post(route('pppk.store'), [
             'kode' => 'II',
             'nama' => 'Golongan Tidak Valid',
             'urutan_golongan' => 0,
+            'status' => true,
         ])->assertSessionHasErrors('urutan_golongan');
 
         $this->assertDatabaseCount('pppk', $count);
@@ -114,11 +120,13 @@ class PppkModuleTest extends TestCase
             'kode' => 'IV',
             'nama' => 'Golongan IV',
             'urutan_golongan' => 4,
+            'status' => true,
         ])->assertRedirect(route('pppk.index'));
         $this->put(route('pppk.update', $existingPppk), [
             'kode' => 'III',
             'nama' => 'Golongan III',
             'urutan_golongan' => 3,
+            'status' => true,
         ])->assertRedirect(route('pppk.index'));
 
         RolePermission::query()->delete();
@@ -131,11 +139,13 @@ class PppkModuleTest extends TestCase
             'kode' => 'V',
             'nama' => 'Golongan V',
             'urutan_golongan' => 5,
+            'status' => true,
         ])->assertForbidden();
         $this->put(route('pppk.update', $existingPppk), [
             'kode' => 'III',
             'nama' => 'Golongan III',
             'urutan_golongan' => 3,
+            'status' => true,
         ])->assertForbidden();
     }
 

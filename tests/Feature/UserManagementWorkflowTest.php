@@ -150,6 +150,7 @@ class UserManagementWorkflowTest extends TestCase
             'no_hp' => '081234567890',
             'kode_unit_kerja' => $department->kode,
             'role' => 'user',
+            'status' => true,
         ];
 
         $this->from(route('user.index'))
@@ -201,6 +202,7 @@ class UserManagementWorkflowTest extends TestCase
                 'kode_unit_kerja' => $department->kode,
                 'role' => 'user',
                 'nip' => '199001012020011999',
+                'status' => true,
             ])
             ->assertRedirect();
 
@@ -264,6 +266,7 @@ class UserManagementWorkflowTest extends TestCase
             'email' => $admin->email,
             'no_hp' => $admin->no_hp,
             'kode_unit_kerja' => $department->kode,
+            'status' => true,
         ];
 
         $this->actingAs($superAdmin)
@@ -331,6 +334,7 @@ class UserManagementWorkflowTest extends TestCase
                 'email' => 'orphan@example.test',
                 'no_hp' => '081234567890',
                 'kode_unit_kerja' => $department->kode,
+                'status' => true,
                 'foto' => UploadedFile::fake()->image('profile.png'),
             ])
             ->assertSessionHas('danger');
@@ -366,6 +370,7 @@ class UserManagementWorkflowTest extends TestCase
                 'email' => $admin->email,
                 'no_hp' => $admin->no_hp,
                 'kode_unit_kerja' => $department->kode,
+                'status' => true,
                 'foto' => UploadedFile::fake()->image('replacement.png'),
             ]);
         $response->assertRedirect()->assertSessionHasErrors(

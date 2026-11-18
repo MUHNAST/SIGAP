@@ -1,0 +1,323 @@
+Note: Pass `--log-verbosity=all` to log information about killed and errored mutants.
+Note: Pass `--debug` to log test-framework output.
+
+Escaped mutants:
+================
+
+1) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:126    [M] NullSafePropertyCall [ID] 2a45dd1558d8c1c8423374a2986bc33d
+
+@@ @@
+         ?KgbHistory $history = null
+     ): Employee {
+         $today = Carbon::today();
+-        $oldTMT = $history?->tmt_kgb_lama
++        $oldTMT = $history->tmt_kgb_lama
+             ?? $employee->tmt_kgb_lama;
+         $newTMT = $history?->tmt_kgb_baru
+             ?? $employee->tmt_kgb_baru;
+
+
+2) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:128    [M] NullSafePropertyCall [ID] 184131f791b1bb4646ecd3a570dd25d5
+
+@@ @@
+         $today = Carbon::today();
+         $oldTMT = $history?->tmt_kgb_lama
+             ?? $employee->tmt_kgb_lama;
+-        $newTMT = $history?->tmt_kgb_baru
++        $newTMT = $history->tmt_kgb_baru
+             ?? $employee->tmt_kgb_baru;
+         if (! $oldTMT || ! $newTMT) {
+             $employee->setAttribute('tanggal_kgb', null);
+
+
+3) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:152    [M] LessThan [ID] f77f7ffa602f9bbe43377512c43e55d2
+
+@@ @@
+         if ($hari === 0) {
+             $status = 'Hari Ini';
+             $badge = 'bg-green-500';
+-        } elseif ($hari < 0) {
++        } elseif ($hari <= 0) {
+             $status = 'Terlambat';
+             $badge = 'bg-red-500';
+         } else {
+
+
+4) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:164    [M] LessThanOrEqualTo [ID] 888b65d1af25c4bb1a9614c7561a4e96
+
+@@ @@
+         | Sisa waktu
+         |--------------------------------------------------------------------------
+         */
+-        if ($hari <= 0) {
++        if ($hari < 0) {
+             $tahunSisa = 0;
+             $bulanSisa = 0;
+             $hariSisa = 0;
+
+
+5) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:180    [M] CastInt [ID] da86d76e5f9b8dfca8b74a0b017f3518
+
+@@ @@
+         |--------------------------------------------------------------------------
+         */
+         $totalHari = max(
+-            (int) $oldTMT->diffInDays($newTMT),
++            $oldTMT->diffInDays($newTMT),
+             1
+         );
+         if ($today->lte($oldTMT)) {
+
+
+6) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:181    [M] DecrementInteger [ID] d3395bf4295b8749a8dd5815b8176d67
+
+@@ @@
+         */
+         $totalHari = max(
+             (int) $oldTMT->diffInDays($newTMT),
+-            1
++            0
+         );
+         if ($today->lte($oldTMT)) {
+             $progress = 0;
+
+
+7) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:181    [M] IncrementInteger [ID] 8d5aebafe999103129107c2c76c006ba
+
+@@ @@
+         */
+         $totalHari = max(
+             (int) $oldTMT->diffInDays($newTMT),
+-            1
++            2
+         );
+         if ($today->lte($oldTMT)) {
+             $progress = 0;
+
+
+8) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:200    [M] NullSafePropertyCall [ID] fc3b5da5cbcbb240b333358f771e9a6d
+
+@@ @@
+         | Pangkat
+         |--------------------------------------------------------------------------
+         */
+-        $idPangkat = $history?->id_pangkat
++        $idPangkat = $history->id_pangkat
+             ?? $employee->id_pangkat;
+         /*
+         |--------------------------------------------------------------------------
+
+
+9) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:208    [M] NullSafePropertyCall [ID] d26b6b8d560bafdcd649ca9098b995e5
+
+@@ @@
+         |--------------------------------------------------------------------------
+         */
+         $masaKerjaTahunLama = (int) (
+-            $history?->tahun_masa_kerja_lama
++            $history->tahun_masa_kerja_lama
+             ?? $employee->tahun_masa_kerja
+         );
+         $masaKerjaBulanLama = (int) (
+
+
+10) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:212    [M] NullSafePropertyCall [ID] 073abba35596916b6d5351b554fa68db
+
+@@ @@
+             ?? $employee->tahun_masa_kerja
+         );
+         $masaKerjaBulanLama = (int) (
+-            $history?->bulan_masa_kerja_lama
++            $history->bulan_masa_kerja_lama
+             ?? $employee->bulan_masa_kerja
+         );
+         /*
+
+
+11) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:429    [M] NullSafePropertyCall [ID] c99e3af1967875a715c96c85ad9df918
+
+@@ @@
+             $nomorSkLama = filled($history?->nomor_sk_lama)
+                 ? $history->nomor_sk_lama
+                 : $dasarSk?->nomor_sk_baru;
+-            $tanggalSkLama = $history?->tanggal_sk_lama
++            $tanggalSkLama = $history->tanggal_sk_lama
+                 ?? $dasarSk?->tanggal_sk_baru;
+         }
+         /*
+
+
+12) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:457    [M] NullSafePropertyCall [ID] 70e18f40f9ca6e7dec154181b105d0b8
+
+@@ @@
+             // SK baru
+             'nomor_sk_baru' => $history?->nomor_sk_baru
+                 ?: 'B/ - /' . now()->year,
+-            'tanggal_sk_baru' => $history?->tanggal_sk_baru
++            'tanggal_sk_baru' => $history->tanggal_sk_baru
+                 ?? now(),
+             // Pejabat
+             'pejabat' => 'Camat Pekalongan Timur',
+
+
+13) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:468    [M] NullSafePropertyCall [ID] ad62b6c6a3dc76780e32ac4615791a6d
+
+@@ @@
+             'nomor_sk_lama' => $nomorSkLama ?: '-',
+             'tanggal_sk_lama' => $tanggalSkLama,
+             // Periode KGB
+-            'tmt_kgb_lama' => $history?->tmt_kgb_lama
++            'tmt_kgb_lama' => $history->tmt_kgb_lama
+                 ?? $employee->tmt_kgb_lama,
+             'tmt_kgb_baru' => $history?->tmt_kgb_baru
+                 ?? $employee->tmt_kgb_baru,
+
+
+14) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:470    [M] NullSafePropertyCall [ID] 2e3fca0769e7e8b5d7d5649effbe6dd7
+
+@@ @@
+             // Periode KGB
+             'tmt_kgb_lama' => $history?->tmt_kgb_lama
+                 ?? $employee->tmt_kgb_lama,
+-            'tmt_kgb_baru' => $history?->tmt_kgb_baru
++            'tmt_kgb_baru' => $history->tmt_kgb_baru
+                 ?? $employee->tmt_kgb_baru,
+             // Masa kerja
+             'tahun_masa_kerja_lama' =>
+
+
+15) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:487    [M] NullSafePropertyCall [ID] 92c25853bedb5d65873a91b24a33ba28
+
+@@ @@
+             'gaji_pokok_baru' =>
+                 optional($employee->gaji_pokok_baru)->gaji_pokok ?? 0,
+             // Dasar hukum
+-            'dasar_hukum_kgb' => $history?->dasar_hukum_kgb
++            'dasar_hukum_kgb' => $history->dasar_hukum_kgb
+                 ?? 'Pasal 1 Peraturan Pemerintah Republik Indonesia Nomor : 5 Tahun 2024',
+         ];
+     }
+
+
+16) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:504    [M] FalseValue [ID] 99e32d6d9232188f3ddb828ae75df080
+
+@@ @@
+          // Validasi ulang status, TMT, riwayat, dan periode preview.
+         $this->ensureKgbPreviewAvailable($employee, $user);
+         $employee = $this->prepareKgbInformation($employee);
+-        $created = false;
++        $created = true;
+         $history = null;
+         DB::transaction(function () use (
+             $employee,
+
+
+17) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:609    [M] CastString [ID] b52303b8eda92c79c50db578af6d029d
+
+@@ @@
+                 'bulan_masa_kerja_lama' => $bulanMasaKerjaLama,
+                 'tahun_masa_kerja_baru' => $tahunMasaKerjaBaru,
+                 'bulan_masa_kerja_baru' => $bulanMasaKerjaBaru,
+-                'gaji_pokok_lama' => $this->rupiahToInt( (string) ($employee->gaji_pokok_lama->gaji_pokok ?? 0)),
++                'gaji_pokok_lama' => $this->rupiahToInt( $employee->gaji_pokok_lama->gaji_pokok ?? 0),
+                 'gaji_pokok_baru' => $this->rupiahToInt( (string) ($employee->gaji_pokok_baru->gaji_pokok ?? 0)),
+                 'dasar_hukum_kgb' => trim( $data['dasar_hukum_kgb'] ?? 'Pasal 1 Peraturan Pemerintah Republik Indonesia Nomor : 5 Tahun 2024'),
+                 'id_user' => $user->id,
+
+
+18) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:610    [M] CastString [ID] bca50adb4f54bfd875d80ef145a79f80
+
+@@ @@
+                 'tahun_masa_kerja_baru' => $tahunMasaKerjaBaru,
+                 'bulan_masa_kerja_baru' => $bulanMasaKerjaBaru,
+                 'gaji_pokok_lama' => $this->rupiahToInt( (string) ($employee->gaji_pokok_lama->gaji_pokok ?? 0)),
+-                'gaji_pokok_baru' => $this->rupiahToInt( (string) ($employee->gaji_pokok_baru->gaji_pokok ?? 0)),
++                'gaji_pokok_baru' => $this->rupiahToInt( $employee->gaji_pokok_baru->gaji_pokok ?? 0),
+                 'dasar_hukum_kgb' => trim( $data['dasar_hukum_kgb'] ?? 'Pasal 1 Peraturan Pemerintah Republik Indonesia Nomor : 5 Tahun 2024'),
+                 'id_user' => $user->id,
+             ]);
+
+
+19) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:645    [M] CastString [ID] c2769237fc7b49ea8d0b599a478c2a14
+
+@@ @@
+                 app(NotificationService::class)->notifyKgbProcessed(
+                     $freshEmployee,
+                     $this->rupiahToInt(
+-                        (string) $history->gaji_pokok_baru
++                        $history->gaji_pokok_baru
+                     )
+                 );
+             }
+
+
+20) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:650    [M] NullSafeMethodCall [ID] d917b0312903f9ccc7b096a98705fe79
+
+@@ @@
+                 );
+             }
+         }
+-        return $history?->fresh(['employee']);
++        return $history->fresh(['employee']);
+     }
+     public function getExistingKgbHistory(
+         string $nip
+
+
+21) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:679    [M] NullSafePropertyCall [ID] 1ea42786e15480b5269e533624e36566
+
+@@ @@
+             $employee->nip,
+             $user
+         );
+-        $beforeTmt = $currentHistory?->tmt_kgb_baru
++        $beforeTmt = $currentHistory->tmt_kgb_baru
+             ?? $authorizedEmployee->tmt_kgb_baru;
+         if (! $beforeTmt) {
+             return null;
+
+
+22) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:712    [M] CastString [ID] d6be639d0e9f19d4c241c13c1bb791f9
+
+@@ @@
+     {
+         $user = $this->authenticatedEmployeeUser();
+         abort_unless(
+-            (string) $user->nip === (string) $nip,
++            (string) $user->nip === $nip,
+             403,
+             'Anda tidak memiliki akses ke data pegawai tersebut.'
+         );
+
+
+23) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:747    [M] CastString [ID] b38b653ef2041beaa45ce824342b2383
+
+@@ @@
+         $user = $this->authenticatedEmployeeUser();
+         // Memastikan pegawai merupakan milik akun User.
+         abort_unless(
+-            (string) $employee->nip === (string) $user->nip,
++            $employee->nip === (string) $user->nip,
+             403,
+             'Anda tidak memiliki akses ke data pegawai tersebut.'
+         );
+
+
+24) C:\Users\Pongo\AppData\Local\Temp\sigap-reportservice-infection-a3fc12ae\app\Services\ReportService.php:759    [M] MethodCallRemoval [ID] 958a04c099f95faef304829b2ea9a0cd
+
+@@ @@
+         string $nip,
+         array $data = []
+     ): ?KgbHistory {
+-        $this->ensureOwnEmployee($nip);
++
+         // Validasi ulang kepemilikan, status PNS, dan periode KGB.
+         $this->getEmployeeForUserKgbPreview($nip);
+         // Gunakan proses cetak utama agar penyimpanan riwayat,
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================

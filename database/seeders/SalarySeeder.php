@@ -167,6 +167,7 @@ class SalarySeeder extends Seeder
                     ],
                     [
                         'gaji_pokok' => $baseSalary,
+                        'status' => true,
                     ]
                 );
             }

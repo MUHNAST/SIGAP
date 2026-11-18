@@ -11,7 +11,9 @@ class SalaryRepository
     // }
     public function getAll(array $data = ['*'])
     {
-        return Salary::with('rank')->select($data)->orderBy('id_pangkat', 'asc')->orderBy('tahun_masa_kerja', 'asc')->get();
+        return Salary::with('rank')->whereHas('rank', function ($query) {
+                $query->where('status', true);
+            })->select($data)->orderBy('id_pangkat', 'asc')->orderBy('tahun_masa_kerja', 'asc')->get();
     }
 
     public function getById(int $id, array $data = ['*'])

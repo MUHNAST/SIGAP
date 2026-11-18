@@ -50,6 +50,15 @@ class UserRequest extends FormRequest
             'required',
             'exists:departments,kode',
         ];
+        // Status akun User mengikuti status pegawai.
+        $statusRules = ['required', 'boolean'];
+
+        if ($role === 'user') {
+            $statusRules = [
+                'prohibited',
+            ];
+        }
+
         /*
          * ATURAN EMAIL DAN NOMOR HP
          *
@@ -118,6 +127,7 @@ class UserRequest extends FormRequest
                 'mimes:jpg,jpeg,png',
                 'max:2048',
             ],
+            'status' => $statusRules,
         ];
     }
     public function messages(): array
@@ -141,6 +151,8 @@ class UserRequest extends FormRequest
             'foto.image' => 'File harus berupa gambar.',
             'foto.mimes' => 'Foto harus berformat JPG, JPEG, atau PNG.',
             'foto.max' => 'Ukuran foto maksimal 2 MB.',
+            'status.required'   => 'Status wajib dipilih.',
+            'status.boolean'    => 'Status tidak valid.',
         ];
     }
     /**
@@ -148,9 +160,7 @@ class UserRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        $nama = $this->nama
-            ? preg_replace('/\s+/', ' ', trim($this->nama))
-            : null;
+        $nama = $this->nama ? preg_replace('/\s+/', ' ', trim($this->nama)) : null;
         $this->merge([
             'nama' => $nama ? Str::title(Str::lower($nama)) : null,
         ]);

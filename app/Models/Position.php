@@ -17,6 +17,7 @@ class Position extends Model
         // 'position_level',
         // 'retirement_rule_id',
         'deskripsi',
+        'status',
         'usia_pensiun',
     ];
     public function getRouteKeyName(): string

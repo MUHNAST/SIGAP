@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use App\Models\Salary;
 class NotificationService
 {
     private ?User $superAdmin = null;
@@ -30,54 +31,42 @@ class NotificationService
     public function getNotifications()
     {
         $user = $this->getAuthenticatedUser();
-
         if ($user->role === 'super_admin') {
             return $this->notification_repository->getAll();
         }
-
         if ($user->role === 'admin') {
             $unit = $this->getAdminUnit($user);
-
             return $this->notification_repository->getByUnitKerja($unit);
         }
-
         if ($user->role === 'user') {
             $nip = $this->getUserNip($user);
-
             return $this->notification_repository->getByNip($nip);
         }
-
         abort(403);
     }
     public function getStatistics(): array
     {
         $user = $this->getAuthenticatedUser();
-
         if ($user->role === 'super_admin') {
             return [
                 'total' => $this->notification_repository->countAll(),
                 'belumDibaca' => $this->notification_repository->countUnread(),
             ];
         }
-
         if ($user->role === 'admin') {
             $unit = $this->getAdminUnit($user);
-
             return [
                 'total' => $this->notification_repository->countByUnitKerja($unit),
                 'belumDibaca' => $this->notification_repository->countUnreadByUnitKerja($unit),
             ];
         }
-
         if ($user->role === 'user') {
             $nip = $this->getUserNip($user);
-
             return [
                 'total' => $this->notification_repository->countByNip($nip),
                 'belumDibaca' => $this->notification_repository->countUnreadByNip($nip),
             ];
         }
-
         abort(403);
     }
     public function log(string $nip,string $judul,string $pesan,string $jenis = 'system') {
@@ -98,65 +87,47 @@ class NotificationService
     public function markAsRead(int $id)
     {
         $user = $this->getAuthenticatedUser();
-
         if ($user->role === 'super_admin') {
             return $this->notification_repository->markAsRead($id);
         }
-
         if ($user->role === 'admin') {
             $unit = $this->getAdminUnit($user);
-
             $notification = $this->notification_repository
                 ->getByUnitKerjaNotification($id, $unit);
-
             abort_if(!$notification, 403, 'Notifikasi tidak ditemukan atau bukan kewenangan unit kerja Anda.');
-
             $notification->update([
                 'sudah_dibaca' => true,
             ]);
-
             return $notification;
         }
-
         if ($user->role === 'user') {
             $nip = $this->getUserNip($user);
-
             $notification = $this->notification_repository
                 ->getByNipNotification($id, $nip);
-
             abort_if(!$notification, 403, 'Notifikasi bukan milik Anda.');
-
             $notification->update([
                 'sudah_dibaca' => true,
             ]);
-
             return $notification;
         }
-
         abort(403);
     }
     public function markAllAsRead()
     {
         $user = $this->getAuthenticatedUser();
-
         if ($user->role === 'super_admin') {
             return $this->notification_repository->markAllAsRead();
         }
-
         if ($user->role === 'admin') {
             $unit = $this->getAdminUnit($user);
-
             return $this->notification_repository
                 ->markAllAsReadByUnitKerja($unit);
         }
-
         if ($user->role === 'user') {
             $nip = $this->getUserNip($user);
-
             return $this->notification_repository
                 ->markAllAsReadByNip($nip);
         }
-
         abort(403);
     }
     public function getFiltered(array $filters, $user)
@@ -164,25 +135,19 @@ class NotificationService
         if (!$user instanceof User) {
             abort(403);
         }
-
         if ($user->role === 'super_admin') {
             return $this->notification_repository->getFiltered($filters);
         }
-
         if ($user->role === 'admin') {
             $unit = $this->getAdminUnit($user);
-
             return $this->notification_repository
                 ->getFilteredByUnitKerja($filters, $unit);
         }
-
         if ($user->role === 'user') {
             $nip = $this->getUserNip($user);
-
             return $this->notification_repository
                 ->getFilteredByNip($filters, $nip);
         }
-
         abort(403);
     }
     /*
@@ -235,7 +200,6 @@ class NotificationService
     public function getSummary(): array
     {
         $user = $this->getAuthenticatedUser();
-
         if ($user->role === 'super_admin') {
             return [
                 'pangkat' => $this->notification_repository->getNextPangkat(),
@@ -243,59 +207,46 @@ class NotificationService
                 'pensiun' => $this->notification_repository->getNextRetirement(),
             ];
         }
-
         if ($user->role === 'admin') {
             $unit = $this->getAdminUnit($user);
-
             return [
                 'pangkat' => $this->notification_repository->getNextPangkatByUnitKerja($unit),
                 'kgb' => $this->notification_repository->getNextKGBByUnitKerja($unit),
                 'pensiun' => $this->notification_repository->getNextRetirementByUnitKerja($unit),
             ];
         }
-
         if ($user->role === 'user') {
             $nip = $this->getUserNip($user);
-
             return [
                 'pangkat' => $this->notification_repository->getNextPangkatByNip($nip),
                 'kgb' => $this->notification_repository->getNextKGBByNip($nip),
                 'pensiun' => $this->notification_repository->getNextRetirementByNip($nip),
             ];
         }
-
         abort(403);
     }
     public function getHistory()
     {
         return $this->getNotifications();
     }
-
     public function getLatestNotifications(int $limit = 5)
     {
         $user = $this->getAuthenticatedUser();
-
         if ($user->role === 'super_admin') {
             return $this->notification_repository->getLatest(null, $limit);
         }
-
         if ($user->role === 'admin') {
             $unit = $this->getAdminUnit($user);
-
             return $this->notification_repository
                 ->getLatestByUnitKerja($unit, $limit);
         }
-
         if ($user->role === 'user') {
             $nip = $this->getUserNip($user);
-
             return $this->notification_repository
                 ->getLatestByNip($nip, $limit);
         }
-
         abort(403);
     }
-    
     /*
     |--------------------------------------------------------------------------
     | Generate Notification
@@ -306,7 +257,6 @@ class NotificationService
         if ($pegawai->status !== 'Aktif') {
             return;
         }
-
         $this->generatePangkat($pegawai);
         $this->generateKGB($pegawai);
         $this->generatePensiun($pegawai);
@@ -329,20 +279,20 @@ class NotificationService
         if ($pegawai->status !== 'Aktif') {
             return;
         }
-
         // PPPK tidak menerima notifikasi kenaikan pangkat
         if ($pegawai->status_pegawai !== 'PNS') {
             return;
         }
         // Jika data pendidikan tidak tersedia, hentikan proses
-        if (!$pegawai->educationLevel) {
+        $pegawai->loadMissing(['educationLevel', 'rank']);
+        if ( ! $pegawai->educationLevel || ! $pegawai->rank || $pegawai->educationLevel->pangkat_pns_maksimum === null ) {
             return;
         }
         // Ambil batas maksimum pangkat berdasarkan pendidikan
         $maksimumPangkat = $pegawai->educationLevel->pangkat_pns_maksimum;
         // Jika pangkat saat ini sudah mencapai batas maksimum pendidikan,
         // maka notifikasi kenaikan pangkat tidak dibuat
-        if ( $pegawai->rank && $pegawai->rank->urutan_pangkat >= $maksimumPangkat) {
+        if ($pegawai->rank->urutan_pangkat >= $maksimumPangkat) {
             return;
         }
         // Jika TMT pangkat baru tidak tersedia, hentikan proses
@@ -374,8 +324,17 @@ class NotificationService
         if ($pegawai->status !== 'Aktif') {
             return;
         }
-
         if (empty($pegawai->tmt_kgb_baru)) {
+            return;
+        }
+         // Cari masa kerja maksimum berdasarkan pangkat dan gaji aktif.
+        $maksimumMasaKerja = Salary::query()->where('id_pangkat', $pegawai->id_pangkat)->where('status', true)->max('tahun_masa_kerja');
+        // Jika tidak ditemukan data gaji aktif, notifikasi tidak dibuat.
+        if ($maksimumMasaKerja === null) {
+            return;
+        }
+        // Hentikan notifikasi jika masa kerja sudah mencapai batas maksimum.
+        if ((int) $pegawai->tahun_masa_kerja >= (int) $maksimumMasaKerja) {
             return;
         }
         $referenceDate = Carbon::parse($pegawai->tmt_kgb_baru);
@@ -403,7 +362,6 @@ class NotificationService
         if ($pegawai->status !== 'Aktif') {
             return;
         }
-
         if (empty($pegawai->tmt_pensiun)) {
             return;
         }
@@ -428,6 +386,9 @@ class NotificationService
     }
     public function notifyKgbProcessed(Employee $pegawai,int $gajiBaru): void {
         $pegawai->refresh();
+        if ( $pegawai->status !== 'Aktif' || empty($pegawai->tmt_kgb_baru) || empty($pegawai->tmt_kgb_lama) ) {
+            return;
+        }
         /*
         |--------------------------------------------------------------------------
         | Reference date = TMT KGB berikutnya
@@ -527,9 +488,10 @@ class NotificationService
                 'pesan' => $pesan,
                 'tanggal_referensi' => $referenceDate->toDateString(),
             ]);
-            $notification->load('employee');
-            $this->dispatchNotification($notification);
-            return $notification;
+            // $notification->load('employee');
+            // $this->dispatchNotification($notification);
+            // return $notification;
+            return $notification->fresh('employee');
         }
         $notification = $this->notification_repository->create([
             'nip' => $pegawai->nip,
@@ -611,17 +573,17 @@ class NotificationService
                     ->orWhere(function ($query) {
                         $query->where('email_terkirim', false)->orWhere('whatsapp_terkirim', false);
                     });
-            })->orderBy('tanggal_referensi')->get();
-        // Log::info('Resend notification dimulai.', [
-        //     'nip' => $pegawai->nip,
-        //     'jumlah'      => $notifications->count(),
-        // ]);
+            // | Pegawai Pensiun
+            // | Tidak mengirim ulang pengingat kenaikan pangkat dan KGB.
+            // | Notifikasi Pensiun dan KGB Diproses tetap dapat dikirim.
+            })->when($pegawai->status === 'Pensiun', function ($query) {
+                $query->whereNotIn('jenis', ['Pangkat', 'KGB']);
+            })
+            ->orderBy('tanggal_referensi')
+            ->get();
         foreach ($notifications as $notification) {
             $this->dispatchNotification( $notification, false);
         }
-        // Log::info('Resend notification selesai.', [
-        //     'nip' => $pegawai->nip,
-        // ]);
     }
     private function sendToSuperAdmin( $notification, int $emailDelay = 0, int $waDelay = 0): void{
         $admin = $this->getSuperAdmin();
@@ -700,7 +662,6 @@ class NotificationService
     {
         return Auth::user() ?? abort(401);
     }
-
     private function getUserNip(User $user): string
     {
         abort_unless(
@@ -708,10 +669,8 @@ class NotificationService
             403,
             'Akun tidak terhubung dengan data pegawai.'
         );
-
         return $user->nip;
     }
-
     private function getAdminUnit(User $user): string
     {
         abort_unless(
@@ -719,7 +678,6 @@ class NotificationService
             403,
             'Akun admin belum memiliki unit kerja.'
         );
-
         return $user->kode_unit_kerja;
     }
 }

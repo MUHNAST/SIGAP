@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
-
 use App\Models\Employee;
+use App\Models\Salary;
 use App\Models\User;
 use App\Repositories\DashboardRepository;
 use Carbon\Carbon;
@@ -95,36 +95,56 @@ class DashboardService
         $employee = Employee::query()
             ->where('nip', $user->nip)
             ->first();
-
+        $hariIni = Carbon::today();
+        // Periksa apakah pegawai sudah pensiun.
+        $sudahPensiun = $employee && (
+            $employee->status === 'Pensiun' ||
+            (
+                $employee->tmt_pensiun &&
+                Carbon::parse($employee->tmt_pensiun)->startOfDay()->lte($hariIni)
+            )
+        );
+        // Ambil batas masa kerja berdasarkan data gaji.
+        $maksimumMasaKerja = null;
+        if (
+            $employee &&
+            $employee->status_pegawai === 'PNS' &&
+            $employee->id_pangkat
+        ) {
+            $maksimumMasaKerja = Salary::query()
+                ->where('id_pangkat', $employee->id_pangkat)
+                ->max('tahun_masa_kerja');
+        }
+        // Bandingkan masa kerja pegawai dengan data gaji.
+        $masaKerjaMaksimum = $maksimumMasaKerja !== null &&
+            (int) $employee->tahun_masa_kerja >= (int) $maksimumMasaKerja;
         return [
             'employee' => $employee,
-
-            // Samakan nama variabel dengan Blade.
-            'kgb' => $this->formatSchedule($employee?->tmt_kgb_baru),
+            'sudahPensiun' => $sudahPensiun,
+            'masaKerjaMaksimum' => $masaKerjaMaksimum,
+            'maksimumMasaKerja' => $maksimumMasaKerja,
+            'kgb' => $this->formatSchedule(
+                $employee?->tmt_kgb_baru
+            ),
             'promotion' => $this->formatSchedule(
                 $employee?->status_pegawai === 'PNS'
                     ? $employee->tmt_pangkat_baru
                     : null
             ),
-            'retirement' => $this->formatSchedule($employee?->tmt_pensiun),
-
-            // Data khusus pengguna yang sedang login.
+            'retirement' => $this->formatSchedule(
+                $employee?->tmt_pensiun
+            ),
             'notifikasi' => $this->dashboard_repository->notifikasiPengguna($user),
             'aktivitas' => $this->dashboard_repository->aktivitasPengguna($user),
         ];
     }
-
     /**
      * Menyiapkan informasi jadwal untuk dashboard pengguna.
      */
     private function formatSchedule($tanggal): array
     {
-        $tanggal = $tanggal
-            ? Carbon::parse($tanggal)->startOfDay()
-            : null;
-
+        $tanggal = $tanggal ? Carbon::parse($tanggal)->startOfDay() : null;
         $hariIni = Carbon::today();
-
         if (!$tanggal) {
             return [
                 'tanggal' => null,
@@ -134,7 +154,6 @@ class DashboardService
                 'hari_sisa' => 0,
             ];
         }
-
         if ($tanggal->lt($hariIni)) {
             return [
                 'tanggal' => $tanggal,
@@ -144,7 +163,6 @@ class DashboardService
                 'hari_sisa' => 0,
             ];
         }
-
         if ($tanggal->equalTo($hariIni)) {
             return [
                 'tanggal' => $tanggal,
@@ -154,9 +172,7 @@ class DashboardService
                 'hari_sisa' => 0,
             ];
         }
-
         $selisih = $hariIni->diff($tanggal);
-
         return [
             'tanggal' => $tanggal,
             'status' => 'Menunggu',

@@ -90,6 +90,62 @@ class EmployeeUserSyncServiceTest extends TestCase
         $this->assertSame($employee->nip, $synced->nip);
     }
 
+    public function test_sync_updates_account_found_by_old_nip_after_employee_nip_change(): void
+    {
+        Employee::create([
+            'nip' => '199001012020011004',
+            'nama' => 'Employee with old NIP',
+        ]);
+        Employee::create([
+            'nip' => '199001012020011005',
+            'nama' => 'Employee with new NIP',
+        ]);
+        $existing = User::factory()->create([
+            'role' => 'user',
+            'nip' => '199001012020011004',
+            'nama' => 'Old Employee Name',
+        ]);
+
+        $synced = (new EmployeeUserSyncService())->sync(
+            Employee::findOrFail('199001012020011005'),
+            '199001012020011004'
+        );
+
+        $this->assertSame($existing->id, $synced->id);
+        $this->assertSame('user', $synced->role);
+        $this->assertSame('199001012020011005', $synced->nip);
+        $this->assertSame('Employee with new NIP', $synced->nama);
+        $this->assertDatabaseMissing('users', [
+            'id' => $existing->id,
+            'nip' => '199001012020011004',
+        ]);
+    }
+
+    public function test_sync_allows_existing_account_to_keep_its_email_and_phone(): void
+    {
+        $nip = '199001012020011006';
+        Employee::create([
+            'nip' => $nip,
+            'nama' => 'Synced Employee',
+            'email' => 'synced@example.test',
+            'no_hp' => '081234567806',
+        ]);
+        $existing = User::factory()->create([
+            'role' => 'user',
+            'nip' => $nip,
+            'email' => 'synced@example.test',
+            'no_hp' => '081234567806',
+        ]);
+
+        $synced = (new EmployeeUserSyncService())->sync(
+            Employee::findOrFail($nip)
+        );
+
+        $this->assertSame($existing->id, $synced->id);
+        $this->assertSame('synced@example.test', $synced->email);
+        $this->assertSame('081234567806', $synced->no_hp);
+    }
+
     public function test_sync_rejects_email_or_phone_owned_by_another_user(): void
     {
         User::factory()->create([

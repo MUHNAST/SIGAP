@@ -148,9 +148,7 @@ class DashboardRepository
     }
     public function chartPangkat(?User $user = null): array
     {
-        return Rank::query()
-            ->where('kode', '!=', '0')
-            ->where('urutan_pangkat', '!=', 0)
+        return Rank::query()->where('status', true)->where('kode', '!=', '0')->where('urutan_pangkat', '!=', 0)
             ->withCount([
                 'employees as employees_count' => function ($query) use ($user) {
                     $query->where('status', 'Aktif')
@@ -178,9 +176,7 @@ class DashboardRepository
     }
     public function chartGolonganPppk(?User $user = null): array
     {
-        return Pppk::query()
-            ->where('kode', '!=', '0')
-            ->where('urutan_golongan', '!=', 0)
+        return Pppk::query()->where('status', true)->where('kode', '!=', '0')->where('urutan_golongan', '!=', 0)
             ->withCount([
                 'employees as employees_count' => function ($query) use ($user) {
                     $query->where('status', 'Aktif')
@@ -197,9 +193,7 @@ class DashboardRepository
                     }
                     $query->whereRaw('1 = 0');
                 },
-            ])
-            ->orderBy('urutan_golongan')
-            ->get()
+            ])->orderBy('urutan_golongan')->get()
             ->map(fn ($golongan) => [
                 'label' => $golongan->nama,
                 'value' => $golongan->employees_count,
@@ -412,11 +406,11 @@ class DashboardRepository
     public function availableYears(?User $user=null): array
     {
         $pangkat = $this->employeeQuery($user)
-            ->selectRaw("EXTRACT(YEAR FROM tmt_pangkat_baru) AS year")->whereNotNull('tmt_pangkat_baru');
+            ->selectRaw('SUBSTR(tmt_pangkat_baru, 1, 4) AS year')->whereNotNull('tmt_pangkat_baru');
         $kgb = $this->employeeQuery($user)
-            ->selectRaw("EXTRACT(YEAR FROM tmt_kgb_baru) AS year")->whereNotNull('tmt_kgb_baru');
+            ->selectRaw('SUBSTR(tmt_kgb_baru, 1, 4) AS year')->whereNotNull('tmt_kgb_baru');
         $pensiun = $this->employeeQuery($user)
-            ->selectRaw("EXTRACT(YEAR FROM tmt_pensiun) AS year")->whereNotNull('tmt_pensiun');
+            ->selectRaw('SUBSTR(tmt_pensiun, 1, 4) AS year')->whereNotNull('tmt_pensiun');
         return $pangkat->union($kgb)->union($pensiun)->pluck('year')->map(fn($year)=>(int)$year)->unique()->sortDesc()->values()->toArray();
     }
     private function getNotificationAge($tanggalNotifikasi): string

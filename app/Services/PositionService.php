@@ -27,8 +27,8 @@ class PositionService {
         return $this->position_repository->update($position->kode, $data);
     }
 
-    public function delete(string $kode) {
-        return $this->position_repository->delete($kode);
-    }
+    // public function delete(string $kode) {
+    //     return $this->position_repository->delete($kode);
+    // }
 
 }

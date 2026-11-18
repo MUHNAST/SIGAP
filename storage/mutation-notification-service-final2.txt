@@ -1,0 +1,181 @@
+Note: Pass `--log-verbosity=all` to log information about killed and errored mutants.
+Note: Pass `--debug` to log test-framework output.
+
+Escaped mutants:
+================
+
+1) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:270    [M] ReturnRemoval [ID] f97036dfa5aa208b932809c347827c80
+
+@@ @@
+     public function generateNotification(Employee $pegawai): void
+     {
+         if ($pegawai->status !== 'Aktif') {
+-            return;
++
+         }
+         $this->generatePangkat($pegawai);
+         $this->generateKGB($pegawai);
+
+
+2) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:300    [M] ArrayItemRemoval [ID] b1ef8d2e907e58a2305034b857f51b7a
+
+@@ @@
+             return;
+         }
+         // Jika data pendidikan tidak tersedia, hentikan proses
+-        $pegawai->loadMissing(['educationLevel', 'rank']);
++        $pegawai->loadMissing(['rank']);
+
+         if ( ! $pegawai->educationLevel || ! $pegawai->rank || $pegawai->educationLevel->pangkat_pns_maksimum === null ) {
+             return;
+
+
+3) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:300    [M] MethodCallRemoval [ID] b087308b8493d7ec1df069e8b7173afe
+
+@@ @@
+         if ($pegawai->status_pegawai !== 'PNS') {
+             return;
+         }
+-        // Jika data pendidikan tidak tersedia, hentikan proses
+-        $pegawai->loadMissing(['educationLevel', 'rank']);
++
+
+         if ( ! $pegawai->educationLevel || ! $pegawai->rank || $pegawai->educationLevel->pangkat_pns_maksimum === null ) {
+             return;
+
+
+4) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:465    [M] MethodCallRemoval [ID] faba5eeec78e890ccf0bc59706d87856
+
+@@ @@
+             'email_super_admin_terkirim'    => false,
+             'whatsapp_super_admin_terkirim' => false,
+         ]);
+-        /*
+-        |--------------------------------------------------------------------------
+-        | Load employee untuk kebutuhan pengiriman
+-        |--------------------------------------------------------------------------
+-        */
+-        $notification->load('employee');
++
+         /*
+         |--------------------------------------------------------------------------
+         | Kirim notifikasi
+
+
+5) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:493    [M] ArrayItem [ID] d9654e42d245c11cb12e8bb4db9378bb
+
+@@ @@
+             $notification->update([
+                 'judul' => $judul,
+                 'pesan' => $pesan,
+-                'tanggal_referensi' => $referenceDate->toDateString(),
++                'tanggal_referensi' > $referenceDate->toDateString(),
+             ]);
+             // $notification->load('employee');
+             // $this->dispatchNotification($notification);
+
+
+6) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:513    [M] MethodCallRemoval [ID] 9c5505903526b660c26e138ea83f6527
+
+@@ @@
+             'email_super_admin_terkirim' => false,
+             'whatsapp_super_admin_terkirim' => false,
+         ]);
+-        $notification->load('employee');
++
+         $this->dispatchNotification($notification);
+         return $notification;
+     }
+
+
+7) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:520    [M] LogicalOr [ID] b84628ccedf75c0dd472b39c7b66af05
+
+@@ @@
+     private function dispatchNotification($notification, bool $sendToSuperAdmin = true): void
+     {
+         if( $notification->email_terkirim && $notification->whatsapp_terkirim &&
+-            (!$sendToSuperAdmin ||( $notification->email_super_admin_terkirim && $notification->whatsapp_super_admin_terkirim))) {
++            (!$sendToSuperAdmin && $notification->email_super_admin_terkirim && $notification->whatsapp_super_admin_terkirim)) {
+             // Log::info('Notification sudah selesai dikirim.', [
+             //     'notification_id' => $notification->id,
+             // ]);
+
+
+8) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:524    [M] ReturnRemoval [ID] ad7323f5f9d192cd402fab7ca38e1327
+
+@@ @@
+     {
+         if( $notification->email_terkirim && $notification->whatsapp_terkirim &&
+             (!$sendToSuperAdmin ||( $notification->email_super_admin_terkirim && $notification->whatsapp_super_admin_terkirim))) {
+-            // Log::info('Notification sudah selesai dikirim.', [
+-            //     'notification_id' => $notification->id,
+-            // ]);
+-            return;
++
+         }
+         /*
+         |--------------------------------------------------------------------------
+
+
+9) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:534    [M] NullSafePropertyCall [ID] 9d15154b383d7bf5e198b3ed1847ee83
+
+@@ @@
+         $emailDelay = $this->getNextEmailDelay();
+         $waDelay    = $this->getNextWhatsappDelay();
+         $employee = $notification->employee;
+-        $account = $employee?->user;
++        $account = $employee->user;
+         $email = $account?->email ?: $employee?->email;
+         $phone = $account?->no_hp ?: $employee?->no_hp;
+         // Log::info('Notification queued', [
+
+
+10) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:535    [M] NullSafePropertyCall [ID] 528d804786f2e62db9f9a30c990f7e52
+
+@@ @@
+         $waDelay    = $this->getNextWhatsappDelay();
+         $employee = $notification->employee;
+         $account = $employee?->user;
+-        $email = $account?->email ?: $employee?->email;
++        $email = $account?->email ?: $employee->email;
+         $phone = $account?->no_hp ?: $employee?->no_hp;
+         // Log::info('Notification queued', [
+         //     'notification_id' => $notification->id,
+
+
+11) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:536    [M] NullSafePropertyCall [ID] 6f247077837b9b3470900fa4afe1fb0b
+
+@@ @@
+         $employee = $notification->employee;
+         $account = $employee?->user;
+         $email = $account?->email ?: $employee?->email;
+-        $phone = $account?->no_hp ?: $employee?->no_hp;
++        $phone = $account?->no_hp ?: $employee->no_hp;
+         // Log::info('Notification queued', [
+         //     'notification_id' => $notification->id,
+         //     'email_delay'     => $emailDelay,
+
+
+12) C:\Users\Pongo\.copilot\session-state\a3fc12ae-17ae-4e38-b678-a6493a92899d\files\infection-run\app\Services\NotificationService.php:575    [M] MethodCallRemoval [ID] 3b826427050deb37ede346a48357a6e6
+
+@@ @@
+         $batasTanggal = now()->subYears(self::RESEND_NOTIFICATION_YEARS);
+         $notifications = $pegawai->notifications()->whereNotNull('tanggal_referensi')
+             ->where(function ($query) use ($batasTanggal) {
+-                // Notifikasi 5 tahun terakhir
+-                $query->whereDate('tanggal_referensi', '>=', $batasTanggal)
+-                    // ATAU notifikasi yang belum terkirim
+-                    ->orWhere(function ($query) {
+-                        $query->where('email_terkirim', false)->orWhere('whatsapp_terkirim', false);
+-                    });
++
+             // | Pegawai Pensiun
+             // | Tidak mengirim ulang pengingat kenaikan pangkat dan KGB.
+             // | Notifikasi Pensiun dan KGB Diproses tetap dapat dikirim.
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================

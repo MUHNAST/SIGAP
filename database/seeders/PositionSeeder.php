@@ -196,7 +196,9 @@ class PositionSeeder extends Seeder
         foreach ($positions as $position) {
             Position::updateOrCreate(
                 ['kode' => $position['kode']],
-                $position
+                array_merge($position, [
+                    'status' => true,
+                ])
             );
         }
     }

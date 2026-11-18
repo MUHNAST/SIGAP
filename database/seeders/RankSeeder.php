@@ -30,7 +30,9 @@ class RankSeeder extends Seeder
         foreach ($ranks as $rank) {
             Rank::updateOrCreate(
                 ['kode' => $rank['kode']],
-                $rank
+                array_merge($rank, [
+                    'status' => true,
+                ])
             );
         }
     }

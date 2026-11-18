@@ -97,6 +97,25 @@ class SalaryServiceTest extends TestCase
         ]);
     }
 
+    public function test_update_gaji_melempar_validasi_jika_masa_kerja_negatif(): void
+    {
+        $this->expectException(ValidationException::class);
+
+        try {
+            $this->service->update(1, [
+                'gaji_pokok' => 3000000,
+                'tahun_masa_kerja' => -1,
+            ]);
+        } catch (ValidationException $exception) {
+            $this->assertArrayHasKey('tahun_masa_kerja', $exception->errors());
+            $this->assertSame(
+                'Masa kerja tidak boleh kurang dari 0.',
+                $exception->errors()['tahun_masa_kerja'][0]
+            );
+            throw $exception;
+        }
+    }
+
     /**
      * Memeriksa update berhasil memanggil repository saat data valid.
      */

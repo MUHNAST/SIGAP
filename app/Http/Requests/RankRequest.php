@@ -15,6 +15,7 @@ class RankRequest extends FormRequest
             'kode' => ['required','string','max:8',Rule::unique('ranks', 'kode')->ignore($rank)],
             'nama' => ['required','string','max:255',Rule::unique('ranks', 'nama')->ignore($rank)],
             'urutan_pangkat' => ['required','integer','min:1','max:255',Rule::unique('ranks', 'urutan_pangkat')->ignore($rank),],
+            'status' => ['required', 'boolean'],
         ];
     }
     public function messages(): array
@@ -33,6 +34,8 @@ class RankRequest extends FormRequest
             'urutan_pangkat.min'      => 'Urutan pangkat minimal 1.',
             'urutan_pangkat.max'      => 'Urutan pangkat maksimal 255.',
             'urutan_pangkat.unique'   => 'Urutan pangkat sudah digunakan.',
+            'status.required'   => 'Status wajib dipilih.',
+            'status.boolean'    => 'Status tidak valid.',
         ];
     }
     protected function prepareForValidation(): void

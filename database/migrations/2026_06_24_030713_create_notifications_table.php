@@ -19,14 +19,13 @@ return new class extends Migration
             // Tanggal notifikasi dibuat/dikirim
             $table->date('tanggal_notifikasi');
             // Tanggal yang menjadi dasar penjadwalan notifikasi
-            $table->date('tanggal_referensi');
+            $table->date('tanggal_referensi')->nullable();
             $table->boolean('sudah_dibaca')->default(false);
             $table->boolean('email_terkirim')->default(false);
             $table->boolean('whatsapp_terkirim')->default(false);
             $table->boolean('email_super_admin_terkirim')->default(false);
             $table->boolean('whatsapp_super_admin_terkirim')->default(false);
             $table->timestamps();
-            $table->softDeletes();
             $table->index(['jenis','tanggal_referensi','nip','sudah_dibaca']);
             $table->unique(['nip','jenis','tanggal_referensi',],'notifications_nip_jenis_tanggal_referensi_unique');
         });

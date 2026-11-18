@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('kode', 5)->unique();
             $table->string('nama')->unique();
             $table->unsignedTinyInteger('urutan_pangkat')->unique();
+            $table->boolean('status')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

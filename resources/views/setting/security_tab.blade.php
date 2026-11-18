@@ -252,7 +252,7 @@
                 <h3 class="text-xl font-semibold">
                     Riwayat Aktivitas
                 </h3>
-                <a href="{{ route('activityLog.index') }}"
+                <a href="{{ auth()->user()->role === 'user' ? route('activityLog.user') : route('activityLog.index') }}"
                     class="text-blue-600 hover:text-blue-700 font-medium text-sm">
                     Lihat Semua
                     <i class="fa-solid fa-arrow-right ml-1"></i>

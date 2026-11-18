@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->ipAddress('ip_address')->nullable();
             $table->text('user_agent')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

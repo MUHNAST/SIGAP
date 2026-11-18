@@ -109,7 +109,9 @@ class PppkSeeder extends Seeder
         foreach ($grades as $grade) {
             Pppk::updateOrCreate(
                 ['kode' => $grade['kode']],
-                $grade
+                array_merge($grade, [
+                    'status' => true,
+                ])
             );
         }
     }

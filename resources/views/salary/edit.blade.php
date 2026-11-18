@@ -119,6 +119,30 @@
                                 </p>
                             @enderror
                         </div>
+                        <div class="relative">
+                            <label for="status"
+                                class="block mb-2 text-sm font-medium text-slate-700">
+                                Status Gaji <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i
+                                    class="fa-solid fa-user-check absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <select id="status" name="status"
+                                    class="w-full h-12 pl-11 pr-10 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none appearance-none">
+                                    <option value="1"
+                                        {{ old('status', $salary->status) == 1 ? 'selected' : '' }}>
+                                        Aktif
+                                    </option>
+                                    <option value="0"
+                                        {{ old('status', $salary->status) == 0 ? 'selected' : '' }}>
+                                        Nonaktif
+                                    </option>
+                                </select>
+                            </div>
+                            @error('status')
+                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                     <!-- INFO -->
                     <div class="flex items-start gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 p-4">

@@ -2,11 +2,10 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 class Notification extends Model
 {
     /** @use HasFactory<\Database\Factories\NotificationFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $guarded = ['id'];
     protected $table = 'notifications';
     protected $casts = [

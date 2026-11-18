@@ -2,7 +2,7 @@
 @section('content')
     @php
         $user = auth()->user();
-    $canResetPassword = $user->role === 'super_admin'  || $user->hasPermission('user.reset_password');
+        $canResetPassword = $user->role === 'super_admin' || $user->hasPermission('user.reset_password');
     @endphp
     <div class="w-full p-4 md:p-6">
         <!-- HEADER -->
@@ -63,6 +63,7 @@
                             <th class="px-6 py-4 text-left">Nomor Hp</th>
                             <th class="w-40 px-6 py-4 text-center">Role</th>
                             <th class="w-40 px-6 py-4 text-center">Unit Kerja</th>
+                            <th class="w-40 px-6 py-4 text-center">Status Akun</th>
                             @if ($canResetPassword)
                                 <th class="w-20 px-6 py-4 text-center">Aksi</th>
                             @endif
@@ -102,6 +103,21 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $pengguna->department?->nama }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if ((int) $pengguna->getRawOriginal('status') === 1)
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                                            <i class="fa-solid fa-circle-check mr-1"></i>
+                                            Aktif
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                            <i class="fa-solid fa-circle-xmark mr-1"></i>
+                                            Tidak Aktif
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="w-40 px-6 py-4" data-ignore="true">
                                     <div class="flex items-center gap-2">

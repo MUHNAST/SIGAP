@@ -25,6 +25,68 @@ class UserServiceTest extends TestCase
         $this->service = new UserService($this->repository);
     }
 
+    public function test_authenticated_reads_and_department_lookup_use_actor_scope(): void
+    {
+        $superAdmin = new User(['role' => 'super_admin']);
+        $user = new User(['role' => 'user']);
+        $users = collect([$user]);
+        $departments = collect(['UNIT-10']);
+        $this->actingAs($superAdmin);
+
+        $this->repository->shouldReceive('getAll')
+            ->once()
+            ->with($superAdmin)
+            ->andReturn($users);
+        $this->repository->shouldReceive('getById')
+            ->twice()
+            ->with(12, $superAdmin)
+            ->andReturn($user);
+        $this->repository->shouldReceive('getAvailableDepartments')
+            ->once()
+            ->with(null)
+            ->andReturn($departments);
+
+        $this->assertSame($users, $this->service->getAll());
+        $this->assertSame($user, $this->service->getById(12));
+        $this->assertSame($user, $this->service->findUser(12));
+        $this->assertSame($departments, $this->service->getAvailableDepartment());
+
+        $admin = new User([
+            'role' => 'admin',
+            'kode_unit_kerja' => 'UNIT-10',
+        ]);
+        $this->actingAs($admin);
+        $this->repository->shouldReceive('getAvailableDepartments')
+            ->once()
+            ->with(12, 'UNIT-10')
+            ->andReturn($departments);
+
+        $this->assertSame(
+            $departments,
+            $this->service->getAvailableDepartment(12)
+        );
+    }
+
+    public function test_department_lookup_rejects_roles_without_department_access(): void
+    {
+        foreach ([
+            new User(['role' => 'admin', 'kode_unit_kerja' => null]),
+            new User(['role' => 'user', 'kode_unit_kerja' => 'UNIT-10']),
+        ] as $actor) {
+            $this->actingAs($actor);
+
+            try {
+                $this->service->getAvailableDepartment();
+                $this->fail('The actor should not be allowed to view departments.');
+            } catch (AuthorizationException $exception) {
+                $this->assertSame(
+                    'Anda tidak memiliki hak akses untuk melihat unit kerja.',
+                    $exception->getMessage()
+                );
+            }
+        }
+    }
+
     /**
      * Memeriksa authorizePermission melempar AuthorizationException jika belum login.
      */

@@ -2,10 +2,9 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 class Pppk extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'pppk';
     protected $primaryKey = 'kode';
     public $incrementing = false;
@@ -14,6 +13,7 @@ class Pppk extends Model
         'kode',
         'nama',
         'urutan_golongan',
+        'status'
     ];
     protected function casts(): array
     {
@@ -21,7 +21,7 @@ class Pppk extends Model
             'urutan_golongan' => 'integer',
         ];
     }
-    
+
     public function employees()
     {
         return $this->hasMany(Employee::class,'kode_pppk','kode');

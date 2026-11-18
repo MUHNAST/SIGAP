@@ -73,6 +73,11 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, int $id)
     {
+        // $validated = $request->validated();
+        // dd([
+        //     'status_request' => $request->input('status'),
+        //     'status_validated' => $validated['status'] ?? 'Tidak ditemukan',
+        // ]);
         try {
             $user = $this->user_service->getById($id);
             $this->user_service->update(

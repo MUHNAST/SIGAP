@@ -32,38 +32,47 @@ class EmployeeRepositoryTest extends TestCase
      */
     public function test_employee_query_membatasi_data_berdasarkan_role(): void
     {
-        $reflection = new \ReflectionClass(EmployeeRepository::class);
-        $method = $reflection->getMethod('employeeQuery');
-        $method->setAccessible(true);
+        Department::create(['kode' => 'UNIT-01', 'nama' => 'Unit 01', 'status' => true]);
+        Department::create(['kode' => 'UNIT-02', 'nama' => 'Unit 02', 'status' => true]);
+        Employee::create([
+            'nip' => '199001012015011001',
+            'nama' => 'Pegawai Unit 01',
+            'kode_unit_kerja' => 'UNIT-01',
+        ]);
+        Employee::create([
+            'nip' => '199001012015011002',
+            'nama' => 'Pegawai Unit 02',
+            'kode_unit_kerja' => 'UNIT-02',
+        ]);
 
-        // 1. Super Admin: tidak ada klausul pembatasan unit kerja
         $superAdmin = new User(['role' => 'super_admin']);
-        $querySuperAdmin = $method->invoke($this->repository, $superAdmin);
-        $this->assertStringNotContainsString('kode_unit_kerja', $querySuperAdmin->toSql());
-
-        // 2. Admin: terdapat klausul where kode_unit_kerja
         $admin = new User(['role' => 'admin', 'kode_unit_kerja' => 'UNIT-01']);
-        $queryAdmin = $method->invoke($this->repository, $admin);
-        $this->assertStringContainsString('kode_unit_kerja', $queryAdmin->toSql());
-
-        // 3. User: terdapat klausul where nip
         $user = new User(['role' => 'user', 'nip' => '199001012015011001']);
-        $queryUser = $method->invoke($this->repository, $user);
-        $this->assertStringContainsString('nip', $queryUser->toSql());
 
-        // 4. User tanpa NIP melempar AuthorizationException
+        $this->assertEqualsCanonicalizing(
+            ['199001012015011002', '199001012015011001'],
+            $this->repository->getAll($superAdmin)->pluck('nip')->all()
+        );
+        $this->assertSame(
+            ['199001012015011001'],
+            $this->repository->getAll($admin)->pluck('nip')->all()
+        );
+        $this->assertSame(
+            ['199001012015011001'],
+            $this->repository->getAll($user)->pluck('nip')->all()
+        );
+
         $userTanpaNip = new User(['role' => 'user', 'nip' => null]);
         try {
-            $method->invoke($this->repository, $userTanpaNip);
+            $this->repository->getAll($userTanpaNip);
             $this->fail('Seharusnya melempar AuthorizationException');
         } catch (AuthorizationException $e) {
             $this->assertStringContainsString('Akun pengguna belum terhubung dengan data pegawai.', $e->getMessage());
         }
 
-        // 5. Role tidak valid melempar AuthorizationException
         $guestUser = new User(['role' => 'guest']);
         $this->expectException(AuthorizationException::class);
-        $method->invoke($this->repository, $guestUser);
+        $this->repository->getAll($guestUser);
     }
 
     /**
@@ -262,5 +271,89 @@ class EmployeeRepositoryTest extends TestCase
 
         $this->expectException(AuthorizationException::class);
         $this->repository->getMasterData(new User(['role' => 'guest']));
+    }
+
+    public function test_employee_import_upserts_for_authorized_roles_and_keeps_admin_unit(): void
+    {
+        Department::create(['kode' => 'UNIT-A', 'nama' => 'Unit A', 'status' => true]);
+        $admin = new User(['role' => 'admin', 'kode_unit_kerja' => 'UNIT-A']);
+
+        $created = $this->repository->updateOrCreate(
+            ['nip' => '199001012015011010'],
+            ['nama' => 'Pegawai Import', 'kode_unit_kerja' => 'UNIT-OTHER'],
+            $admin
+        );
+        $updated = $this->repository->updateOrCreate(
+            ['nip' => '199001012015011010'],
+            ['nama' => 'Pegawai Diperbarui', 'kode_unit_kerja' => 'UNIT-OTHER'],
+            $admin
+        );
+        $superAdminCreated = $this->repository->updateOrCreate(
+            ['nip' => '199001012015011011'],
+            ['nama' => 'Pegawai Super Admin', 'kode_unit_kerja' => null],
+            new User(['role' => 'super_admin'])
+        );
+
+        $this->assertSame('UNIT-A', $created->kode_unit_kerja);
+        $this->assertSame('UNIT-A', $updated->kode_unit_kerja);
+        $this->assertSame('Pegawai Diperbarui', $updated->nama);
+        $this->assertNull($superAdminCreated->kode_unit_kerja);
+    }
+
+    public function test_employee_repository_rejects_admin_without_unit_and_returns_user_master_data(): void
+    {
+        $adminWithoutUnit = new User(['role' => 'admin']);
+        try {
+            $this->repository->getAll($adminWithoutUnit);
+            $this->fail('An admin without an assigned department must not query employee records.');
+        } catch (AuthorizationException $exception) {
+            $this->assertSame('Unit kerja Admin belum ditentukan.', $exception->getMessage());
+        }
+
+        Department::create(['kode' => 'UNIT-A', 'nama' => 'Unit A', 'status' => true]);
+        Department::create(['kode' => 'UNIT-B', 'nama' => 'Unit B', 'status' => false]);
+        $masterData = $this->repository->getMasterData(new User(['role' => 'user']));
+
+        $this->assertSame(['UNIT-A'], $masterData['departments']->pluck('kode')->all());
+        $this->assertCount(0, $masterData['districts']);
+        $this->assertCount(0, $masterData['urbanVillages']);
+    }
+
+    public function test_rank_lookup_handles_missing_bounds_inactive_education_and_unknown_employee_type(): void
+    {
+        EducationLevel::create([
+            'kode' => 'LIMITLESS-PPPK',
+            'nama' => 'PPPK tanpa batas',
+            'status' => true,
+            'pangkat_pns_minimum' => 1,
+            'pangkat_pns_maksimum' => 2,
+            'golongan_pppk_minimum' => null,
+            'golongan_pppk_maksimum' => null,
+        ]);
+        EducationLevel::create([
+            'kode' => 'INACTIVE',
+            'nama' => 'Pendidikan tidak aktif',
+            'status' => false,
+            'pangkat_pns_minimum' => 1,
+            'pangkat_pns_maksimum' => 2,
+        ]);
+        EducationLevel::create([
+            'kode' => 'SMA',
+            'nama' => 'SMA',
+            'status' => true,
+            'pangkat_pns_minimum' => 1,
+            'pangkat_pns_maksimum' => 2,
+        ]);
+        Rank::create(['kode' => 'I/a', 'nama' => 'Juru Muda', 'urutan_pangkat' => 1]);
+        Rank::create(['kode' => 'I/b', 'nama' => 'Juru Muda Tk. I', 'urutan_pangkat' => 2]);
+        Rank::create(['kode' => 'I/c', 'nama' => 'Juru', 'urutan_pangkat' => 3]);
+
+        $this->assertCount(0, $this->repository->getRanksByEducation('LIMITLESS-PPPK', 'PPPK'));
+        $this->assertCount(0, $this->repository->getRanksByEducation('INACTIVE', 'PNS'));
+        $this->assertCount(0, $this->repository->getRanksByEducation('SMA', 'HONORER'));
+        $this->assertSame(
+            ['I/a', 'I/b'],
+            $this->repository->getRanksByEducation('SMA', 'PNS')->pluck('kode')->all()
+        );
     }
 }
