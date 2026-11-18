@@ -22,9 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //  if (app()->environment('production')) {
-        //     URL::forceScheme('https');
-        // }
+         if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         RateLimiter::for('login', function (Request $request) {
             return Limit::perMinute(5)->by(
                 $request->ip().'|'.$request->input('username')
